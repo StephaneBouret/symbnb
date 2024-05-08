@@ -17,13 +17,15 @@
         "symfony/debug-bundle": "7.0.*",
         "symfony/dotenv": "7.0.*",
         "symfony/flex": "^2",
+        "symfony/form": "7.0.*",
         "symfony/framework-bundle": "7.0.*",
         "symfony/monolog-bundle": "^3.10",
         "symfony/runtime": "7.0.*",
         "symfony/security-bundle": "7.0.*",
         "symfony/twig-bundle": "7.0.*",
         "symfony/yaml": "7.0.*",
-        "twig/extra-bundle": "^3.9"
+        "twig/extra-bundle": "^3.9",
+        "vich/uploader-bundle": "^2.3"
     },
     "config": {
         "allow-plugins": {
