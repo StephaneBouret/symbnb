@@ -26,6 +26,7 @@
         "symfony/twig-bundle": "7.0.*",
         "symfony/yaml": "7.0.*",
         "twig/extra-bundle": "^3.9",
+        "twig/string-extra": "^3.9",
         "vich/uploader-bundle": "^2.3"
     },
     "config": {
