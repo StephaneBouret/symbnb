@@ -13,6 +13,8 @@
         "doctrine/orm": "^3.1",
         "easycorp/easyadmin-bundle": "^4.10",
         "fakerphp/faker": "^1.23",
+        "liip/imagine-bundle": "^2.12",
+        "pyrrah/gravatar-bundle": "^1.4",
         "scheb/2fa-bundle": "^7.3",
         "scheb/2fa-email": "^7.3",
         "scheb/2fa-trusted-device": "^7.3",
