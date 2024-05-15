@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
+use App\Entity\Booking;
 use Faker\Factory;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -39,6 +41,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($admin);
 
+        $users = [];
         for ($u = 0; $u < 5; $u++) {
             $user = new User;
             $hash = $this->passwordHasher->hashPassword($user, "password");
@@ -52,17 +55,44 @@ class AppFixtures extends Fixture
                 ->setPhone($faker->mobileNumber());
 
             $manager->persist($user);
+            $users[] = $user;
         }
 
         for ($i = 0; $i < 10; $i++) {
             $ad = new Ad;
             $ad->setName($faker->sentence())
                 ->setSlug($this->slugger->slug($ad->getName()))
-                ->setIntroduction($faker->paragraph(2))
                 ->setContent($faker->paragraph())
                 ->setRooms($faker->numberBetween(1, 6))
+                ->setBeds($faker->numberBetween(1, 4))
                 ->setCapacity($faker->numberBetween(2, 10))
+                ->setCity($faker->city())
+                ->setCountry($faker->country())
                 ->setPrice($faker->numberBetween(25000, 100000));
+
+            // Gestion des réservations
+            for ($j = 0; $j < mt_rand(0, 3); $j++) {
+                $booking = new Booking;
+                $createdAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-6 months'));
+                $startDateAt = DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-3 months'));
+                // Gestion de la date de fin
+                $duration  = mt_rand(3, 10);
+                $endDateAt = (clone $startDateAt)->modify("+$duration days");
+                $amount = $ad->getPrice() * $duration;
+                $booker = $users[mt_rand(0, count($users) - 1)];
+
+                $booking->setAd($ad)
+                    ->setBooker($booker)
+                    ->setCreatedAt($createdAt)
+                    ->setStartDateAt($startDateAt)
+                    ->setEndDateAt($endDateAt)
+                    ->setAmount($amount);
+
+                if ($faker->boolean(90)) {
+                    $booking->setStatus(Booking::STATUS_PENDING);
+                }
+                $manager->persist($booking);
+            }
 
             $manager->persist($ad);
         }

@@ -9,10 +9,12 @@
 		</div>
 		{% if not ad.images is empty %}
 			<img src="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" alt="{{ ad.name }}" class="img-fluid">
+											{% else %}
+									<img src="{{ asset('assets/img/default-img.jpg') }}" class="img-fluid" alt="Default Image">
 		{% endif %}
 		<div class="card-body">
 			<h4 class="card-title">{{ ad.name }}</h4>
-			<p class="card-text">{{ ad.introduction|raw|nl2br|striptags|u.truncate(100, '...') }}</p>
+			<p class="card-text">{{ ad.content|raw|nl2br|striptags|u.truncate(100, '...') }}</p>
 			<a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="btn btn-secondary">En savoir plus</a>
 		</div>
 	</div>

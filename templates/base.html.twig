@@ -11,10 +11,12 @@
 			<link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.min.css">
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 			<link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet"/>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 		{% endblock %}
 
 		{% block javascripts %}
-			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}" defer></script>
+			<script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js" defer></script>
 		{% endblock %}
 	</head>
 	<body>

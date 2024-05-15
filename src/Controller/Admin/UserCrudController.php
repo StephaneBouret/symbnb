@@ -64,7 +64,6 @@ class UserCrudController extends AbstractCrudController
             TelephoneField::new('phone', 'Téléphone')
                 ->setFormTypeOptions(['attr' => ['placeholder' => 'Téléphone de l\'utilisateur']])
                 ->setColumns(6),
-            BooleanField::new('isVerified', 'Utilisateur vérifié'),
             FormField::addFieldset('Modification du mot de passe'),
             TextField::new('plainPassword', 'Mot de passe :')
                 ->onlyWhenCreating()->setRequired(true)
@@ -93,11 +92,5 @@ class UserCrudController extends AbstractCrudController
         $entityInstance->setFirstname(ucfirst($entityInstance->getFirstname()))
             ->setLastname(strtoupper($entityInstance->getLastname()));
         parent::updateEntity($entityManager, $entityInstance);
-    }
-
-    public function configureFilters(Filters $filters): Filters
-    {
-        return parent::configureFilters($filters)
-            ->add(BooleanFilter::new('isVerified')->setFormTypeOption('expanded', false));
     }
 }
