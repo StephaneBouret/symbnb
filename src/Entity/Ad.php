@@ -58,6 +58,10 @@ class Ad
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ad')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Author $author = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -273,6 +277,18 @@ class Ad
     public function setCountry(string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

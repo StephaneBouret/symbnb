@@ -1,0 +1,21 @@
+<div class="cartridge-wrapper">
+	<div class="host-cartridge">
+		<section>
+			<div class="d-flex align-items-center">
+				<div class="pic-host">
+					{% if ad.author.user.avatar.imageName is defined and ad.author.user.avatar.imageName != null %}
+						<img src="{{ vich_uploader_asset(ad.author.user.avatar, 'imageFile') }}" class="sc-img-gravatar">
+					{% else %}
+						<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-gravatar"/>
+					{% endif %}
+				</div>
+				<div class="ml-24">
+					<div class="host-title">
+						Hôte :
+						{{ ad.author.user.firstname }}
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

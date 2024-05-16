@@ -1118,3 +1118,27 @@ a.btn-outline-grey {
   font-size: 1rem !important;
   line-height: 1.25rem !important;
 }
+
+/*--------------------------------------------------------------
+# Page Afficher la réservation cliquée
+--------------------------------------------------------------*/
+.cartridge-wrapper {
+  margin: 15px 0;
+}
+
+.host-cartridge {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-top: 1px solid rgb(221, 221, 221) !important;
+  border-bottom: 1px solid rgb(221, 221, 221) !important;
+}
+
+.pic-host {
+  overflow: hidden;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.ml-24 {
+  margin-left: 24px;
+}

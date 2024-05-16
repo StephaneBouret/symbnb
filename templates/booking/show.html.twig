@@ -81,11 +81,17 @@
 					<div class="d-flex justify-content-between align-items-center">
 						<div class="mr-12">
 							<div class="host-title">
-								Hôte : ...
+								Hôte :
+								{{ booking.ad.author.user.firstname }}
 							</div>
 						</div>
 						<div class="pic">
-							<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-gravatar" alt="">
+							{% set image = booking.ad.author.user.avatar %}
+							{% if image.imageName is defined and image.imageName != null %}
+								<img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="sc-img-gravatar">
+							{% else %}
+								<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-gravatar"/>
+							{% endif %}
 						</div>
 					</div>
 					<div class="mt-32">

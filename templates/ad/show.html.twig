@@ -43,7 +43,8 @@
 	<div class="row d-flex justify-content-between">
 		<div class="col-md-7">
 			<h4>Logement entier : hébergement -
-				{{ ad.city }}, {{ ad.country }}</h4>
+				{{ ad.city }},
+				{{ ad.country }}</h4>
 			<div class="mt-2">
 				<ol class="m-0 p-0 separated-list d-flex">
 					<li class="d-flex align-items-center">{{ ad.capacity }}
@@ -54,8 +55,7 @@
 						lits</li>
 				</ol>
 			</div>
-			<hr>
-			<hr>
+			{% include "partials/_host_cartridge.html.twig" %}
 			<p>{{ ad.content | raw | nl2br  }}</p>
 		</div>
 		<div class="col-md-4">
@@ -95,13 +95,9 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
-<script>
-    // Transférer les dates non disponibles à JavaScript
-    var notAvailableDays = [
-        {% for day in notAvailableDays %}
-            "{{ day|date('d.m.Y') }}",
-        {% endfor %}
-    ];
-</script>
+	<script>
+		// Transférer les dates non disponibles à JavaScript
+var notAvailableDays = [{% for day in notAvailableDays %}"{{ day|date('d.m.Y') }}",{% endfor %}];
+	</script>
 	<script src="{{ asset('assets/js/main.js') }}" defer></script>
 {% endblock %}
