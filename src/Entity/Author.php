@@ -32,6 +32,15 @@ class Author
         $this->ad = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        if ($this->getUser()) {
+            return "{$this->getUser()->getFirstname()} {$this->getUser()->getLastname()}";
+        }
+        
+        return 'Auteur inconnu';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

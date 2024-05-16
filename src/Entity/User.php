@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -75,15 +76,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     private Collection $bookings;
 
     /**
-     * @var Collection<int, Author>
+     * @var Collection<int, Ad>
      */
-    #[ORM\OneToMany(targetEntity: Author::class, mappedBy: 'user')]
-    private Collection $authors;
+    #[ORM\OneToMany(targetEntity: Ad::class, mappedBy: 'author')]
+    private Collection $ads;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
-        $this->authors = new ArrayCollection();
+        $this->ads = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return "{$this->firstname} {$this->lastname}";
     }
 
     public function getId(): ?int
@@ -195,6 +204,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    /**
+     * Retourne le nom complet de l'utilisateur
+     *
+     * @return string
+     */
+    public function getFullname(): string
+    {
+        return "{$this->firstname} {$this->lastname}";
     }
 
     public function getAdress(): ?string
@@ -346,31 +365,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     }
 
     /**
-     * @return Collection<int, Author>
+     * @return Collection<int, Ad>
      */
-    public function getAuthors(): Collection
+    public function getAds(): Collection
     {
-        return $this->authors;
+        return $this->ads;
     }
 
-    public function addAuthor(Author $author): static
+    public function addAd(Ad $ad): static
     {
-        if (!$this->authors->contains($author)) {
-            $this->authors->add($author);
-            $author->setUser($this);
+        if (!$this->ads->contains($ad)) {
+            $this->ads->add($ad);
+            $ad->setAuthor($this);
         }
 
         return $this;
     }
 
-    public function removeAuthor(Author $author): static
+    public function removeAd(Ad $ad): static
     {
-        if ($this->authors->removeElement($author)) {
+        if ($this->ads->removeElement($ad)) {
             // set the owning side to null (unless already changed)
-            if ($author->getUser() === $this) {
-                $author->setUser(null);
+            if ($ad->getAuthor() === $this) {
+                $ad->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

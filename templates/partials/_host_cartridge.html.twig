@@ -3,8 +3,8 @@
 		<section>
 			<div class="d-flex align-items-center">
 				<div class="pic-host">
-					{% if ad.author.user.avatar.imageName is defined and ad.author.user.avatar.imageName != null %}
-						<img src="{{ vich_uploader_asset(ad.author.user.avatar, 'imageFile') }}" class="sc-img-gravatar">
+					{% if ad.author.avatar.imageName is defined and ad.author.avatar.imageName != null %}
+						<img src="{{ vich_uploader_asset(ad.author.avatar, 'imageFile') }}" class="sc-img-gravatar">
 					{% else %}
 						<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-gravatar"/>
 					{% endif %}
@@ -12,7 +12,11 @@
 				<div class="ml-24">
 					<div class="host-title">
 						Hôte :
-						{{ ad.author.user.firstname }}
+						{% if ad.author.firstname is defined and ad.author.firstname != null %}
+							{{ ad.author.firstname }}
+						{% else %}
+							...
+						{% endif %}
 					</div>
 				</div>
 			</div>

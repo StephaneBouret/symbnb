@@ -3,7 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ad;
+use App\Entity\Author;
+use App\Entity\User;
 use App\Form\AdImageFormType;
+use App\Repository\UserRepository;
+use Symfony\Component\Intl\Countries;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -15,8 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use Symfony\Component\Intl\Countries;
 
 class AdCrudController extends AbstractCrudController
 {
@@ -56,6 +60,12 @@ class AdCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', false)
                 ->hideOnIndex(),
             FormField::addColumn(6),
+            AssociationField::new('author', 'Auteur')
+                ->setRequired(true)
+                ->setFormTypeOptions([
+                    'class' => User::class, // Utilisez l'entité User
+                    'choice_label' => 'fullname', // Ou toute autre méthode que vous avez définie pour afficher l'utilisateur dans la liste déroulante
+                ]),
             TextField::new('city', 'Ville de l\'annonce')->hideOnIndex(),
             CountryField::new('country', 'Pays de l\'annonce')->hideOnIndex(),
             TextEditorField::new('content', 'Contenu de l\'annonce')->hideOnIndex(),

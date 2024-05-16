@@ -70,7 +70,7 @@ class Avatar implements Serializable
         return $this;
     }
 
-        /**
+    /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
@@ -115,10 +115,12 @@ class Avatar implements Serializable
 
         // create smaller image
         $width = 100;
+        $height = 100;
         $imagine = new Imagine;
         $image = $imagine->open($this->imageFile);
         $size = $image->getSize();
-        $image->resize($size->widen($width));
+        $image->resize($size->widen($width))
+            ->resize($size->heighten($height));
         $realpath = $this->imageFile->getRealPath();
         $image->save($realpath);
     }
@@ -132,7 +134,6 @@ class Avatar implements Serializable
     public function unserialize($serialized)
     {
         $this->imageFile = $this->imageFile;
-
     }
 
     public function getUser(): ?User

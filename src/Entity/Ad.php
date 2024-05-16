@@ -58,9 +58,8 @@ class Ad
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ad')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author = null;
+    #[ORM\ManyToOne(inversedBy: 'ads')]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -281,12 +280,12 @@ class Ad
         return $this;
     }
 
-    public function getAuthor(): ?Author
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    public function setAuthor(?Author $author): static
+    public function setAuthor(?User $author): static
     {
         $this->author = $author;
 

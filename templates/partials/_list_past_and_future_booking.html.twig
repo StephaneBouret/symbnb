@@ -14,7 +14,8 @@
 					<div class="col-md-8">
 						<div class="card-body">
 							<h5 class="card-title fs-6 text fw-bold">{{ b.ad.city }}</h5>
-							<p class="card-text guest-reservation">Hôte : {{ b.ad.author.user.firstname }}</p>
+							<p class="card-text guest-reservation">
+							Hôte : {{ b.ad.author.firstname }}</p>
 							<p class="card-text date-reservation">
 								{{ b.startDateAt|format_datetime('long', 'none', locale='fr') }}
 								-

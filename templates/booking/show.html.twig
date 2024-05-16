@@ -82,11 +82,11 @@
 						<div class="mr-12">
 							<div class="host-title">
 								Hôte :
-								{{ booking.ad.author.user.firstname }}
+								{{ booking.ad.author.firstname }}
 							</div>
 						</div>
 						<div class="pic">
-							{% set image = booking.ad.author.user.avatar %}
+							{% set image = booking.ad.author.avatar %}
 							{% if image.imageName is defined and image.imageName != null %}
 								<img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="sc-img-gravatar">
 							{% else %}

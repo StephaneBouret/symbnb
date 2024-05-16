@@ -3,19 +3,15 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Form\AvatarFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\BooleanFilter;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class UserCrudController extends AbstractCrudController
@@ -38,6 +34,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $roles = ['ROLE_ADMIN', 'ROLE_USER'];
         return [
             IdField::new('id')->onlyOnIndex(),
             FormField::addFieldset('Détails de l\'utilisateur'),
@@ -64,7 +61,15 @@ class UserCrudController extends AbstractCrudController
             TelephoneField::new('phone', 'Téléphone')
                 ->setFormTypeOptions(['attr' => ['placeholder' => 'Téléphone de l\'utilisateur']])
                 ->setColumns(6),
-            FormField::addFieldset('Modification du mot de passe'),
+            ImageField::new('avatar.imageName', 'Avatar')
+                ->setBasePath('images/avatars')
+                ->setUploadDir('public/images/avatars'),
+            FormField::addFieldset('Rôles de l\'utilisateur'),
+            ChoiceField::new('roles')
+                ->setChoices(array_combine($roles, $roles))
+                ->allowMultipleChoices()
+                ->renderExpanded()
+                ->renderAsBadges(),
             TextField::new('plainPassword', 'Mot de passe :')
                 ->onlyWhenCreating()->setRequired(true)
                 ->setFormTypeOptions(['attr' => ['placeholder' => 'Mot de passe de l\'utilisateur']])
