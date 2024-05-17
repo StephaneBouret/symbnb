@@ -53,6 +53,11 @@ class Avatar implements Serializable
     #[ORM\OneToOne(inversedBy: 'avatar', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
+    public function __toString()
+    {
+        return $this->imageName;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

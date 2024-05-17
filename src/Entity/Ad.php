@@ -68,6 +68,11 @@ class Ad
         $this->bookings = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * Permet d'obtenir un tableau des jours qui ne sont pas disponibles pour cette annonce
      *

@@ -3,11 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ad;
-use App\Entity\Author;
 use App\Entity\User;
 use App\Form\AdImageFormType;
-use App\Repository\UserRepository;
-use Symfony\Component\Intl\Countries;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -35,7 +32,8 @@ class AdCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Annonces :')
             ->setPageTitle('new', 'Créer une annonce')
             ->setPaginatorPageSize(10)
-            ->setEntityLabelInSingular('une Annonce');
+            ->setPageTitle('edit', fn (Ad $ad) => (string) 'Modifier ' . $ad->getName())
+            ->setPageTitle('detail', fn (Ad $ad) => (string) 'Modifier ' . $ad->getName());
     }
 
     public function configureFields(string $pageName): iterable
@@ -74,18 +72,12 @@ class AdCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $countryCode = $entityInstance->getCountry();
-        $countryName = Countries::getName($countryCode, 'fr');
-        $entityInstance->setCountry($countryName);
         $entityInstance->setCity(ucfirst($entityInstance->getCity()));
         parent::persistEntity($entityManager, $entityInstance);
     }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-        $countryCode = $entityInstance->getCountry();
-        $countryName = Countries::getName($countryCode, 'fr');
-        $entityInstance->setCountry($countryName);
         $entityInstance->setCity(ucfirst($entityInstance->getCity()));
         parent::updateEntity($entityManager, $entityInstance);
     }

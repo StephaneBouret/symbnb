@@ -95,6 +95,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return "{$this->firstname} {$this->lastname}";
     }
 
+    /**
+     * Vérifie si l'utilisateur est auteur d'une annonce
+     *
+     * @return boolean
+     */
+    public function isAuthor(): bool
+    {
+        return !$this->ads->isEmpty();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -44,7 +44,7 @@
 		<div class="col-md-7">
 			<h4>Logement entier : hébergement -
 				{{ ad.city }},
-				{{ ad.country }}</h4>
+				{{ ad.country|country_name('fr') }}</h4>
 			<div class="mt-2">
 				<ol class="m-0 p-0 separated-list d-flex">
 					<li class="d-flex align-items-center">{{ ad.capacity }}

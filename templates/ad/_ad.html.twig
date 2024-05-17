@@ -9,8 +9,8 @@
 		</div>
 		{% if not ad.images is empty %}
 			<img src="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" alt="{{ ad.name }}" class="img-fluid">
-											{% else %}
-									<img src="{{ asset('assets/img/default-img.jpg') }}" class="img-fluid" alt="Default Image">
+		{% else %}
+			<img src="{{ asset('assets/img/default-img.jpg') }}" class="img-fluid" alt="Default Image">
 		{% endif %}
 		<div class="card-body">
 			<h4 class="card-title">{{ ad.name }}</h4>
