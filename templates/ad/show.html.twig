@@ -15,30 +15,7 @@
 
 	<h1>{{ ad.name }}</h1>
 	<div class="row">
-		<div class="col-lg-12 mb-md-3 mb-sm-3">
-			<div id="carouselAdIndicators" class="carousel slide" data-bs-ride="carousel">
-				<div class="carousel-indicators">
-					{% for key, image in ad.images %}
-						<button type="button" data-bs-target="#carouselAdIndicators" data-bs-slide-to="{{ key }}" {% if loop.first %} class="active" {% endif %}></button>
-					{% endfor %}
-				</div>
-				<div class="carousel-inner">
-					{% for key, image in ad.images %}
-						<div class="carousel-item {% if loop.first %}active{% endif %}">
-							<img src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="{{ ad.name }}" class="d-block w-100">
-						</div>
-					{% endfor %}
-				</div>
-				<button class="carousel-control-prev" type="button" data-bs-target="#carouselAdIndicators" data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</button>
-				<button class="carousel-control-next" type="button" data-bs-target="#carouselAdIndicators" data-bs-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</button>
-			</div>
-		</div>
+		{% include "partials/_portfolio.html.twig" %}
 	</div>
 	<div class="row d-flex justify-content-between">
 		<div class="col-md-7">
@@ -91,6 +68,19 @@
 			</div>
 		</div>
 	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="portfolioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					{% include "partials/_modal.html.twig" %}
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascripts %}
@@ -98,8 +88,7 @@
 	<script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 	<script>
 		// Transférer les dates non disponibles à JavaScript
-var notAvailableDays = [];{% if notAvailableDays is defined %}notAvailableDays = [{% for day in notAvailableDays %}
-"{{ day|date('d.m.Y') }}"{% if not loop.last %},{% endif %}{% endfor %}];{% endif %}
+var notAvailableDays = [];{% if notAvailableDays is defined %}notAvailableDays = [{% for day in notAvailableDays %}"{{ day|date('d.m.Y') }}"{% if not loop.last %},{% endif %}{% endfor %}];{% endif %}
 	</script>
 	<script src="{{ asset('assets/js/main.js') }}" defer></script>
 {% endblock %}
