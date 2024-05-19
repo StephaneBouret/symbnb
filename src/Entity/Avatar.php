@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Serializable;
 use Imagine\Gd\Imagine;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvatarRepository;
@@ -16,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: AvatarRepository::class)]
 #[HasLifecycleCallbacks]
 #[Vich\Uploadable]
-class Avatar implements Serializable
+class Avatar
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -130,15 +129,23 @@ class Avatar implements Serializable
         $image->save($realpath);
     }
 
-    // Afin d'éviter une erreur 500 suite serialisation
-    public function serialize()
+    // Méthodes de sérialisation pour PHP 7.4+ et compatibilité avec PHP 8
+    public function __serialize(): array
     {
-        $this->imageFile = $this->imageFile;
+        return [
+            'id' => $this->id,
+            'imageName' => $this->imageName,
+            'updatedAt' => $this->updatedAt,
+            'user' => $this->user
+        ];
     }
 
-    public function unserialize($serialized)
+    public function __unserialize(array $data): void
     {
-        $this->imageFile = $this->imageFile;
+        $this->id = $data['id'];
+        $this->imageName = $data['imageName'];
+        $this->updatedAt = $data['updatedAt'];
+        $this->user = $data['user'];
     }
 
     public function getUser(): ?User

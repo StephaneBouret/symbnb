@@ -1,31 +1,117 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialisation de Flatpickr
-    var fp = flatpickr(".flatpickr", {
-        altInput: true,
-        minDate: "today",
-        altFormat: "j F, Y",
-        dateFormat: "d.m.Y",
-        locale: "fr",
-        disable: notAvailableDays,
-        onChange: function (selectedDates, dateStr, instance) {
-            // Appel de la fonction pour calculer la durée
-            calculateDuration();
+    var startDateInput = document.querySelector("#booking_form_startDateAt");
+    var endDateInput = document.querySelector("#booking_form_endDateAt");
+    var slug = document.querySelector('input[name="ad_slug"]').value;
+    var submitBtn = document.getElementById('submit-btn');
+
+    async function fetchNotAvailableDays(slug) {
+        try {
+            const response = await fetch(`/api/ads/${slug}/not-available-days`);
+            const data_1 = await response.json();
+            console.log('Fetched not available days:', data_1);
+            return data_1;
+        } catch (error) {
+            console.error('Error fetching not available days:', error);
+            return [];
         }
+    }
+
+    function initializeFlatpickr(notAvailableDays) {
+        if (!Array.isArray(notAvailableDays)) {
+            console.error('notAvailableDays is not an array:', notAvailableDays);
+            notAvailableDays = [];
+        }
+
+        if (!startDateInput.value) {
+            startDateInput.value = new Date().toISOString().split('T')[0];
+        }
+        if (!endDateInput.value) {
+            endDateInput.value = new Date().toISOString().split('T')[0];
+        }
+
+        flatpickr(startDateInput, {
+            altInput: true,
+            altFormat: "j F, Y",
+            dateFormat: "d.m.Y",
+            locale: "fr",
+            disable: notAvailableDays,
+            minDate: "today",
+            defaultDate: startDateInput.value,
+            onChange: function () {
+                calculateDuration();
+            }
+        });
+
+        flatpickr(endDateInput, {
+            altInput: true,
+            altFormat: "j F, Y",
+            dateFormat: "d.m.Y",
+            locale: "fr",
+            disable: notAvailableDays,
+            minDate: "today",
+            defaultDate: endDateInput.value,
+            onChange: function () {
+                calculateDuration();
+            }
+        });
+    }
+
+    function handleFormSubmission() {
+        document.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+    
+            var form = event.target;
+            var formData = new FormData(form);
+            var action = form.action;
+    
+            fetch(action, {
+                method: form.method,
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    if (data.error) {
+                        showAlert(data.error);
+                    } else if (data.errors) {
+                        data.errors.forEach(error => {
+                            showAlert(error);
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Form submission error:', error);
+                showAlert('Une erreur s\'est produite lors de la soumission du formulaire. Veuillez réessayer.');
+            });
+        });
+    }
+
+    function showAlert(message) {
+        // Créer un élément div pour afficher le message d'alerte
+        var alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-warning'; // Utilise les classes Bootstrap pour le style
+        alertDiv.innerText = message;
+    
+        // Ajoute l'élément d'alerte en haut du formulaire
+        var form = document.querySelector('form');
+        form.insertBefore(alertDiv, form.firstChild);
+    
+        // Supprime l'alerte après 5 secondes
+        setTimeout(function () {
+            alertDiv.remove();
+        }, 5000);
+    }
+
+
+    fetchNotAvailableDays(slug).then(notAvailableDays => {
+        initializeFlatpickr(notAvailableDays);
+        handleFormSubmission();
     });
 
-    // Fonction pour calculer la durée
     function calculateDuration() {
-        // Récupération des champs de date de départ et d'arrivée
-        var startDateInput = document.getElementById('booking_form_startDateAt');
-        var endDateInput = document.getElementById('booking_form_endDateAt');
-
-        // Vérification des champs de date
-        if (!startDateInput || !endDateInput) {
-            console.error("Les champs de date ne peuvent pas être trouvés.");
-            return;
-        }
-
-        // Vérification des valeurs des champs de date
         var startDateValue = startDateInput.value;
         var endDateValue = endDateInput.value;
 
@@ -34,65 +120,64 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Conversion des valeurs en objets de date JavaScript
         var startDate = parseDate(startDateValue);
         var endDate = parseDate(endDateValue);
 
-        // Vérification des dates valides
         if (!startDate || !endDate) {
             console.error("Les dates ne sont pas valides.");
             return;
         }
 
-        // Vérification si startDate est supérieure à endDate
         if (startDate > endDate) {
             console.log("La date de départ est postérieure à la date d'arrivée.");
-            daysDifference = 0; // Définir le résultat à 0 nuit
+            daysDifference = 0;
         } else {
-            // Calcul de la différence en millisecondes
             var timeDifference = endDate.getTime() - startDate.getTime();
-
-            // Conversion en jours
             var daysDifference = timeDifference / (1000 * 3600 * 24);
         }
 
-        // Mise à jour de l'élément affichant la durée
         var durationElement = document.getElementById('days');
         durationElement.textContent = daysDifference;
 
-        // Récupération de la valeur du prix en euros
         var priceElement = document.getElementById('priceValue');
         var priceText = priceElement.innerText;
-
-        // Suppression de "par nuit" et des espaces pour obtenir uniquement le prix
         var price = parseFloat(priceText.replace('par nuit', '').trim());
 
-        // Vérification si le prix est un nombre valide
         if (!isNaN(price)) {
             console.log("Prix récupéré en euros : ", price);
-
-            // Le reste de votre script JavaScript ...
         } else {
             console.error("Le prix n'est pas un nombre valide.");
         }
 
-        // Calcul du montant total
         var amount = daysDifference * price;
-
-        // Mise à jour de l'élément affichant le montant
         var amountElement = document.getElementById('amount');
         amountElement.textContent = amount.toFixed(2);
     }
 
-    // Fonction pour analyser une date avec le format "jour.mois.année"
     function parseDate(dateStr) {
         var parts = dateStr.split('.');
         if (parts.length === 3) {
             var day = parseInt(parts[0], 10);
-            var month = parseInt(parts[1], 10) - 1; // Les mois sont 0-indexés dans JavaScript
+            var month = parseInt(parts[1], 10) - 1;
             var year = parseInt(parts[2], 10);
             return new Date(year, month, day);
         }
         return null;
     }
+
+    // Fonction pour mettre à jour l'état du bouton de soumission
+    function updateSubmitButtonState() {
+        if (!startDateInput.value || !endDateInput.value) {
+            submitBtn.disabled = true; // Désactive le bouton si les champs de date sont vides
+        } else {
+            submitBtn.disabled = false; // Active le bouton si les champs de date sont remplis
+        }
+    }
+
+    // Écouteurs d'événements pour les changements sur les champs de date
+    startDateInput.addEventListener('change', updateSubmitButtonState);
+    endDateInput.addEventListener('change', updateSubmitButtonState);
+
+    // Appel initial pour mettre à jour l'état du bouton de soumission
+    updateSubmitButtonState();
 });

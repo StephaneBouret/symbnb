@@ -30,7 +30,7 @@ class BookingFormType extends AbstractType
                 // 'html5' => false,
                 // 'format' => 'dd.MM.yyyy',
                 'attr' => [
-                    'class' => 'flatpickr flatpickr-input'
+                    'class' => 'flatpickr flatpickr-input toto'
                 ]
             ]);
 

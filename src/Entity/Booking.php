@@ -69,7 +69,7 @@ class Booking
         // 2. Il faut comparer les dates choisies avec les dates impossibles
         $bookingDays = $this->getDays();
 
-        $formatDay = function($day){
+        $formatDay = function ($day) {
             return $day->format('Y-m-d');
         };
 
@@ -77,8 +77,8 @@ class Booking
         $days = array_map($formatDay, $bookingDays);
         $notAvailable = array_map($formatDay, $notAvailableDays);
 
-        foreach($days as $day) {
-            if(array_search($day, $notAvailable) !== false) return false;
+        foreach ($days as $day) {
+            if (array_search($day, $notAvailable) !== false) return false;
         }
 
         return true;
@@ -97,7 +97,7 @@ class Booking
             24 * 60 * 60
         );
 
-        $days =  array_map(function($dayTimestamp) {
+        $days =  array_map(function ($dayTimestamp) {
             return new \DateTimeImmutable(date('Y-m-d', $dayTimestamp));
         }, $resultat);
 
@@ -108,6 +108,16 @@ class Booking
     {
         $diff = $this->endDateAt->diff($this->startDateAt);
         return $diff->days;
+    }
+
+    /**
+     * Vérifie si les dates de réservation sont continues par rapport aux dates existantes
+     *
+     * @return boolean
+     */
+    public function areDatesContinuous(): bool
+    {
+        return $this->ad->areDatesContinuous($this->startDateAt, $this->endDateAt);
     }
 
     public function getId(): ?int
