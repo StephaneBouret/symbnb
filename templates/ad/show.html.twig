@@ -91,4 +91,5 @@
 var notAvailableDays = [];{% if notAvailableDays is defined %}notAvailableDays = [{% for day in notAvailableDays %}"{{ day|date('d.m.Y') }}"{% if not loop.last %},{% endif %}{% endfor %}];{% endif %}
 	</script>
 	<script src="{{ asset('assets/js/main.js') }}" defer></script>
+	{# <script src="{{ asset('assets/js/calendar.js') }}" defer></script> #}
 {% endblock %}

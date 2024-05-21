@@ -6,6 +6,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookingRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: BookingRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -103,6 +104,24 @@ class Booking
 
         return $days;
     }
+
+    // /**
+    //  * Dans le cas où le client souhaite deux nuits minimum au niveau de la résa
+    //  *
+    //  * @param ExecutionContextInterface $context
+    //  * @param mixed $payload
+    //  * @return void
+    //  */
+    // #[Assert\Callback()]
+    // public function validateDuration(ExecutionContextInterface $context, mixed $payload): void
+    // {
+    //     $duration = $this->getDuration();
+    //     if ($duration < 2) {
+    //         $context->buildViolation('La réservation doit être d\'au moins deux nuits.')
+    //             ->atPath('endDateAt')
+    //             ->addViolation();
+    //     }
+    // }
 
     public function getDuration()
     {

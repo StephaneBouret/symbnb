@@ -1,3 +1,5 @@
+// assets/js/main.js
+
 document.addEventListener('DOMContentLoaded', function () {
     var startDateInput = document.querySelector("#booking_form_startDateAt");
     var endDateInput = document.querySelector("#booking_form_endDateAt");
@@ -7,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     async function fetchNotAvailableDays(slug) {
         try {
             const response = await fetch(`/api/ads/${slug}/not-available-days`);
-            const data = await response.json();
-            console.log('Fetched not available days:', data);
-            return data;
+            const data_1 = await response.json();
+            console.log('Fetched not available days:', data_1);
+            return data_1;
         } catch (error) {
             console.error('Error fetching not available days:', error);
             return [];
@@ -37,7 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
             disable: notAvailableDays,
             minDate: "today",
             defaultDate: startDateInput.value,
-            onChange: function () {
+            onChange: function (selectedDates, dateStr, instance) {
+                var endDate = new Date(instance.selectedDates[0]);
+                endDate.setDate(endDate.getDate() + 2);
+                endDateInput.flatpickr.set('minDate', endDate);
                 calculateDuration();
             }
         });
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             dateFormat: "d.m.Y",
             locale: "fr",
             disable: notAvailableDays,
-            minDate: "today",
+            minDate: new Date().fp_incr(2), // minimum two nights
             defaultDate: endDateInput.value,
             onChange: function () {
                 calculateDuration();
@@ -59,11 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleFormSubmission() {
         document.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault();
-    
+
             var form = event.target;
             var formData = new FormData(form);
             var action = form.action;
-    
+
             fetch(action, {
                 method: form.method,
                 body: formData
@@ -94,11 +99,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var alertDiv = document.createElement('div');
         alertDiv.className = 'alert alert-warning'; // Utilise les classes Bootstrap pour le style
         alertDiv.innerText = message;
-    
+
         // Ajoute l'élément d'alerte en haut du formulaire
         var form = document.querySelector('form');
         form.insertBefore(alertDiv, form.firstChild);
-    
+
         // Supprime l'alerte après 5 secondes
         setTimeout(function () {
             alertDiv.remove();
@@ -149,34 +154,39 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var amount = daysDifference * price;
-        var amountElement = document.getElementById('amount');
-        amountElement.textContent = amount.toFixed(2);
+
+        var totalPriceElement = document.getElementById('totalPrice');
+        totalPriceElement.textContent = amount.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+
+        // Contrôle la validité de la soumission du formulaire
+        if (daysDifference < 2) {
+            console.log("La réservation doit être d'au moins deux nuits.");
+            submitBtn.disabled = true;
+        } else {
+            console.log("La réservation est valide.");
+            submitBtn.disabled = false;
+        }
     }
 
     function parseDate(dateStr) {
-        var parts = dateStr.split('.');
-        if (parts.length === 3) {
-            var day = parseInt(parts[0], 10);
-            var month = parseInt(parts[1], 10) - 1;
-            var year = parseInt(parts[2], 10);
-            return new Date(year, month, day);
+        var dateParts = dateStr.split('.');
+
+        if (dateParts.length !== 3) {
+            console.error("Le format de la date n'est pas valide : ", dateStr);
+            return null;
         }
-        return null;
-    }
 
-    // Fonction pour mettre à jour l'état du bouton de soumission
-    function updateSubmitButtonState() {
-        if (!startDateInput.value || !endDateInput.value) {
-            submitBtn.disabled = true; // Désactive le bouton si les champs de date sont vides
-        } else {
-            submitBtn.disabled = false; // Active le bouton si les champs de date sont remplis
+        var day = parseInt(dateParts[0], 10);
+        var month = parseInt(dateParts[1], 10) - 1;
+        var year = parseInt(dateParts[2], 10);
+
+        var date = new Date(year, month, day);
+
+        if (isNaN(date.getTime())) {
+            console.error("La date n'est pas valide : ", dateStr);
+            return null;
         }
+
+        return date;
     }
-
-    // Écouteurs d'événements pour les changements sur les champs de date
-    startDateInput.addEventListener('change', updateSubmitButtonState);
-    endDateInput.addEventListener('change', updateSubmitButtonState);
-
-    // Appel initial pour mettre à jour l'état du bouton de soumission
-    updateSubmitButtonState();
 });

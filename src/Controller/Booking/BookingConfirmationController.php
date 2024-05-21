@@ -99,6 +99,6 @@ class BookingConfirmationController extends AbstractController
             $errors[] = $error->getMessage();
         }
     
-        return new JsonResponse(['error' => 'Invalid form submission', 'errors' => $errors], 400);
+        return new JsonResponse(['error' => 'La soumission du formulaire est invalide', 'errors' => $errors], 400);
     }
 }
