@@ -2,6 +2,7 @@
 	<div class="host-cartridge">
 		<section>
 			<div class="d-flex align-items-center">
+			<a href="{{ path('host_show', { 'id': ad.author.id }) }}">
 				<div class="pic-host">
 					{% if ad.author.avatar.imageName is defined and ad.author.avatar.imageName != null %}
 						<img src="{{ vich_uploader_asset(ad.author.avatar, 'imageFile') }}" class="sc-img-gravatar">
@@ -9,6 +10,7 @@
 						<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-gravatar"/>
 					{% endif %}
 				</div>
+			</a>
 				<div class="ml-24">
 					<div class="host-title">
 						Hôte :

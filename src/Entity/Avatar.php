@@ -118,8 +118,8 @@ class Avatar
         }
 
         // create smaller image
-        $width = 100;
-        $height = 100;
+        $width = 500;
+        $height = 500;
         $imagine = new Imagine;
         $image = $imagine->open($this->imageFile);
         $size = $image->getSize();
