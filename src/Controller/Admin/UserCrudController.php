@@ -37,6 +37,7 @@ class UserCrudController extends AbstractCrudController
             ->setPageTitle('new', 'Créer un utilisateur')
             ->setPageTitle('edit', fn (User $user) => (string) $user->getFullname())
             ->setPageTitle('detail', fn (User $user) => (string) $user->getFullname())
+            ->setEntityLabelInSingular('un utilisateur')
             ->setDefaultSort(['lastname' => 'ASC'])
             ->setPaginatorPageSize(10);
     }

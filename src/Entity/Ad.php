@@ -61,11 +61,18 @@ class Ad
     #[ORM\ManyToOne(inversedBy: 'ads')]
     private ?User $author = null;
 
+    /**
+     * @var Collection<int, Equipment>
+     */
+    #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'ads')]
+    private Collection $equipment;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->images = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+        $this->equipment = new ArrayCollection();
     }
 
     public function __toString()
@@ -311,6 +318,33 @@ class Ad
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipment>
+     */
+    public function getEquipment(): Collection
+    {
+        return $this->equipment;
+    }
+
+    public function addEquipment(Equipment $equipment): static
+    {
+        if (!$this->equipment->contains($equipment)) {
+            $this->equipment->add($equipment);
+            $equipment->addAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipment(Equipment $equipment): static
+    {
+        if ($this->equipment->removeElement($equipment)) {
+            $equipment->removeAd($this);
+        }
 
         return $this;
     }
