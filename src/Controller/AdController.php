@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Booking;
 use App\Form\BookingFormType;
 use App\Repository\AdRepository;
+use App\Service\EquipmentService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,7 +26,7 @@ class AdController extends AbstractController
 
     // Permet d'afficher une seule annonce
     #[Route('/ads/{slug}', name: 'ads_show', priority: -1)]
-    public function show($slug, AdRepository $adRepository): Response
+    public function show($slug, AdRepository $adRepository, EquipmentService $equipmentService): Response
     {
         $booking = new Booking;
         $ad = $adRepository->findOneBy([
@@ -40,10 +41,15 @@ class AdController extends AbstractController
 
         $form = $this->createForm(BookingFormType::class, $booking);
 
+        $equipmentsByCriteria = $equipmentService->getEquipmentsByCriteria($ad);
+        $equipmentsAllByCriteria = $equipmentService->getAllEquipmentsByCriteria($ad);
+
         return $this->render('ad/show.html.twig', [
             'ad' => $ad,
             'form' => $form->createView(),
             'notAvailableDays' => $notAvailableDays,
+            'equipmentsByCriteria' => $equipmentsByCriteria,
+            'equipmentsAllByCriteria' => $equipmentsAllByCriteria
         ]);
     }
 

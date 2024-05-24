@@ -4,9 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Ad;
 use App\Entity\User;
-use App\Entity\Equipment;
 use App\Form\AdImageFormType;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -60,13 +60,21 @@ class AdCrudController extends AbstractCrudController
                 ->setEntryType(AdImageFormType::class)
                 ->setFormTypeOption('by_reference', false)
                 ->hideOnIndex(),
-            AssociationField::new('equipment', 'Équipements')
-                ->setQueryBuilder(
-                    fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(Equipment::class)->createQueryBuilder('e')->orderBy('e.name')
-                )
-                ->setFormTypeOption('by_reference', false)
-                ->autocomplete()
-                ->hideOnIndex(),
+            AssociationField::new('equipment', 'Equipements')
+                ->setFormTypeOptions([
+                    'query_builder' => function (EntityRepository $er): QueryBuilder {
+                        return $er->createQueryBuilder('e')
+                            ->orderBy('e.name', 'ASC');
+                    },
+                    'choice_label' => 'name',
+                    'group_by' => function ($choice, $key, $value) {
+                        return $choice->getCriteria()->getName();
+                    },
+                    'multiple' => true,
+                    'expanded' => false,
+                    // 'expanded' => true,
+                    'by_reference' => false,
+                ]),
             FormField::addColumn(6),
             AssociationField::new('author', 'Auteur')
                 ->setRequired(true)
