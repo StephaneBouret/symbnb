@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
+{% set ad = addUser.findAdByUser(app.user) %}
+<nav class="navbar navbar-expand-lg bg-light nav-symBNB" data-bs-theme="light">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="/">SymBNB</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,17 +13,26 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ path('ads_index')}} ">Nos logements</a>
+					<a class="nav-link nav-hover" href="{{ path('ads_index')}} ">Nos logements</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Contact</a>
+					<a class="nav-link nav-hover" href="#">Contact</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav">
 				{% if app.user %}
 					{% if is_granted('ROLE_ADMIN') %}
 						<li class="nav-item">
-							<a href="{{ path('admin') }}" class="nav-link">Administration</a>
+							<a href="{{ path('admin') }}" class="nav-link nav-hover">Administration</a>
+						</li>
+					{% endif %}
+					{% if not ad %}
+						<li class="nav-item me-2">
+							<a href="{{ path('admin_ad_intro') }}" class="nav-link nav-hover">Mettre mon logement sur SymBNB</a>
+						</li>
+					{% else %}
+						<li class="nav-item me-2">
+							<a href="{{ path('admin') }}" class="nav-link nav-hover">Gérer mes annonces</a>
 						</li>
 					{% endif %}
 					<div class="btn-group">
@@ -42,6 +52,16 @@
 							<li class="py-2 px-2">
 								<a class="dropdown-item dropdown-user" href="{{path('booking_index')}}">Voyages</a>
 							</li>
+							<div class="space-between"></div>
+							{% if not ad %}
+								<li class="py-2 px-2">
+									<a href="{{ path('admin_ad_intro') }}" class="dropdown-item dropdown-user">Mettre mon logement sur SymBNB</a>
+								</li>
+							{% else %}
+								<li class="py-2 px-2">
+									<a href="{{ path('admin') }}" class="dropdown-item dropdown-user">Gérer mes annonces</a>
+								</li>
+							{% endif %}
 							<div class="space-between"></div>
 							<li class="py-2 px-2">
 								<a class="dropdown-item dropdown-user color-btn-logout" href="{{ path('security_logout') }}">Se déconnecter</a>

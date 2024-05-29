@@ -1,0 +1,88 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Sélectionnez le nombre total de voyageurs
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="floor-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="floor-plan-wrapper">
+					<div class="floor-plan-content">
+						<div class="floor-content-title">
+							<h1 class="floor-title">Combien de voyageurs pouvez-vous accueillir confortablement dans votre logement ?</h1>
+						</div>
+						<div class="mt-48">
+							<div class="d-flex flex-column justify-content-center align-items-center">
+								<section>
+									<h1 class="guest-title-wrapper">
+										<div class="guest-title-content">
+											Combien de voyageurs pouvez-vous accueillir confortablement dans votre logement ?
+										</div>
+									</h1>
+								</section>
+								<div class="guest-wrapper-form">
+									<div class="guest-content-form">
+										<button type="button" id="decrement_capacity" class="btn-stepper" onclick="decrement('capacity')">
+											<span class="btn-stepper-svg">
+												<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="display:block;height:12px;width:12px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false">
+													<path d="m.75 6.75h10.5v-1.5h-10.5z"></path>
+												</svg>
+											</span>
+										</button>
+										<div class="guest-stepper-item">
+											{{ form_widget(form.capacity) }}
+										</div>
+										<button type="button" class="btn-stepper" onclick="increment('capacity')">
+											<span class="btn-stepper-svg">
+												<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="display:block;height:12px;width:12px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false">
+													<path d="m6.75.75v4.5h4.5v1.5h-4.5v4.5h-1.5v-4.5h-4.5v-1.5h4.5v-4.5z"></path>
+												</svg>
+											</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 25 }) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+updateButtonState('capacity');
+});
+function increment(field) {
+var input = document.getElementById('ad_step2_form_' + field);
+input.value = parseInt(input.value) + 1;
+updateButtonState(field);
+}
+
+function decrement(field) {
+var input = document.getElementById('ad_step2_form_' + field);
+if (input.value > 0) {
+input.value = parseInt(input.value) - 1;
+updateButtonState(field);
+}
+}
+
+function updateButtonState(field) {
+var input = document.getElementById('ad_step2_form_' + field);
+var decrementButton = document.getElementById('decrement_' + field);
+if (parseInt(input.value) <= 1) {
+decrementButton.disabled = true;
+} else {
+decrementButton.disabled = false;
+}
+}
+	</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etape 2 : faites sortir votre annonce du lot
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		<div class="admin-ad-create-container">
+			<div class="mt-auto mb-auto">
+				<div class="become-a-host">
+					<div class="become-host-container">
+						<div class="become-host-wrapper">
+							<div class="intro-part-one">
+								<div class="intro-step">Étape 2</div>
+								<h1 class="intro-title">Faites sortir votre annonce du lot</h1>
+								<div class="intro-content">
+									Au cours de cette étape, vous pourrez ajouter certains des équipements proposés dans votre logement. Vous pourrez ensuite ajouter un titre et une description.
+								</div>
+							</div>
+							<div class="intro-part-two">
+								<div class="video-wrapper">
+									<video class="video-content" autoplay muted playsinline preload="auto">
+										<source src="{{ asset('assets/media/house2.mp4') }}"></video>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="become-bottom">
+				<div class="progress progress-become-a-host" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+					<div class="progress-bar" style="width: 41.67%"></div>
+				</div>
+				<div class="become-bottom-links-next-page">
+					<div class="right-button-become-page">
+						<a href="{{ path('admin_ad_title', {'id': id}) }}" class="btn-right-become-page">Suivant</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

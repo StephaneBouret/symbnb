@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etape 3 : terminez votre annonce
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		<div class="admin-ad-create-container">
+			<div class="mt-auto mb-auto">
+				<div class="become-a-host">
+					<div class="become-host-container">
+						<div class="become-host-wrapper">
+							<div class="intro-part-one">
+								<div class="intro-step">Étape 3</div>
+								<h1 class="intro-title">Terminez et publiez</h1>
+								<div class="intro-content">
+									Enfin, vous définissez votre tarification, vous choisissez vos photos et publiez votre annonce.
+								</div>
+							</div>
+							<div class="intro-part-two">
+								<div class="video-wrapper">
+									<video class="video-content" autoplay muted playsinline preload="auto">
+										<source src="{{ asset('assets/media/house3.mp4') }}"></video>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="become-bottom">
+				<div class="progress progress-become-a-host" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+					<div class="progress-bar" style="width: 75%"></div>
+				</div>
+				<div class="become-bottom-links-next-page">
+					<div class="right-button-become-page">
+						<a href="{{ path('admin_ad_price', {'id': id}) }}" class="btn-right-become-page">Suivant</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

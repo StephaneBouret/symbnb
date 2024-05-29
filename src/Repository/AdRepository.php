@@ -16,6 +16,15 @@ class AdRepository extends ServiceEntityRepository
         parent::__construct($registry, Ad::class);
     }
 
+    public function findAdByUser($user)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Ad[] Returns an array of Ad objects
     //     */

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etape 1 : parlez-nous de votre logement
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		<div class="admin-ad-create-container">
+			<div class="mt-auto mb-auto">
+				<div class="become-a-host">
+					<div class="become-host-container">
+						<div class="become-host-wrapper">
+							<div class="intro-part-one">
+								<div class="intro-step">Étape 1</div>
+								<h1 class="intro-title">Parlez-nous de votre logement</h1>
+								<div class="intro-content">
+									Au cours de cette étape, nous allons vous demander quel type de logement vous proposez et si les voyageurs pourront le réserver dans son intégralité ou si vous ne louez qu'une chambre. Nous vous demanderons ensuite d'indiquer son emplacement et sa capacité d'accueil.
+								</div>
+							</div>
+							<div class="intro-part-two">
+								<div class="video-wrapper">
+									<video class="video-content" autoplay muted playsinline preload="auto">
+										<source src="{{ asset('assets/media/house.mp4') }}"></video>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{{ include('partials/_bottom_admin_ad.html.twig', {
+		'progress': 8.33,
+		'backPath': path('homepage'),
+		'nextPath': path('admin_ad_floor')
+		})
+	}}
+		</div>
+	</div>
+{% endblock %}

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AdRepository::class)]
 class Ad
@@ -16,22 +17,32 @@ class Ad
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 50,
+        maxMessage: "Le titre ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $price = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThanOrEqual(1, message: "Vous devez avoir au moins 1 voyageur")]
     private ?int $capacity = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThanOrEqual(1, message: "Vous devez avoir au moins 1 chambre")]
     private ?int $rooms = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        max: 5000,
+        maxMessage: "La description ne peut pas dépasser {{ limit }} caractères."
+    )]
     private ?string $content = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -49,23 +60,24 @@ class Ad
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'ad')]
     private Collection $bookings;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThanOrEqual(1, message: "Vous devez avoir au moins 1 lit")]
     private ?int $beds = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
-
-    #[ORM\ManyToOne(inversedBy: 'ads')]
-    private ?User $author = null;
 
     /**
      * @var Collection<int, Equipment>
      */
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'ads')]
     private Collection $equipment;
+
+    #[ORM\ManyToOne(inversedBy: 'ads')]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -97,7 +109,7 @@ class Ad
                 24 * 60 * 60
             );
 
-            $days = array_map(function($dayTimestamp) {
+            $days = array_map(function ($dayTimestamp) {
                 return new \DateTimeImmutable(date('Y-m-d', $dayTimestamp));
             }, $resultat);
 
@@ -310,18 +322,6 @@ class Ad
         return $this;
     }
 
-    public function getAuthor(): ?User
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?User $author): static
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Equipment>
      */
@@ -345,6 +345,18 @@ class Ad
         if ($this->equipment->removeElement($equipment)) {
             $equipment->removeAd($this);
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

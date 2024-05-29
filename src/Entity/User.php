@@ -75,14 +75,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'booker')]
     private Collection $bookings;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     /**
      * @var Collection<int, Ad>
      */
     #[ORM\OneToMany(targetEntity: Ad::class, mappedBy: 'author')]
     private Collection $ads;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
 
     public function __construct()
     {
@@ -374,6 +374,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Ad>
      */
@@ -400,18 +412,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
                 $ad->setAuthor(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): static
-    {
-        $this->description = $description;
 
         return $this;
     }

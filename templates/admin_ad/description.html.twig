@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Décrivez votre logement
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="floor-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="floor-plan-wrapper">
+					<div class="floor-plan-content">
+						<div class="floor-content-title">
+							<h1 class="floor-title">Créez votre description</h1>
+							<div class="floor-subtitle">Racontez ce qui rend votre logement unique.</div>
+						</div>
+						<div class="name-wrapper">
+							<div class="textarea-content">
+								<div class="textarea-wrapper">
+									{{ form_widget(form.content) }}
+								</div>
+							</div>
+							<div class="textarea-count">
+								<div class="textarea-count-size">
+									<span>0/1500</span>
+								</div>
+							</div>
+							{{ form_errors(form.content) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 58.33 }) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var nameField = document.getElementById('ad_step5_form_content');
+    var counter = document.querySelector('.textarea-count-size span');
+    
+    nameField.addEventListener('keyup', function() {
+        var count = nameField.value.length;
+		console.log(count)
+        counter.textContent = count + '/1500';
+
+	if (count > 1500) {
+        nameField.classList.add('textarea-name-error');
+    } else {
+        nameField.classList.remove('textarea-name-error');
+    }
+    });
+
+});
+
+	</script>
+{% endblock %}

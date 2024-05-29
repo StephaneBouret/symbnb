@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Fixez votre prix
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="floor-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="floor-plan-wrapper">
+					<div class="floor-plan-content">
+						<div class="floor-content-title">
+							<h1 class="floor-title">À présent, fixez votre prix</h1>
+							<div class="floor-subtitle">Vous pouvez le modifier à tout moment.</div>
+						</div>
+						<div class="name-wrapper">
+							<div class="textarea-content">
+								<div class="d-flex align-items-center">
+									{{ form_widget(form.price) }}
+									<span class="currency-span">€</span>
+								</div>
+							</div>
+							{{ form_errors(form.price) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 83.33 }) }}
+		{{ form_end(form) }}
+	{% endblock %}

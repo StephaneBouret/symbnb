@@ -1,0 +1,61 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Donnez un titre à votre annonce
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="floor-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="floor-plan-wrapper">
+					<div class="floor-plan-content">
+						<div class="floor-content-title">
+							<h1 class="floor-title">À présent, donnez un titre à votre annonce (type : maison)</h1>
+							<div class="floor-subtitle">Les titres courts sont généralement les plus efficaces. Ne vous inquiétez pas, vous pourrez toujours le modifier plus tard.</div>
+						</div>
+						<div class="name-wrapper">
+							<div class="textarea-content">
+								<div class="textarea-wrapper">
+									{{ form_widget(form.name) }}
+								</div>
+							</div>
+							<div class="textarea-count">
+								<div class="textarea-count-size">
+									<span>0/50</span>
+								</div>
+							</div>
+							{{ form_errors(form.name) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 50 }) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+var nameField = document.getElementById('ad_step4_form_name');
+var counter = document.querySelector('.textarea-count-size span');
+
+nameField.addEventListener('keyup', function () {
+var count = nameField.value.length;
+console.log(count)
+counter.textContent = count + '/50';
+
+if (count > 50) {
+nameField.classList.add('textarea-name-error');
+} else {
+nameField.classList.remove('textarea-name-error');
+}
+});
+
+});
+	</script>
+{% endblock %}

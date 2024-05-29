@@ -15,6 +15,9 @@ class AdImageFormType extends AbstractType
         $builder
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image',
+                'required' => false,
+                'allow_delete' => true, // This allows deleting the current image
+                'download_uri' => false,
             ])
         ;
     }

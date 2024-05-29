@@ -1,0 +1,67 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Choisissez vos équipements
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="floor-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="floor-plan-wrapper">
+					<div class="floor-plan-content">
+						<div class="floor-content-title">
+							<h1 class="floor-title">Indiquez aux voyageurs quels sont les équipements de votre logement</h1>
+							<div class="floor-subtitle">Vous pourrez modififier les équipements une fois votre annonce publiée.</div>
+						</div>
+						<div class="accordion" id="accordionExample">
+							{% for criteria in criterias %}
+								<div class="accordion-item">
+									<h2 class="accordion-header" id="heading{{ criteria.id }}">
+										<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ criteria.id }}" aria-expanded="true" aria-controls="collapse{{ criteria.id }}">
+											{{ criteria.name }}
+										</button>
+									</h2>
+								</div>
+								<div id="collapse{{ criteria.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ criteria.id }}" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										<div class="equipment-card-content">
+											{% for child in form['equipment_' ~ criteria.id] %}
+												<div class="d-flex justify-content-between align-items-center">
+													<div class="equipment-line-content">
+														<div class="d-flex align-items-center gap-3">
+															<div class="equipment-list-svg">
+																{% for equipment in criteria.equipment %}
+																	{% if equipment.id == child.vars.attr['data-id'] %}
+																		<img src="{{ vich_uploader_asset(equipment, 'imageFile') }}" alt="{{ equipment.name }}" class="svg-equipment-check"/>
+																	{% endif %}
+																{% endfor %}
+															</div>
+															<label class="equipment-check-label" for="{{ child.vars.id }}">
+																{% for equipment in criteria.equipment %}
+																	{% if equipment.id == child.vars.attr['data-id'] %}
+																		{{ equipment.name }}
+																	{% endif %}
+																{% endfor %}
+															</label>
+															<div class="d-flex align-items-center wrapper-check-eq">
+																{{ form_widget(child, { 'label': false, 'attr': {'class': 'custom-control-input-eqp'} }) }}
+															</div>
+														</div>
+													</div>
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 66.67 }) }}
+	{{ form_end(form) }}
+</div>{% endblock %}

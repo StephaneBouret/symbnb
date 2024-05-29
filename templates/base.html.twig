@@ -25,6 +25,8 @@
 			{% include "partials/_flash.html.twig" %}
 			{% block body %}{% endblock %}
 		</div>
-		{% include "partials/_footer.html.twig" %}
+    {% if withFooter is not defined %}
+        {% include "partials/_footer.html.twig" %}
+    {% endif %}
 	</body>
 </html>
