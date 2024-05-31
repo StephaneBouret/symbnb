@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ad;
+use App\Entity\Type;
 use App\Entity\User;
 use App\Form\AdImageFormType;
 use Doctrine\ORM\QueryBuilder;
@@ -110,6 +111,12 @@ class AdCrudController extends AbstractCrudController
                     'expanded' => false,
                     // 'expanded' => true,
                     'by_reference' => false,
+                ]),
+            AssociationField::new('type', 'Type de logement')
+                ->setRequired(true)
+                ->setFormTypeOptions([
+                    'class' => Type::class,
+                    'choice_label' => 'name',
                 ]),
             FormField::addColumn(6),
             AssociationField::new('author', 'Auteur')

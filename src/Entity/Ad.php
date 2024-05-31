@@ -79,6 +79,10 @@ class Ad
     #[ORM\ManyToOne(inversedBy: 'ads')]
     private ?User $author = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ads')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Type $type = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -357,6 +361,18 @@ class Ad
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getType(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function setType(?Type $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
