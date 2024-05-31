@@ -1,0 +1,92 @@
+<div class="modal fade" id="editAdModal" tabindex="-1" aria-labelledby="editAdModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="modal-inside-body">
+					<div class="m-auto">
+						<div class="card-img-content-one-ad">
+							{% if not ad.images is empty %}
+								<img src="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" class="card-img-first-one-ad" alt="{{ ad.name }}">
+							{% else %}
+								<img src="{{ asset('assets/img/default-img.jpg') }}" class="card-img-first-one-ad" alt="Default Image">
+							{% endif %}
+						</div>
+						<div class="card-modal-first-text">
+							Votre annonce a été créée le
+							{{ ad.createdAt|format_datetime('long', 'none', locale='fr') }}
+						</div>
+						<div class="card-modal-subtitle-one-ad">
+							{{ ad.city}},
+							{{ ad.country | country_name('fr') }}
+						</div>
+						<div class="mt-40">
+							<a href="#" class="btn btn-dark button-to-edit-ad">Modifier l'annonce</a>
+						</div>
+						<div class="mt-3">
+							<button class="btn button-delete-modal" data-bs-target="#deleteToggle2" data-bs-toggle="modal">
+								<div class="f988sp1">
+									<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 16 16" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: currentcolor;">
+										<path d="M10 .38c.31 0 .57.23.62.53V2.5H14v2h-1V14a1 1 0 0 1-.88 1H4a1 1 0 0 1-1-.88V4.5H2v-2h3.38V1c0-.31.23-.57.53-.62H10zM6.12 4.5H4.88v9h1.25v-9zm2.5 0H7.38v9h1.25v-9zm2.5 0H9.88v9h1.24v-9zM9.38 1.62H6.62v.88h2.75v-.87z"></path>
+									</svg>
+									Supprimer l'annonce
+								</div>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="deleteToggle2" aria-hidden="true" aria-labelledby="deleteToggleLabel2" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered" style="width: 376px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="modal-inside-body">
+					<section>
+						<h1 class="title-delete">Voulez-vous supprimer cette annonce ?</h1>
+					</section>
+					<div class="explications-delete">
+						Cette annonce sera supprimée de manière définitive : vous ne pourrez plus la trouver ni la modifier.
+					</div>
+					<div class="m-auto">
+						<div class="card-img-content-one-ad">
+							{% if not ad.images is empty %}
+								<img src="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" class="card-img-first-one-ad" alt="{{ ad.name }}">
+							{% else %}
+								<img src="{{ asset('assets/img/default-img.jpg') }}" class="card-img-first-one-ad" alt="Default Image">
+							{% endif %}
+						</div>
+					</div>
+					<div class="card-modal-first-text">
+						Votre annonce a été créée le
+						{{ ad.createdAt|format_datetime('long', 'none', locale='fr') }}
+					</div>
+					<div class="card-modal-subtitle-one-ad">
+						{{ ad.city}},
+						{{ ad.country | country_name('fr') }}
+					</div>
+					<div class="mt-40">
+						<form method="post" action="{{ path('ad_delete', {'id': ad.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ad.id) }}">
+							<button class="btn btn-dark button-to-edit-ad">Oui, supprimer</button>
+						</form>
+					</div>
+					<div class="mt-3">
+						<button class="btn button-delete-modal" data-bs-target="#editAdModal" data-bs-toggle="modal">
+							<div class="f988sp1">
+								Annuler
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

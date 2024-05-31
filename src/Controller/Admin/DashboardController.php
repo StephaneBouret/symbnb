@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
-#[IsGranted('ROLE_USER')]
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
@@ -41,15 +40,11 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Annonces', 'fa-solid fa-bed', Ad::class);
-        if ($this->IsGranted('ROLE_ADMIN')) {
-            yield MenuItem::linkToCrud('Images', 'fas fa-image', Images::class);
-            yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
-        }
+        yield MenuItem::linkToCrud('Images', 'fas fa-image', Images::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Réservations', 'fa-solid fa-umbrella-beach', Booking::class);
-        if ($this->IsGranted('ROLE_ADMIN')) {
-            yield MenuItem::linkToCrud('Critères-Equipement', 'fa-solid fa-mug-saucer', Criteria::class);
-            yield MenuItem::linkToCrud('Equipements', 'fa-solid fa-screwdriver-wrench', Equipment::class);
-        }
+        yield MenuItem::linkToCrud('Critères-Equipement', 'fa-solid fa-mug-saucer', Criteria::class);
+        yield MenuItem::linkToCrud('Equipements', 'fa-solid fa-screwdriver-wrench', Equipment::class);
         yield MenuItem::linkToRoute('Retour au site', 'fas fa-home', 'homepage');
     }
 }

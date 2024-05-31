@@ -109,8 +109,7 @@ class AdminAdPartThreeController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Votre annonce a bien été enregistrée');
-
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('ads_show', ['slug' => $ad->getSlug()]);
         }
 
         return $this->render('admin_ad/save.html.twig', [

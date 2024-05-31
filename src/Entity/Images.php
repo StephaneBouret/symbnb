@@ -6,6 +6,7 @@ use App\Repository\ImagesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ImagesRepository::class)]
 #[Vich\Uploadable]
@@ -16,11 +17,29 @@ class Images
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Image(
+        maxSize: '2M',
+        maxSizeMessage: 'L\'image est trop lourde ({{ size }} {{ suffix }}). 
+        Le maximum autorisé est {{ limit }} {{ suffix }}',
+        minWidth: 100,
+        minWidthMessage: 'La largeur de l\'image est trop petite ({{ width }}px).
+        Le minimum est {{ min_width }}px.',
+        minHeight: 100,
+        minHeightMessage: 'La hauteur est trop faible ({{ height }}px).
+        Le minimum est {{ min_height }}px.',
+        mimeTypes: [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/webp'
+        ],
+        mimeTypesMessage: 'Le type MIME du fichier n\'est pas valide ({{ type }}). Les formats autorisés sont {{ types }}'
+    )]
     #[Vich\UploadableField(mapping: 'ads', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
-    private ?string $imageName = null;
+    private ?string $imageName = '';
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -69,9 +88,9 @@ class Images
         return $this->imageName;
     }
 
-    public function setImageName(string $imageName): static
+    public function setImageName(?string $imageName): static
     {
-        $this->imageName = $imageName;
+        $this->imageName = $imageName ?? '';
 
         return $this;
     }

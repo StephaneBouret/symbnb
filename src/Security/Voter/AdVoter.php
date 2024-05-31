@@ -2,27 +2,21 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Ad;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class AdminUserVoter extends Voter
+class AdVoter extends Voter
 {
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
+    public const EDIT = 'POST_EDIT';
+    public const VIEW = 'POST_VIEW';
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['ADMIN_USER_EDIT'])
-            && $subject instanceof Ad;
+        return in_array($attribute, [self::EDIT, self::VIEW])
+            && $subject instanceof \App\Entity\Ad;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
@@ -34,14 +28,17 @@ class AdminUserVoter extends Voter
             return false;
         }
 
-        if (!$subject instanceof Ad) {
-            throw new \LogicException('Subject is not an instance of Ad?');
-        }
-
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case 'ADMIN_USER_EDIT':
-                return $user === $subject->getAuthor() || $this->security->isGranted('ROLE_ADMIN');
+            case self::EDIT:
+                // logic to determine if the user can EDIT
+                // return true or false
+                break;
+
+            case self::VIEW:
+                // logic to determine if the user can VIEW
+                // return true or false
+                break;
         }
 
         return false;

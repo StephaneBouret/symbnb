@@ -1,144 +1,80 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    Ajoutez des photos
+	Ajoutez des photos
 {% endblock %}
 
 {% block body %}
-    <div class="admin-ad-create">
-        {{ form_start(form, {'attr': {'class': 'w-100'}}) }}
-        <div class="picture-plan-container">
-            <div class="mt-auto mb-auto">
-                <div class="picture-plan-wrapper">
-                    <div class="picture-wrapper">
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="picture-plan-content">
-                                <div class="picture-content-title">
-                                    <div class="picture-title-button">
-                                        <div class="pic-wrap-title">
-                                            <h1 class="picture-title">Choisissez au moins 5 photos</h1>
-                                            <div class="picture-subtitle">La première image sera la principale</div>
-                                        </div>
-                                        <button type="button" class="add-another-collection-widget">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
-                                                <path d="M2 16h28M16 2v28"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="name-wrapper">
-                                    <div class="image-input-content">
-                                        {{ form_widget(form.images, {'label': false}) }}
-                                    </div>
-									<div>{{ form_errors(form.images) }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 91.66 }) }}
-        {{ form_end(form) }}
-    </div>
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="picture-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="picture-plan-wrapper">
+					<div class="picture-wrapper">
+						<div class="d-flex flex-column align-items-center">
+							<div class="picture-plan-content">
+								<div class="picture-content-title">
+									<div class="picture-title-button">
+										<div class="pic-wrap-title">
+											<h1 class="picture-title">Choisissez au moins 5 photos</h1>
+											<div class="picture-subtitle">La première image sera la principale</div>
+										</div>
+										<button type="button" class="add-another-collection-widget">
+											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+												<path d="M2 16h28M16 2v28"></path>
+											</svg>
+										</button>
+									</div>
+								</div>
+								<div class="pictures-wrapper">
+									<div class="pictures-wrapper-all-cards">
+										<div class="image-input-content">
+											{% set prototype %}
+											{{ form_widget(form.images.vars.prototype, {'attr': {'class': 'file-input'}}) }}
+											{% endset %}
+											<div id="prototype-data" data-prototype="{{ prototype|json_encode|e }}"></div>
+											{% for i in 0..4 %}
+												<div class="image-square {{ i == 0 ? 'full-width' : 'half-width' }}" id="image-square-{{ i }}">
+													<span class="icon">
+														<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 32px; width: 32px; fill: currentcolor;">
+															<path d="M27 3a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zM8.89 19.04l-.1.08L3 24.92V25a2 2 0 0 0 1.85 2H18.1l-7.88-7.88a1 1 0 0 0-1.32-.08zm12.5-6-.1.08-7.13 7.13L20.92 27H27a2 2 0 0 0 2-1.85v-5.73l-6.3-6.3a1 1 0 0 0-1.31-.08zM27 5H5a2 2 0 0 0-2 2v15.08l4.38-4.37a3 3 0 0 1 4.1-.14l.14.14 1.13 1.13 7.13-7.13a3 3 0 0 1 4.1-.14l.14.14L29 16.59V7a2 2 0 0 0-1.85-2zM8 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
+														</svg>
+													</span>
+													{{ prototype|replace({'__name__': i})|raw }}
+													<div class="message-actions-picture {{ i == 0 ? 'full-width' : 'half-width' }}">
+														{% if i == 0 %}
+															<div class="main-picture">Photo principale</div>
+															<div class="_s63vo4">
+																<button type="button" class="delete-button-ad-img">
+																	<i class="far fa-trash-alt"></i>
+																</button>
+															</div>
+														{% else %}
+															<div class="_s63vo4">
+																<button type="button" class="delete-button-ad-img">
+																	<i class="far fa-trash-alt"></i>
+																</button>
+															</div>
+														{% endif %}
+													</div>
+												</div>
+											{% endfor %}
+										</div>
+										<div>{{ form_errors(form.images) }}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 91.66 }) }}
+		{{ form_end(form) }}
+	</div>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Sélectionner le conteneur du formulaire
-		var form = document.querySelector('form');
-        var container = document.querySelector('div#{{ form.images.vars.id }}');
-		var submitButton = form.querySelector('button[type="submit"]');
-        console.log(submitButton);
-
-		submitButton.addEventListener('click', function (e) {
-        var imageInputs = container.querySelectorAll('input[type="file"]');
-        var validImages = Array.from(imageInputs).filter(input => input.files.length > 0);
-
-        if (validImages.length < 5) {
-            e.preventDefault();
-            alert('Vous devez télécharger au moins 5 images.');
-        }
-    });
-
-        // Compter le nombre initial de champs dans le formulaire
-        var index = container.querySelectorAll('input[type="file"]').length;
-
-        // Ajouter un gestionnaire d'événement au bouton d'ajout
-        document.querySelector('.add-another-collection-widget').addEventListener('click', function (e) {
-            // Récupérer le prototype de champ de formulaire
-            var template = container.getAttribute('data-prototype');
-
-            // Remplacer le placeholder du nom par l'index actuel
-            var newForm = template.replace(/__name__/g, index);
-            index++;
-
-            // Créer un nouvel élément div et y ajouter le nouveau formulaire
-            var div = document.createElement('div');
-            div.innerHTML = newForm;
-
-            // Vérifier si l'input est trouvé avant d'ajouter l'écouteur d'événements
-            var newInput = div.querySelector('input[type="file"]');
-            if (newInput) {
-                // Ajouter l'écouteur d'événements pour la prévisualisation de l'image
-                addImagePreviewListener(newInput);
-
-                // Ajouter le bouton de suppression
-                addDeleteButton(div.firstChild);
-                
-                // Ajouter le nouveau formulaire au conteneur
-                container.appendChild(div.firstChild);
-            } else {
-                console.error('Input not found in the new form element.');
-            }
-        });
-
-        // Fonction pour ajouter l'écouteur d'événements de prévisualisation de l'image
-        function addImagePreviewListener(input) {
-            input.addEventListener('change', function (e) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    // Vérifier si une image de prévisualisation existe déjà
-                    var existingImg = input.parentNode.querySelector('.img-preview');
-                    if (existingImg) {
-                        existingImg.src = e.target.result;
-                    } else {
-                        var img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.classList.add('img-preview');
-                        
-                        // Ajouter l'image après l'input
-                        input.parentNode.insertBefore(img, input.nextSibling);
-                    }
-                };
-                reader.readAsDataURL(e.target.files[0]);
-            });
-        }
-
-        // Fonction pour ajouter le bouton de suppression
-        function addDeleteButton(element) {
-            var deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.className = 'btn btn-link btn-link-danger field-collection-delete-button';
-            deleteButton.title = 'Supprimer l\'élément';
-            deleteButton.innerHTML = '<i class="far fa-trash-alt"></i>';
-
-            deleteButton.addEventListener('click', function () {
-                element.remove();
-            });
-
-            // Ajouter le bouton de suppression à l'élément parent
-            element.appendChild(deleteButton);
-        }
-
-        // Ajouter les écouteurs d'événements de prévisualisation de l'image et les boutons de suppression aux inputs existants
-        var existingInputs = container.querySelectorAll('input[type="file"]');
-        existingInputs.forEach(function (input) {
-            addImagePreviewListener(input);
-            addDeleteButton(input.closest('.form-group'));
-        });
-    });
-    </script>
+	{{ parent() }}
+	<script src="{{ asset('assets/js/pictures.js') }}" defer></script>
 {% endblock %}

@@ -21,8 +21,7 @@ class AdStep8FormType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true, // Make sure this option is set to true
-                'prototype_name' => '__name__', // This is the default, just being explicit
-                'attr' => ['class' => 'images-collection'], // Optional, for styling purposes
+                'attr' => ['class' => 'images-collection'],
             ])
         ;
     }

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonces
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex flex-column">
+		<section>
+			<header class="header-index-ads">
+				<div class="content-title-index-ads">
+					<div class="my-1">
+						{% if ads | length > 1 %}
+							<h1 class="title-index-ads">Mes annonces</h1>
+						{% else %}
+							<h1 class="title-index-ads">Mon Annonce</h1>
+						{% endif %}
+					</div>
+				</div>
+				<div class="content-buttons-index-ads">
+					<div>
+						<a href="{{ path('admin_ad_intro') }}" class="button-add-ads">
+							<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+								<path d="M2 16h28M16 2v28"></path>
+							</svg>
+						</a>
+					</div>
+				</div>
+			</header>
+			<div>
+				<ol class="list-all-ads">
+					{% for ad in ads %}
+						<div class="card-container-index-ads">
+							<div class="card-wrapper-index-ads">
+								<div class="card-content-index-ads">
+									<div class="card-index-all-ads">
+										<div class="card-content-one-ad">
+											<div class="awuxh4x">
+												<div class="cw9aemg">
+													<a href="#" class="rfexzly" data-bs-toggle="modal" data-bs-target="#editAdModal">
+														<div class="position-relative w-100 h-100">
+															<div class="picture-index-one-ad">
+																<picture>
+																	{% if not ad.images is empty %}
+																		<source srcset="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" media="(min-width: 0px)"/>
+																		<img src="{{ vich_uploader_asset(ad.images[0], 'imageFile') }}" class="itu7ddv" alt="{{ ad.name }}">
+																	{% else %}
+																		<source srcset="{{ asset('assets/img/default-img.jpg') }}" media="(min-width: 0px)"/>
+																		<img src="{{ asset('assets/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
+																	{% endif %}
+																</picture>
+															</div>
+														</div>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-text-index-all-ads">
+										<div class="text-date-created-one-ad">
+											Votre annonce a été créée le
+											{{ ad.createdAt|format_datetime('long', 'none', locale='fr') }}
+										</div>
+										<div class="listing-card-subtitle-one-card">
+											{{ ad.city}},
+											{{ ad.country | country_name('fr') }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Modal -->
+						{% include "partials/_modal_edit_delete_ad.html.twig" %}
+					{% endfor %}
+				</ol>
+			</div>
+		</section>
+	</div>
+{% endblock %}

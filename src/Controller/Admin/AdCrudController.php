@@ -55,25 +55,25 @@ class AdCrudController extends AbstractCrudController
             ->setPageTitle('detail', fn (Ad $ad) => (string) 'Modifier ' . $ad->getName());
     }
 
-    public function configureActions(Actions $actions): Actions
-    {
-        return $actions
-            ->setPermission(Action::NEW, 'ROLE_USER')
-            ->setPermission(Action::EDIT, 'ADMIN_USER_EDIT');
-    }
+    // public function configureActions(Actions $actions): Actions
+    // {
+    //     return $actions
+    //         ->setPermission(Action::NEW, 'ROLE_USER')
+    //         ->setPermission(Action::EDIT, 'ADMIN_USER_EDIT');
+    // }
 
-    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
-    {
-        $user = $this->security->getUser();
-        $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        if ($this->isGranted('ROLE_ADMIN')) {
-            return $queryBuilder;
-        }
-        $queryBuilder
-            ->andWhere('entity.author = :user')
-            ->setParameter('user', $user);
-        return $queryBuilder;
-    }
+    // public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    // {
+    //     $user = $this->security->getUser();
+    //     $queryBuilder = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
+    //     if ($this->isGranted('ROLE_ADMIN')) {
+    //         return $queryBuilder;
+    //     }
+    //     $queryBuilder
+    //         ->andWhere('entity.author = :user')
+    //         ->setParameter('user', $user);
+    //     return $queryBuilder;
+    // }
 
     public function configureFields(string $pageName): iterable
     {

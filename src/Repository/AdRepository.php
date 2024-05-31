@@ -22,7 +22,16 @@ class AdRepository extends ServiceEntityRepository
             ->andWhere('a.author = :user')
             ->setParameter('user', $user)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getScalarResult();
+    }
+
+    public function remove(Ad $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     //    /**
