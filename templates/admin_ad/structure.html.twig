@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Choisissez votre type de logement
+{% endblock %}
+
+{% block body %}
+	<div class="admin-ad-create">
+		{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+		<div class="picture-plan-container">
+			<div class="mt-auto mb-auto">
+				<div class="picture-plan-wrapper">
+					<div class="picture-wrapper">
+						<div class="structure-container">
+							<div class="structure-title-content">
+								<h1 class="picture-title">Parmi les propositions suivantes, laquelle décrit le mieux votre logement ?</h1>
+							</div>
+							<div class="radio-group-structure">
+								{% for typeView in form.type %}
+									{% set typeId = typeView.vars.value %}
+									{% set typeEntity = types | filter(t => t.id == typeId) | first %}
+
+									{% if typeEntity %}
+										<div class="card-radio-structure" data-type-id="{{ typeId }}">
+											<div class="card-content-structure">
+												<div>
+													<div class="card-content-img-structure">
+														<div class="d-block">
+															{% if typeEntity.imageName %}
+																<img src="{{ vich_uploader_asset(typeEntity, 'imageFile') }}" alt="{{ typeEntity.name }}"/>
+															{% endif %}
+														</div>
+													</div>
+												</div>
+												<div class="card-text-structure">
+													<div class="text-structure">
+														{{ typeEntity.name }}
+													</div>
+												</div>
+												{{ form_widget(typeView, { 'attr': {'class': 'hidden-radio'} }) }}
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{ include('partials/_bottom_admin_ad_next.html.twig', { 'progress': 15.38 }) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+document.querySelectorAll('.card-radio-structure').forEach(card => {
+card.addEventListener('click', function () {
+document.querySelectorAll('.card-radio-structure').forEach(c => c.classList.remove('selected'));
+this.classList.add('selected');
+this.querySelector('.hidden-radio').checked = true;
+});
+});
+});
+	</script>
+{% endblock %}

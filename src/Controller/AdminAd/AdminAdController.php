@@ -7,6 +7,8 @@ use App\Form\AdFormType\AdStep1FormType;
 use App\Form\AdFormType\AdStep2FormType;
 use App\Form\AdFormType\AdStep3FormType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\AdFormType\AdStep10FormType;
+use App\Repository\TypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,11 +26,40 @@ class AdminAdController extends AbstractController
         ]);
     }
 
-    #[Route('/become-a-host/floor-plan', name: 'admin_ad_floor')]
+    #[Route('/become-a-host/structure', name: 'admin_ad_structure')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function floor(Request $request, EntityManagerInterface $em): Response
+    public function structure(Request $request, EntityManagerInterface $em, TypeRepository $typeRepository): Response
     {
+        $types = $typeRepository->findAll();
         $ad = new Ad;
+        $form = $this->createForm(AdStep10FormType::class, $ad, [
+            'types' => $types,
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($ad);
+            $em->flush();
+            return $this->redirectToRoute('admin_ad_floor', ['id' => $ad->getId()]);
+        }
+
+        return $this->render('admin_ad/structure.html.twig', [
+            'form' => $form,
+            'withFooter' => true,
+            'types' => $types
+        ]);
+    }
+
+    #[Route('/become-a-host/floor-plan/{id}', name: 'admin_ad_floor')]
+    #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
+    public function floor(Request $request, EntityManagerInterface $em, int $id): Response
+    {
+        $ad = $em->getRepository(Ad::class)->find($id);
+
+        if (!$ad) {
+            return $this->redirectToRoute('admin_ad_floor');
+        }
         $form = $this->createForm(AdStep1FormType::class, $ad);
 
         $form->handleRequest($request);
