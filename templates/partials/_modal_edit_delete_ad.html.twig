@@ -8,11 +8,14 @@
 				<div class="modal-inside-body">
 					<div class="m-auto">
 						<div class="card-img-content-one-ad">
-							{% if not ad.images is empty %}
-								<img src="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" class="card-img-first-one-ad" alt="{{ ad.name }}">
-							{% else %}
-								<img src="{{ asset('assets/img/default-img.jpg') }}" class="card-img-first-one-ad" alt="Default Image">
-							{% endif %}
+							<a href="{{ path('ads_show', {'slug': ad.slug}) }}" class="text-decoration-none box-card-img-svg-view">
+								{% if not ad.images is empty %}
+										<img src="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" class="card-img-first-one-ad" alt="{{ ad.name }}">
+										<i class="fa-solid fa-eye"></i>
+								{% else %}
+									<img src="{{ asset('assets/img/default-img.jpg') }}" class="card-img-first-one-ad" alt="Default Image">
+								{% endif %}
+							</a>
 						</div>
 						<div class="card-modal-first-text">
 							Votre annonce a été créée le

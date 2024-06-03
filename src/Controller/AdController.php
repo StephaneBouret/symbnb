@@ -6,7 +6,6 @@ use App\Entity\Booking;
 use App\Form\BookingFormType;
 use App\Repository\AdRepository;
 use App\Service\EquipmentService;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -49,7 +48,8 @@ class AdController extends AbstractController
             'form' => $form->createView(),
             'notAvailableDays' => $notAvailableDays,
             'equipmentsByCriteria' => $equipmentsByCriteria,
-            'equipmentsAllByCriteria' => $equipmentsAllByCriteria
+            'equipmentsAllByCriteria' => $equipmentsAllByCriteria,
+            'google_api_key' => 'AIzaSyCY6zB0itdFxJlLSpzgipkKTS1EdyHnCSk',
         ]);
     }
 

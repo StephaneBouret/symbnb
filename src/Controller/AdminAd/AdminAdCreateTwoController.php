@@ -7,6 +7,7 @@ use App\Repository\CriteriaRepository;
 use App\Form\AdFormType\AdStep4FormType;
 use App\Form\AdFormType\AdStep5FormType;
 use App\Form\AdFormType\AdStep6FormType;
+use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,13 +15,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AdminAdPartTwoController extends AbstractController
+class AdminAdCreateTwoController extends AbstractController
 {
+    public function __construct(protected EntityManagerInterface $em)
+    {        
+    }
+
     #[Route('/become-a-host/stand-out/{id}', name: 'admin_ad_stand')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function stand(EntityManagerInterface $em, int $id): Response
+    public function stand(int $id): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -34,9 +39,9 @@ class AdminAdPartTwoController extends AbstractController
 
     #[Route('/become-a-host/title/{id}', name: 'admin_ad_title')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function title(Request $request, EntityManagerInterface $em, int $id): Response
+    public function title(Request $request, int $id, AdRepository $adRepository): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -47,8 +52,15 @@ class AdminAdPartTwoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($ad);
-            $em->flush();
+            $existingAd = $adRepository->findOneBy(['name' => $ad->getName()]);
+            if ($existingAd) {
+                $this->addFlash('warning', 'Le titre existe déjà. Veuillez choisir un autre titre.');
+
+                return $this->redirectToRoute('admin_ad_title', ['id' => $ad->getId()]);
+            }
+
+            $this->em->persist($ad);
+            $this->em->flush();
 
             return $this->redirectToRoute('admin_ad_description', ['id' => $ad->getId()]);
         }
@@ -61,9 +73,9 @@ class AdminAdPartTwoController extends AbstractController
 
     #[Route('/become-a-host/description/{id}', name: 'admin_ad_description')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function description(Request $request, EntityManagerInterface $em, int $id): Response
+    public function description(Request $request, int $id): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -74,8 +86,8 @@ class AdminAdPartTwoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($ad);
-            $em->flush();
+            $this->em->persist($ad);
+            $this->em->flush();
 
             return $this->redirectToRoute('admin_ad_equipment', ['id' => $ad->getId()]);
         }
@@ -88,10 +100,10 @@ class AdminAdPartTwoController extends AbstractController
 
     #[Route('/become-a-host/equipments/{id}', name: 'admin_ad_equipment')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function equipment(Request $request, EntityManagerInterface $em, int $id, CriteriaRepository $criteriaRepository): Response
+    public function equipment(Request $request, int $id, CriteriaRepository $criteriaRepository): Response
     {
         $criterias = $criteriaRepository->findAll();
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -116,8 +128,8 @@ class AdminAdPartTwoController extends AbstractController
                     $ad->addEquipment($equipment);
                 }
             }
-            $em->persist($ad);
-            $em->flush();
+            $this->em->persist($ad);
+            $this->em->flush();
 
             return $this->redirectToRoute('admin_ad_setup', ['id' => $ad->getId()]);
         }

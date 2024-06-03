@@ -13,13 +13,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AdminAdPartThreeController extends AbstractController
+class AdminAdCreateThreeController extends AbstractController
 {
+    public function __construct(protected EntityManagerInterface $em)
+    {        
+    }
+    
     #[Route('/become-a-host/finish-setup/{id}', name: 'admin_ad_setup')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function setup(EntityManagerInterface $em, int $id): Response
+    public function setup(int $id): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -33,9 +37,9 @@ class AdminAdPartThreeController extends AbstractController
 
     #[Route('/become-a-host/price/{id}', name: 'admin_ad_price')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function price(Request $request, EntityManagerInterface $em, int $id): Response
+    public function price(Request $request, int $id): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -46,8 +50,8 @@ class AdminAdPartThreeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($ad);
-            $em->flush();
+            $this->em->persist($ad);
+            $this->em->flush();
 
             return $this->redirectToRoute('admin_ad_pictures', ['id' => $ad->getId()]);
         }
@@ -60,9 +64,9 @@ class AdminAdPartThreeController extends AbstractController
 
     #[Route('/become-a-host/pictures/{id}', name: 'admin_ad_pictures')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function pictures(Request $request, EntityManagerInterface $em, int $id): Response
+    public function pictures(Request $request, int $id): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -73,8 +77,17 @@ class AdminAdPartThreeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($ad);
-            $em->flush();
+            $images = $form->get('images')->getData();
+
+            // Filtrer les images vides
+            foreach ($images as $image) {
+                if ($image->getImageFile() === null) {
+                    $ad->removeImage($image);
+                    $this->em->remove($image);
+                }
+            }
+            $this->em->persist($ad);
+            $this->em->flush();
 
             return $this->redirectToRoute('admin_ad_save', ['id' => $ad->getId()]);
         }
@@ -87,9 +100,9 @@ class AdminAdPartThreeController extends AbstractController
 
     #[Route('/become-a-host/save/{id}', name: 'admin_ad_save')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function saveAd(Request $request, EntityManagerInterface $em, int $id): Response
+    public function saveAd(Request $request, int $id): Response
     {
-        $ad = $em->getRepository(Ad::class)->find($id);
+        $ad = $this->em->getRepository(Ad::class)->find($id);
 
         if (!$ad) {
             return $this->redirectToRoute('admin_ad_floor');
@@ -101,12 +114,12 @@ class AdminAdPartThreeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($user);
-            $em->flush();
+            $this->em->persist($user);
+            $this->em->flush();
 
             $ad->setAuthor($user);
-            $em->persist($ad);
-            $em->flush();
+            $this->em->persist($ad);
+            $this->em->flush();
 
             $this->addFlash('success', 'Votre annonce a bien été enregistrée');
             return $this->redirectToRoute('ads_show', ['slug' => $ad->getSlug()]);

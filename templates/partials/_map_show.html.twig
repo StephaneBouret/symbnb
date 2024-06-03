@@ -1,0 +1,20 @@
+<div class="row d-flex">
+	<div class="location-ad-container">
+		<div class="location-ad-wrapper">
+			<hr class="equipment-hr-content">
+			<div class="location-ad-content">
+				<section>
+					<div class="location-ad-title-content">
+						<div class="location-ad-title">Où se situe le logement</div>
+					</div>
+					<div id="map" class="ad-map-content"></div>
+					<div class="w-100">
+						<h3 class="resume-adress">{{ ad.city }},
+							{{ ad.state }},
+							{{ ad.country|country_name('fr') }}</h3>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
