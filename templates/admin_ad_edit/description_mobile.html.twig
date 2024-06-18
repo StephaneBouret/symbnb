@@ -1,0 +1,75 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<main class="c1dbhe3g">
+		<div class="c1s6gwoj">
+			<div class="c5xn96q">
+				<div class="m1fvzugp mgebpuf mud2gpz">
+					<section class="mizemqj">
+						<section class="shvv2c6">
+							<header class="h17hy12c">
+								<div class="t1eeunmp tf5c6u4">
+									<div class="d-flex">
+										<a href="{{ path('admin_edit_title', {'id': ad.id}) }}" class="l1ovpqvx btpqu22 c19haa82">
+											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+												<g fill="none">
+													<path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path>
+												</g>
+											</svg>
+										</a>
+									</div>
+									<div class="a1rxfr6h"></div>
+								</div>
+								<div class="m1jf27fj">
+									<h1 tabindex="-1" class="hpipapi" elementtiming="LCP-target">Description</h1>
+								</div>
+							</header>
+							<div class="b8p4eqf">
+								<turbo-frame id="edit-description-frame" target="_top" class="w-100">
+									{{ form_start(form) }}
+									<div class="b1sjcma8" style="height: 596px;">
+										<div class="bna492x">
+											<div class="cbhtkbl">
+												<div class="c5r6yyi">
+													<div id="description-input-textarea-character-count" class="c1k9zihq">
+														<span class="c48a4lr" aria-hidden="true">
+															<b class="description-count"></b>&nbsp;caractères restants</span>
+													</div>
+												</div>
+												<div class="i1by0opn">
+													<div class="c4vf6ee">
+														{{ form_widget(form.content, {'attr': {'class': 'tm2ter d16kjnld description-textarea', 'rows': 24}}) }}
+													</div>
+													{{ form_errors(form.content) }}
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="f16co0fo">
+										<div class="f1xxj3db fix7wf0">
+											<div class="b13k8sy1">
+												<button type="submit" class="c1ih3c6">Enregistrer</button>
+											</div>
+										</div>
+									</footer>
+									{{ form_end(form) }}
+								</turbo-frame>
+							</div>
+						</section>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('countDescription') }}
+{% endblock %}

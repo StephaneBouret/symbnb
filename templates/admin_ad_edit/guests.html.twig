@@ -1,0 +1,85 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<main class="edit-ad-container">
+		<div id="dynamic-content">
+			<div class="c41xn921">
+				<div class="c5xn96q">
+					{% include "admin_ad_edit/_left_sidebar.html.twig" %}
+					<div class="input-container-edit-ad">
+						<section class="mizemqj">
+							<turbo-frame id="edit-guests-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									{{ form_start(form, {
+    									attr: { 'data-turbo-frame': formTarget|default('_top') }
+									}) }}
+									<header class="h17hy12c"></header>
+									<div class="b8p4eqe b15nue2a">
+										<div class="bna492x">
+											<div class="cxm3dar">
+												<div class="c1d6s51d">
+													<div>
+														<h3 tabindex="-1" class="hpipapi">
+															<div id="stepper-label" class="l1wnpj6i m1fpf842">
+																<div class="l417s63">Combien de voyageurs pouvez-vous accueillir confortablement dans votre logement&nbsp;?</div>
+															</div>
+														</h3>
+													</div>
+													<div class="m1fpf844">
+														<div class="c1cyarof">
+															<button type="button" id="decrement_capacity" class="btn-stepper">
+																<span class="btn-stepper-svg">
+																	<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="display:block;height:12px;width:12px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false">
+																		<path d="m.75 6.75h10.5v-1.5h-10.5z"></path>
+																	</svg>
+																</span>
+															</button>
+															<div class="guest-stepper-item">
+																{{ form_widget(form.capacity) }}
+															</div>
+															<button type="button" id="increment_capacity" class="btn-stepper">
+																<span class="btn-stepper-svg">
+																	<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="display:block;height:12px;width:12px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false">
+																		<path d="m6.75.75v4.5h4.5v1.5h-4.5v4.5h-1.5v-4.5h-4.5v-1.5h4.5v-4.5z"></path>
+																	</svg>
+																</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="f16co0fo">
+										<div class="f1xxj3db fix7wf0">
+											<div class="b13k8sy1">
+												<button type="submit" class="c1ih3c6">Enregistrer</button>
+											</div>
+										</div>
+									</footer>
+									{{ form_end(form) }}
+								</section>
+							</turbo-frame>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('increment') }}
+{% endblock %}

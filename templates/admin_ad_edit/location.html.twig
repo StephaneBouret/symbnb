@@ -1,0 +1,120 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+
+	<main class="edit-ad-container">
+		<div id="dynamic-content">
+			<div class="c41xn921">
+				<div class="c5xn96q">
+					{% include "admin_ad_edit/_left_sidebar.html.twig" %}
+					<div class="input-container-edit-ad">
+						<section class="mizemqj">
+							<turbo-frame id="edit-location-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									<header class="h17hy12c">
+										<div class="t1eeunmp tf5c6u2">
+											<div class="h19909rz">
+												<h2 class="hpipapi">
+													<span class="tz9dwqw">Emplacement</span>
+												</h2>
+											</div>
+										</div>
+									</header>
+									<form id="location-form" method="post" action="{{ path('admin_edit_location', {'id': ad.id}) }}" class="w-100">
+										<div class="b8p4eqe" style="height: 596px;">
+											<div class="bna492x">
+												<div class="cwb8oig">
+													<div class="plpug76">
+														<div class="map-container">
+															<gmpx-api-loader key="{{ google_api_key }}" solution-channel="GMP_QB_addressselection_v3_cAB"></gmpx-api-loader>
+															<gmp-map id="map_show" class="w-100" slot="main">
+																<gmp-advanced-marker></gmp-advanced-marker>
+															</gmp-map>
+														</div>
+													</div>
+													<div class="l19bazlv">
+														<div class="r1el1iwj">
+															<div class="_w8crrv">
+																<label class="l1bm6uz3 l6fh4mc" for="location-input">
+																	<div class="l12j3uvm">Numéro et libellé de voie</div>
+																</label>
+																<input type="text" placeholder="Adresse" class="_r7fqwrw" id="location-input" name="location" value="{{ ad.adress }}"/>
+															</div>
+														</div>
+														<div id="additional-fields" style="visibility: hidden; padding-top: 1.5rem;">
+															<div class="r1el1iwj">
+																<div class="_d1j9pct">
+																	<label class="l1bm6uz3 l6fh4mc" for="locality-input">
+																		<div class="l12j3uvm">Commune</div>
+																	</label>
+																	<input type="text" placeholder="Ville" class="_r7fqwrw" id="locality-input" name="locality" value="{{ ad.city }}"/>
+																</div>
+															</div>
+															<div class="half-input-container">
+																<div class="_d1j8hg5">
+																	<label class="l1bm6uz3 l6fh4mc" for="administrative_area_level_1-input">
+																		<div class="l12j3uvm">Région/Province</div>
+																	</label>
+																	<input type="text" class="_r7fqwrw" placeholder="Etat/Province" id="administrative_area_level_1-input" name="state" value="{{ ad.state }}"/>
+																</div>
+																<div class="_d1j8hg5 _e4h7ml3">
+																	<label class="l1bm6uz3 l6fh4mc" for="administrative_area_level_1-input">
+																		<div class="l12j3uvm">Code postal</div>
+																	</label>
+																	<input type="text" class="_r7fqwrw" placeholder="Code postal" id="postal_code-input" name="postal_code" value="{{ ad.postalCode }}"/>
+																</div>
+															</div>
+															<div class="r1el1iwj">
+																<div class="_d2k7abd">
+																	<label class="l1bm6uz3 l6fh4mc" for="country-input">
+																		<div class="l12j3uvm">Pays</div>
+																	</label>
+																	<input type="text" class="_r7fqwrw" placeholder="Pays" id="country-input" name="country" value="{{ ad.country|country_name('fr') }}"/>
+																</div>
+															</div>
+														</div>
+														<!-- Hidden inputs for latitude and longitude -->
+														<input type="hidden" id="lat" name="lat" value="{{ ad.latitude }}">
+														<input type="hidden" id="lng" name="lng" value="{{ ad.longitude }}">
+													</div>
+												</div>
+											</div>
+										</div>
+										<footer class="f16co0fo">
+											<div class="f1xxj3db fix7wf0">
+												<div class="b13k8sy1">
+													<button type="submit" class="c1ih3c6">Enregistrer</button>
+												</div>
+											</div>
+										</footer>
+									</form>
+								</section>
+							</turbo-frame>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script>
+		window.lat = parseFloat("{{ ad.latitude }}");
+		window.lng = parseFloat("{{ ad.longitude }}");
+		window.google_api_key = "{{ google_api_key }}";
+	</script>	
+	{{ encore_entry_script_tags('locationEdit') }}
+{% endblock %}

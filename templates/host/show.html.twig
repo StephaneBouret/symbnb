@@ -140,7 +140,7 @@
 													{% if not firstImage is empty %}
 														<img src="{{ vich_uploader_asset(firstImage, 'imageFile') }}" class="img-fluid" alt="{{ ad.name }}">
 													{% else %}
-														<img src="{{ asset('assets/img/default-img.jpg') }}" class="img-fluid" alt="Default Image">
+														<img src="{{ asset('build/img/default-img.jpg') }}" class="img-fluid" alt="Default Image">
 													{% endif %}
 												</div>
 												<div class="card-content-ad">
@@ -201,5 +201,5 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/js/carousel.js') }}" defer></script>
+	{{ encore_entry_script_tags('carousel') }}
 {% endblock %}

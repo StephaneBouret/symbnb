@@ -1,0 +1,101 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<main class="edit-ad-container">
+		<div id="dynamic-content">
+			<div class="c41xn921">
+				<div class="c5xn96q">
+					{% include "admin_ad_edit/_left_sidebar.html.twig" %}
+					<div class="input-container-edit-ad">
+						<section class="mizemqj">
+							<turbo-frame id="edit-pictures-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									{{ form_start(form, {'attr': {'class': 'w-100'}}) }}
+									<header class="h17hy12c">
+										<div class="t2ffunmp">
+											<div class="h19909rz">
+												<h2 class="hpipapi">
+													<span class="tz9dwqw">Visite photo</span>
+												</h2>
+											</div>
+											<div class="a1rxfr6h">
+												<button type="button" class="add-another-collection-widget">
+													<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+														<path d="M2 16h28M16 2v28"></path>
+													</svg>
+												</button>
+											</div>
+										</div>
+									</header>
+									<div class="c11xlrie">
+										<div class="cae0bb6">
+											<div class="b1qs70ri">
+												<div class="s1m2ti3v sv1wynp ">
+													Gérez les photos et ajoutez des informations. Les voyageurs ne verront votre visite photo que s'il y a une photo pour chaque pièce.
+												</div>
+											</div>
+											<div class="giaq8i3">
+												{% set prototype %}
+												{{ form_widget(form.images.vars.prototype, {'attr': {'class': 'file-input'}}) }}
+												{% endset %}
+												<div id="prototype-data" data-prototype="{{ prototype|json_encode|e }}" style="display: none;"></div>
+												{% for image in form.images %}
+													<div class="ifwa7km bmwtyu7" id="image-square-{{ loop.index0 }}">
+														<div class="aoru8m9 i9cqrtb">
+															{% if image.vars.data.getImagePath() %}
+																<img src="{{ asset(image.vars.data.getImagePath()) }}" alt="Image {{ loop.index }}" class="img-edit-ad">
+															{% else %}
+																<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 32px; width: 32px; fill: currentcolor;">
+																	<path d="M27 3a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H5a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4zM8.89 19.04l-.1.08L3 24.92V25a2 2 0 0 0 1.85 2H18.1l-7.88-7.88a1 1 0 0 0-1.32-.08zm12.5-6-.1.08-7.13 7.13L20.92 27H27a2 2 0 0 0 2-1.85v-5.73l-6.3-6.3a1 1 0 0 0-1.31-.08zM27 5H5a2 2 0 0 0-2 2v15.08l4.38-4.37a3 3 0 0 1 4.1-.14l.14.14 1.13 1.13 7.13-7.13a3 3 0 0 1 4.1-.14l.14.14L29 16.59V7a2 2 0 0 0-1.85-2zM8 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"></path>
+																</svg>
+															{% endif %}
+															{{ form_widget(image, {'attr': {'class': 'file-input', 'style': 'display: none;'}}) }}
+															{% if loop.index0 == 0 %}
+																<span class="cr9k2b5">Photo principale</span>
+															{% endif %}
+															<div class="f42wz6">
+																<div class="_s63vo4">
+																	<button type="button" class="delete-button-ad-img">
+																		<i class="far fa-trash-alt"></i>
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+									<footer class="f16co0fo">
+										<div class="f1xxj3db fix7wf0">
+											<div class="b13k8sy1">
+												<button type="submit" class="c1ih3c6">Enregistrer</button>
+											</div>
+										</div>
+									</footer>
+									{{ form_end(form) }}
+								</section>
+							</turbo-frame>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('picturesEdit') }}
+{% endblock %}

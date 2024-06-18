@@ -6,7 +6,7 @@
 					{% if not ad.images is empty %}
 						<img src="{{ vich_uploader_asset(ad.images[0], 'imageFile') }}" class="img-fluid" alt="{{ ad.name }}">
 					{% else %}
-						<img src="{{ asset('assets/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
+						<img src="{{ asset('build/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
 					{% endif %}
 				</a>
 			</div>
@@ -17,7 +17,7 @@
 							{% if not image is empty %}
 								<img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="img-fluid" alt="{{ ad.name }}">
 							{% else %}
-								<img src="{{ asset('assets/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
+								<img src="{{ asset('build/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
 							{% endif %}
 						</a>
 					</div>
@@ -30,7 +30,7 @@
 							{% if not image is empty %}
 								<img src="{{ vich_uploader_asset(image, 'imageFile') }}" class="img-fluid" alt="{{ ad.name }}">
 							{% else %}
-								<img src="{{ asset('assets/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
+								<img src="{{ asset('build/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
 							{% endif %}
 						</a>
 					</div>

@@ -1,0 +1,154 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<main class="edit-ad-container">
+		<div id="dynamic-content">
+			<div class="c41xn921">
+				<div class="c5xn96q">
+					{% include "admin_ad_edit/_left_sidebar.html.twig" %}
+					<div class="input-container-edit-ad">
+						<section class="mizemqj">
+							<turbo-frame id="edit-structure-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									{{ form_start(form) }}
+									<header class="h17hy12c">
+										<div class="t1eeunmp tf5c6u2">
+											<div class="h19909rz">
+												<h2 class="hpipapi">
+													<span class="tz9dwqw">Type de logement</span>
+												</h2>
+											</div>
+										</div>
+									</header>
+									<div class="b8p4eqe d-flex justify-content-center" style="height: 596px;">
+										<div class="bna492x">
+											<div class="fklp8pr">
+												<div>
+													<div class="c1vqla0o">
+														<div class="i1het3fe">
+															<div class="l1vp3piz lrjrbc1">
+																{{ form_label(form.type, 'Quelle catégorie correspond le mieux à votre logement ?', {'label_attr': {'class': 'lgk28c9'}}) }}
+															</div>
+															<div class="ssxbj60">
+																{{ form_widget(form.type)}}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="fklp8pr">
+												<div class="rten07p">
+													<div class="bkl6b1x">
+														<div class="m1ec1bsa">
+															<div class="twad414">
+																Combien y a-t-il de chambres ?
+															</div>
+														</div>
+														<div class="d-flex">
+															<div class="caex243">
+																<button type="button" class="bv4zwx4" id="decrement_rooms" aria-label="Réduire">
+																	<span class="i98ho2o">
+																		<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;">
+																			<path d="m.75 6.75h10.5v-1.5h-10.5z"></path>
+																		</svg>
+																	</span>
+																</button>
+																<div class="vqatjzs">
+																	<span>{{ form_widget(form.rooms) }}</span>
+																</div>
+																<button class="bv4zwx4" id="increment_rooms" type="button" aria-label="Augmenter">
+																	<span class="i98ho2o">
+																		<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;">
+																			<path d="m6.75.75v4.5h4.5v1.5h-4.5v4.5h-1.5v-4.5h-4.5v-1.5h4.5v-4.5z"></path>
+																		</svg>
+																	</span>
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="fklp8pr">
+												<div class="rten07p">
+													<div class="bkl6b1x">
+														<div class="m1ec1bsa">
+															<div class="twad414">
+																Combien y a-t-il de lits ?
+															</div>
+														</div>
+														<div class="d-flex">
+															<div class="caex243">
+																<button type="button" id="decrement_beds" class="bv4zwx4" aria-label="Réduire">
+																	<span class="i98ho2o">
+																		<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;">
+																			<path d="m.75 6.75h10.5v-1.5h-10.5z"></path>
+																		</svg>
+																	</span>
+																</button>
+																<div class="vqatjzs">
+																	<span>{{ form_widget(form.beds) }}</span>
+																</div>
+																<button class="bv4zwx4" id="increment_beds" type="button" aria-label="Augmenter">
+																	<span class="i98ho2o">
+																		<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;">
+																			<path d="m6.75.75v4.5h4.5v1.5h-4.5v4.5h-1.5v-4.5h-4.5v-1.5h4.5v-4.5z"></path>
+																		</svg>
+																	</span>
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="fklp8pr">
+												<div class="rten07p">
+													<div class="bkl6b1x">
+														<div class="m1ec1bsa">
+															<div class="twad414">
+																Quelle est le prix de la nuitée ?
+															</div>
+														</div>
+														<div class="d-flex">
+															<div class="caex243">
+																	<span>{{ form_widget(form.price) }}</span>
+																	<span class="currency-span-edit">€</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="f16co0fo">
+										<div class="f1xxj3db fix7wf0">
+											<div class="b13k8sy1">
+												<button type="submit" class="c1ih3c6">Enregistrer</button>
+											</div>
+										</div>
+									</footer>
+									{{ form_end(form) }}
+								</section>
+							</turbo-frame>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('incrementEditFloor') }}
+{% endblock %}

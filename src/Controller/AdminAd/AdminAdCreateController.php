@@ -3,6 +3,7 @@
 namespace App\Controller\AdminAd;
 
 use App\Entity\Ad;
+use App\Google\GoogleService;
 use App\Helper\ConversionHelper;
 use App\Repository\TypeRepository;
 use App\Form\AdFormType\AdStep1FormType;
@@ -18,9 +19,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminAdCreateController extends AbstractController
 {
     public function __construct(protected EntityManagerInterface $em)
-    {        
+    {
     }
-    
+
     #[Route('/become-a-host', name: 'admin_ad_intro')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
     public function intro(): Response
@@ -108,7 +109,7 @@ class AdminAdCreateController extends AbstractController
 
     #[Route('/become-a-host/location/{id}', name: 'admin_ad_location')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function location(Request $request, int $id)
+    public function location(Request $request, int $id, GoogleService $googleService)
     {
         $ad = $this->em->getRepository(Ad::class)->find($id);
 
@@ -116,18 +117,9 @@ class AdminAdCreateController extends AbstractController
             return $this->redirectToRoute('admin_ad_floor');
         }
 
-        // $form = $this->createForm(AdStep3FormType::class, $ad);
-
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $em->persist($ad);
-        //     $em->flush();
-
-        //     return $this->redirectToRoute('admin_ad_stand', ['id' => $ad->getId()]);
-        // }
-
         if ($request->isMethod('POST')) {
+            $adress = $request->request->get('location');
+            $postalCode = $request->request->get('postal_code');
             $locality = $request->request->get('locality');
             $countryName = $request->request->get('country');
             $state = $request->request->get('state');
@@ -139,6 +131,8 @@ class AdminAdCreateController extends AbstractController
 
                 if ($countryCode) {
                     $ad->setCity($locality)
+                        ->setAdress($adress)
+                        ->setPostalCode($postalCode)
                         ->setCountry($countryCode)
                         ->setState($state)
                         ->setLatitude($lat)
@@ -153,10 +147,9 @@ class AdminAdCreateController extends AbstractController
             }
         }
         return $this->render('admin_ad/location.html.twig', [
-            // 'form' => $form,
             'ad' => $ad,
             'withFooter' => true,
-            'google_api_key' => 'AIzaSyCY6zB0itdFxJlLSpzgipkKTS1EdyHnCSk',
+            'google_api_key' => $googleService->getGoogleKey(),
         ]);
     }
 }

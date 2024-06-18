@@ -1,0 +1,117 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<main class="edit-ad-container" data-turbo="false">
+		<div class="c41xn921">
+			<div class="c5xn96q">
+				<div class="p1f15n0u">
+					<section class="mizemqj">
+						<turbo-frame id="edit-equipment-detail-frame" target="_top" class="w-100">
+							<section class="shvv2c6" style="overflow: hidden; height: 846px;">
+								{{ form_start(form, {'attr': {'class': 'w-100', 'id': 'formDetailEq'}}) }}
+								<header class="h19hy11d">
+									<div class="t4eeunmp">
+										<div class="d-flex">
+											<a aria-label="Retour" href="{{ path('admin_edit_equipment', { 'id': ad.id }) }}" class="l1ovpqvx btpqu22 c19haa82">
+												<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+													<g fill="none">
+														<path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path>
+													</g>
+												</svg>
+											</a>
+										</div>
+										<div class="a1rxfr6h"></div>
+									</div>
+									<div class="s1iexw2m spdjp63">
+										<div class="t19juhhy">
+											<section>
+												<h2 class="hpipapi">
+													<span class="h1ost3dt">Ajoutez des équipements</span>
+												</h2>
+											</section>
+										</div>
+									</div>
+									<div aria-hidden="false">
+										<div class="c1ll52h">
+											{% for criteria in criterias|sort((a, b) => a.name <=> b.name) %}
+												<div class="g1befea9" data-criteria-id="{{ criteria.id }}">
+													<label class="c12tvzjc c1vj3tio">
+														<input type="radio" name="criteria" value="{{ criteria.id }}" class="hv22rhf">
+														{{ criteria.name }}
+													</label>
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+								</header>
+								<div class="c11xlrie c53nh8po">
+									<div class="cfe0bb7">
+										<div class="p1g2m8o0">
+											<div class="a3uex7h">
+												{% for criteria in criterias %}
+													<div id="equipment_{{ criteria.id }}" class="a16fjqk4">
+													{% set sortedChildren = sort_form_children(form['equipment_' ~ criteria.id]) %}
+														{% for child in sortedChildren %}
+															<div class="r1uvygr2 cp8s00j">
+																<div class="c1q6syo3">
+																	<div class="i12mny15">
+																		{% for equipment in criteria.equipment %}
+																			{% if equipment.id == child.vars.attr['data-id'] %}
+																				<img src="{{ vich_uploader_asset(equipment, 'imageFile') }}" alt="{{ equipment.name }}" class="svg-equipment-check"/>
+																			{% endif %}
+																		{% endfor %}
+																	</div>
+																	<label class="m1ec1bsa" for="{{ child.vars.id }}">
+																		{% for equipment in criteria.equipment %}
+																			{% if equipment.id == child.vars.attr['data-id'] %}
+																				<div class="twad414">
+																					{{ equipment.name }}
+																				</div>
+																			{% endif %}
+																		{% endfor %}
+																	</label>
+																	<div class="d-flex align-items-center wrapper-check-eq">
+																		{{ form_widget(child, { 'label': false, 'attr': {'class': 'custom-control-input-eqp'} }) }}
+																	</div>
+																</div>
+															</div>
+														{% endfor %}
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+									</div>
+								</div>
+								<footer class="f16co0fo">
+									<div class="f1xxj3db fix7wf0">
+										<div class="b13k8sy1">
+											<button type="submit" class="c1ih3c6">Enregistrer</button>
+										</div>
+									</div>
+								</footer>
+								{{ form_end(form) }}
+							</section>
+						</turbo-frame>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('addEquipment') }}
+	{{ encore_entry_script_tags('formHandling') }}
+{% endblock %}

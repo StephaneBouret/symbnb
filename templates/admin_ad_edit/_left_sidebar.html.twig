@@ -1,0 +1,262 @@
+<section class="navigation-heading">
+	<header class="navigation-header-content">
+		<div class="hide-button-back-content">
+			<a href="{{ path('admin_ad_listing') }}" class="hide-button-back-index">
+				<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+					<g fill="none">
+						<path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path>
+					</g>
+				</svg>
+			</a>
+		</div>
+		<div class="button-back-content">
+			<a href="{{ path('admin_ad_listing') }}" class="button-back-index">
+				<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+					<g fill="none">
+						<path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path>
+					</g>
+				</svg>
+			</a>
+		</div>
+		<h1 class="header-title-edit">Outil de modification d'annonce</h1>
+	</header>
+	<div class="list-items-ad-edit">
+		<div class="navigation-tabs-ad">
+			<div class="navigation-tabs-container-ad">
+				<div class="navigation-tabs-content-ad">
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_pictures_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-title-pictures-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Visite photo
+							</span>
+							<a href="{{ path('admin_edit_pictures', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-pictures-button"></a>
+							<div>
+								<turbo-frame id="add-pictures-frame" target="_top">
+									<div class="izkbn8c">
+										<div class="cemv8u1">
+											<span class="blze8kt" aria-label="Badge">{{ ad.images | length }}
+												photos</span>
+											<div class="ifwa7km bmwtyu7">
+												<div class="aoru8m9 i9cqrtb">
+													{% if not ad.images is empty %}
+														<img src="{{ vich_uploader_asset(ad.images[0], 'imageFile') }}" class="img-edit" alt="{{ ad.name }}">
+													{% else %}
+														<img src="{{ asset('build/img/default-img.jpg') }}" class="img-edit" alt="Default Image">
+													{% endif %}
+												</div>
+											</div>
+										</div>
+										<div class="l1ms61ar">
+											<div class="ifwa7km bmwtyu7">
+												<div class="aoru8m9 i9cqrtb">
+													{% if not ad.images is empty %}
+														<img src="{{ vich_uploader_asset(ad.images[1], 'imageFile') }}" class="img-edit" alt="{{ ad.name }}">
+													{% else %}
+														<img src="{{ asset('build/img/default-img.jpg') }}" class="img-edit" alt="Default Image">
+													{% endif %}
+												</div>
+											</div>
+										</div>
+										<div class="r101zg46">
+											<div class="ifwa7km bmwtyu7">
+												<div class="aoru8m9 i9cqrtb">
+													{% if not ad.images is empty %}
+														<img src="{{ vich_uploader_asset(ad.images[2], 'imageFile') }}" class="img-edit" alt="{{ ad.name }}">
+													{% else %}
+														<img src="{{ asset('build/img/default-img.jpg') }}" class="img-edit" alt="Default Image">
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_title_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-title-link-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Titre
+							</span>
+							<a href="{{ path('admin_edit_title', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-title-button"></a>
+							<div class="s8yz371 position-relative">
+								<turbo-frame id="add-title-frame" target="_top">
+									<div class="nav-tab-ad-title-content">
+										{{ ad.name }}
+									</div>
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_structure_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-structure-link-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Type de logement
+							</span>
+							<a href="{{ path('admin_edit_structure', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-structure-button"></a>
+							<div class="s8yz371">
+								<turbo-frame id="add-structure-frame" target="_top">
+									<span>Logement entier
+										<span aria-hidden="true">
+											·
+										</span>
+										{{ ad.type.name }}
+									</span>
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_guests_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-guests-link-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Nombre de voyageurs
+							</span>
+							<a href="{{ path('admin_edit_guests', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-guests-button"></a>
+							<div class="s8yz371">
+								<turbo-frame id="add-guests-frame" target="_top">
+									{{ ad.capacity }}
+									voyageurs
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_description_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-title-description-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Description
+							</span>
+							<a href="{{ path('admin_edit_description', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-description-button"></a>
+							<div class="s8yz371">
+								<turbo-frame id="add-description-frame" target="_top">
+									{{ ad.content|raw|nl2br|striptags|u.truncate(250, '...') }}
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_equipment_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-equipment-link-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Équipements
+							</span>
+							<a href="{{ path('admin_edit_equipment', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-equipment-button"></a>
+							<div>
+								<turbo-frame id="add-equipments-frame" target="_top">
+									<div class="s8yz370">
+										<div class="w-100">
+											{% for eq in ad.equipment[:3] %}
+												<div class="r1uvygr2">
+													<div class="c1q6syo3">
+														<div class="i12mny15">
+															<img src="{{ vich_uploader_asset(eq, 'imageFile') }}" class="edit-eq-svg" alt="{{ eq.name }}">
+														</div>
+														<div class="m1ec1bsa">
+															<div class="twad414">{{ eq.name }}</div>
+														</div>
+													</div>
+												</div>
+											{% endfor %}
+											<span class="a1tr8cee">+&nbsp;{{ ad.equipment | length - 3 }}&nbsp;autres</span>
+										</div>
+									</div>
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_location_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-title-description-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Emplacement
+							</span>
+							<a href="{{ path('admin_edit_location', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-description-button"></a>
+							<div class="s8yz371">
+								<turbo-frame id="add-location-frame" target="_top">
+									<div class="a1okkrv9">
+										{{ ad.adress }},
+										{{ ad.postalCode }}
+										{{ ad.city }},
+										{{ ad.country|country_name('fr') }}
+									</div>
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_host_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-host-link-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							{% set user = app.user %}
+							{% set oldestAdYear = user.getOldestAdYear() %}
+							<span class="nav-tab-ad-title">
+								À propos de l'hôte
+							</span>
+							<a href="{{ path('admin_edit_host', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-host-button"></a>
+							<div>
+								<turbo-frame id="add-host-frame" target="_top">
+									<div class="c1tl3rl8 ci0nalr c199pu8j c1nazudy">
+										<div class="hzemva0">
+											<div class="ceoui0r">
+												<div class="d1l1iq7v d1ctnp0l bmwtyu7" role="img" aria-busy="false" aria-label="Profil utilisateur de Stéphane">
+													{% if user.avatar.imageName is defined and user.avatar.imageName != null %}
+														<img src="{{ vich_uploader_asset(user.avatar, 'imageFile') }}" class="img-avatar-host">
+													{% else %}
+														<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="img-avatar-host"/>
+													{% endif %}
+												</div>
+												<div class="bp4g9ft">
+													<div class="v1b7fl12">
+														<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" style="display:block;height:16px;width:16px;fill:var(--linaria-theme_palette-white)" aria-label="Hôte vérifié" role="img" focusable="false">
+															<path d="m16 .8.56.37C20.4 3.73 24.2 5 28 5h1v12.5C29 25.57 23.21 31 16 31S3 25.57 3 17.5V5h1c3.8 0 7.6-1.27 11.45-3.83L16 .8zm7 9.08-9.5 9.5-4.5-4.5L6.88 17l6.62 6.62L25.12 12 23 9.88z"></path>
+														</svg>
+													</div>
+												</div>
+											</div>
+											<div class="halyxg4" tabindex="-1">
+												<div class="b1g6dlo5">
+													<span class="t1gpcl1t">{{ user.firstname }}</span>
+												</div>
+												<span class="s2nv573">
+													<span>Hôte depuis
+														{{ oldestAdYear }}</span>
+												</span>
+											</div>
+										</div>
+									</div>
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

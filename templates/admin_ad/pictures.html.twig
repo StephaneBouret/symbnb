@@ -76,5 +76,5 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/js/pictures.js') }}" defer></script>
+	{{ encore_entry_script_tags('pictures') }}
 {% endblock %}

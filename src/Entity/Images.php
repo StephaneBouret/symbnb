@@ -53,6 +53,14 @@ class Images
         return $this->id;
     }
 
+        // Méthode pour obtenir le chemin de l'image
+        public function getImagePath(): ?string
+        {
+            return $this->imageName
+                ? '/images/ads/' . $this->imageName
+                : null;
+        }
+
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this

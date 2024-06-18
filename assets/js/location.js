@@ -1,8 +1,10 @@
 "use strict";
 
-import {
-    APILoader
-} from 'https://unpkg.com/@googlemaps/extended-component-library@0.6';
+import { APILoader } from '../vendor/googlemaps/extended-component-library';
+
+// import {
+//     APILoader
+// } from 'https://unpkg.com/@googlemaps/extended-component-library@0.6';
 
 const CONFIGURATION = {
     "ctaTitle": "Checkout",

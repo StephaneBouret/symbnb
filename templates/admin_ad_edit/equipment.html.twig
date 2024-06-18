@@ -1,0 +1,91 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<main class="edit-ad-container">
+		<div id="dynamic-content">
+			<div class="c41xn921">
+				<div class="c5xn96q">
+					{% include "admin_ad_edit/_left_sidebar.html.twig" %}
+					<div class="input-container-edit-ad">
+						<section class="mizemqj">
+							<turbo-frame id="edit-equipment-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									<form id="delete-equipment-form" method="post" action="{{ path('admin_edit_equipment', {'id': ad.id}) }}" class="w-100">
+										<header class="h17hy12c">
+											<div class="t1eeunmp tf5c6u2">
+												<div class="h19909rz">
+													<h2 class="hpipapi">
+														<span class="tz9dwqw">Équipements</span>
+													</h2>
+												</div>
+												<div class="a2rxfr8h">
+													<div class="m1l11qq">
+														<button aria-label="Modifier les équipements" type="button" class="bv26nx5 c1tr46x1" id="modify-equipment-button">Supprimer</button>
+														<a aria-label="Ajouter un élément" href="{{ path('admin_edit_equipment_details', { 'id': ad.id }) }}" class="l1ovpqvx btpqu22 c19haa82">
+															<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 4; overflow: visible;">
+																<path d="M2 16h28M16 2v28"></path>
+															</svg>
+														</a>
+													</div>
+												</div>
+											</div>
+										</header>
+										<div class="b8p4eqe b1wc4zxq" style="overflow-y: auto;height: 596px;">
+											<div class="bna492x">
+												<div class="b1qs70ri">
+													<div class="s1m2ti3v sv1wynp ">
+														Vous avez ajouté ces équipements à votre annonce.
+													</div>
+												</div>
+												<div class="crxq8ue">
+													{% for eq in ad.equipment|sort((a, b) => a.name <=> b.name) %}
+														<div class="r1uvygr4">
+															<div class="c1q6syo3">
+																<div class="i12mny15" style="cursor: pointer;">
+																	<input type="checkbox" name="equipments[]" value="{{ eq.id }}" class="delete-equipment-checkbox">
+																	<img src="{{ asset('build/img/delete-eq.svg') }}" class="img-unchecked-delete-eq" alt="Delete equipment">
+																	<img src="{{ asset('build/img/delete-checked-eq.svg') }}" class="img-checked-delete-eq" alt="Delete equipment">
+																	<img src="{{ vich_uploader_asset(eq, 'imageFile') }}" class="edit-eq-svg" alt="{{ eq.name }}">
+																</div>
+																<div class="m1ec1bsa">
+																	<div class="twad414">{{ eq.name }}</div>
+																</div>
+															</div>
+														</div>
+													{% endfor %}
+												</div>
+											</div>
+										</div>
+										<footer class="f16co0fo">
+											<div class="f1xxj3db fix7wf0">
+												<div class="b13k8sy1">
+													<button type="submit" class="c1ih3c6">Enregistrer</button>
+												</div>
+											</div>
+										</footer>
+									</form>
+								</section>
+							</turbo-frame>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('modifyEquipment') }}
+{% endblock %}

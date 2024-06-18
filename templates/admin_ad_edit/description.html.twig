@@ -1,0 +1,73 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<main class="edit-ad-container">
+		<div id="dynamic-content">
+			<div class="c41xn921">
+				<div class="c5xn96q">
+					{% include "admin_ad_edit/_left_sidebar.html.twig" %}
+					<div class="input-container-edit-ad">
+						<section class="mizemqj">
+							<turbo-frame id="edit-description-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									{{ form_start(form, {attr: { 'data-turbo-frame': formTarget|default('_top') }}) }}
+									<header class="h17hy12c">
+										<div class="t1eeunmp tf5c6u2">
+											<div class="h19909rz">
+												<h2 class="hpipapi">
+													<span class="tz9dwqw">Description</span>
+												</h2>
+											</div>
+										</div>
+									</header>
+									<div class="b1sjcma8" style="height: 596px;">
+										<div class="bna492x">
+											<div class="cbhtkbl">
+												<div class="c5r6yyi">
+													<div id="description-input-textarea-character-count" class="c1k9zihq">
+														<span class="c48a4lr" aria-hidden="true">
+															<b class="description-count"></b>&nbsp;caractères restants</span>
+													</div>
+												</div>
+												<div class="i1by0opn">
+													<div class="c4vf6ee">
+														{{ form_widget(form.content, {'attr': {'class': 'tm2ter d16kjnld description-textarea', 'rows': 24}}) }}
+													</div>
+													{{ form_errors(form.content) }}
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="f16co0fo">
+										<div class="f1xxj3db fix7wf0">
+											<div class="b13k8sy1">
+												<button type="submit" class="c1ih3c6">Enregistrer</button>
+											</div>
+										</div>
+									</footer>
+									{{ form_end(form) }}
+								</section>
+							</turbo-frame>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('countDescription') }}
+{% endblock %}

@@ -36,7 +36,7 @@
 										<div class="card-content-one-ad">
 											<div class="awuxh4x">
 												<div class="cw9aemg">
-													<a href="#" class="rfexzly" data-bs-toggle="modal" data-bs-target="#editAdModal">
+													<a href="#" class="rfexzly" data-bs-toggle="modal" data-bs-target="#editAdModal-{{ ad.id }}">
 														<div class="position-relative w-100 h-100">
 															<div class="picture-index-one-ad">
 																<picture>
@@ -44,8 +44,8 @@
 																		<source srcset="{{ vich_uploader_asset(ad.images.first, 'imageFile') }}" media="(min-width: 0px)"/>
 																		<img src="{{ vich_uploader_asset(ad.images[0], 'imageFile') }}" class="itu7ddv" alt="{{ ad.name }}">
 																	{% else %}
-																		<source srcset="{{ asset('assets/img/default-img.jpg') }}" media="(min-width: 0px)"/>
-																		<img src="{{ asset('assets/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
+																		<source srcset="{{ asset('build/img/default-img.jpg') }}" media="(min-width: 0px)"/>
+																		<img src="{{ asset('build/img/default-img.jpg') }}" class="image-reservation" alt="Default Image">
 																	{% endif %}
 																</picture>
 															</div>

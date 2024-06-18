@@ -49,5 +49,5 @@
 const stripePublicKey = '{{ stripePublicKey }}';
 const redirectAfterSuccessUrl = '{{ url('booking_payment_success', {'id': booking.id}) }}';
 	</script>
-	<script src="{{ asset('assets/js/payment.js') }}" defer></script>
+	{{ encore_entry_script_tags('payment') }}
 {% endblock %}

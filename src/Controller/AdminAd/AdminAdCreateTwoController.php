@@ -111,21 +111,24 @@ class AdminAdCreateTwoController extends AbstractController
 
         $form = $this->createForm(AdStep6FormType::class, $ad, [
             'criterias' => $criterias,
-        ]);
+            'action' => $this->generateUrl('admin_ad_equipment', ['id' => $ad->getId()]),
+            ]
+        );
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Effacer les équipments courants
-            foreach ($ad->getEquipment() as $equipment) {
-                $ad->removeEquipment($equipment);
-            }
-
-            // Ajoute les équipements sélectionnés
             foreach ($criterias as $criteria) {
-                $selectedEquipment = $form->get('equipment_' . $criteria->getId())->getData();
-                foreach ($selectedEquipment as $equipment) {
-                    $ad->addEquipment($equipment);
+                $equipmentsField = $form->get('equipment_' . $criteria->getId());
+                $selectedEquipments = $equipmentsField->getData();
+
+                // Ajouter ou supprimer des équipements de l'annonce selon la sélection
+                foreach ($criteria->getEquipment() as $equipment) {
+                    if ($selectedEquipments->contains($equipment)) {
+                        $ad->addEquipment($equipment);
+                    } else {
+                        $ad->removeEquipment($equipment);
+                    }
                 }
             }
             $this->em->persist($ad);

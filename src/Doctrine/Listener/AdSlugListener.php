@@ -27,13 +27,15 @@ class AdSlugListener
 
     public function preUpdate(Ad $entity, PreUpdateEventArgs $event)
     {
-        $this->setSlug($entity);
+        if ($event->hasChangedField('name')) {
+            $this->setSlug($entity);
+        }
     }
 
     private function setSlug(Ad $entity)
     {
         // Check if the name is set and not null
-        if ($entity->getName() !== null && empty($entity->getSlug())) {
+        if ($entity->getName() !== null) {
             $entity->setSlug(strtolower($this->slugger->slug($entity->getName())));
         }
     }

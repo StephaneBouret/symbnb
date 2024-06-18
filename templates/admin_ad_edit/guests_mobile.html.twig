@@ -1,0 +1,93 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<main class="c1dbhe3g">
+		<div class="c1s6gwoj">
+			<div class="c5xn96q">
+				<div class="m1fvzugp mgebpuf mud2gpz">
+					<section class="mizemqj">
+						<section class="shvv2c6">
+							<header class="h17hy12c">
+								<div class="t1eeunmp tf5c6u4">
+									<div class="d-flex">
+										<a href="{{ path('admin_edit_title', {'id': ad.id}) }}" class="l1ovpqvx btpqu22 c19haa82">
+											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+												<g fill="none">
+													<path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path>
+												</g>
+											</svg>
+										</a>
+									</div>
+									<div class="a1rxfr6h"></div>
+								</div>
+								<div class="m1jf27fj">
+									<h1 tabindex="-1" class="hpipapi" elementtiming="LCP-target">Nombre de voyageurs</h1>
+								</div>
+							</header>
+							<turbo-frame id="edit-guests-frame" target="_top" class="w-100">
+								<section class="shvv2c6">
+									{{ form_start(form) }}
+									<div class="b8p4eqe b15nue2a">
+										<div class="bna492x">
+											<div class="cxm3dar">
+												<div class="c1d6s51d">
+													<div>
+														<h3 tabindex="-1" class="hpipapi">
+															<div id="stepper-label" class="l1wnpj6i m1fpf842">
+																<div class="l417s63">Combien de voyageurs pouvez-vous accueillir confortablement dans votre logement&nbsp;?</div>
+															</div>
+														</h3>
+													</div>
+													<div class="m1fpf844">
+														<div class="c1cyarof">
+															<button type="button" id="decrement_capacity" class="btn-stepper">
+																<span class="btn-stepper-svg">
+																	<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="display:block;height:12px;width:12px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false">
+																		<path d="m.75 6.75h10.5v-1.5h-10.5z"></path>
+																	</svg>
+																</span>
+															</button>
+															<div class="guest-stepper-item">
+																{{ form_widget(form.capacity) }}
+															</div>
+															<button type="button" id="increment_capacity" class="btn-stepper">
+																<span class="btn-stepper-svg">
+																	<svg viewbox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" style="display:block;height:12px;width:12px;fill:currentColor" aria-hidden="true" role="presentation" focusable="false">
+																		<path d="m6.75.75v4.5h4.5v1.5h-4.5v4.5h-1.5v-4.5h-4.5v-1.5h4.5v-4.5z"></path>
+																	</svg>
+																</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<footer class="f16co0fo">
+										<div class="f1xxj3db fix7wf0">
+											<div class="b13k8sy1">
+												<button type="submit" class="c1ih3c6">Enregistrer</button>
+											</div>
+										</div>
+									</footer>
+									{{ form_end(form) }}
+								</section>
+							</turbo-frame>
+						</section>
+					</section>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('increment') }}
+{% endblock %}

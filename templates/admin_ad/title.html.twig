@@ -18,12 +18,12 @@
 						<div class="name-wrapper">
 							<div class="textarea-content">
 								<div class="textarea-wrapper">
-									{{ form_widget(form.name) }}
+									{{ form_widget(form.name, {'attr': {'class': 'd16kjnld title-textarea', 'rows': 4, 'autofocus': 'autofocus'}}) }}
 								</div>
 							</div>
 							<div class="textarea-count">
 								<div class="textarea-count-size">
-									<span>0/50</span>
+									<b class="title-count"></b>&nbsp;caractères restants
 								</div>
 							</div>
 							{{ form_errors(form.name) }}
@@ -39,23 +39,5 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-var nameField = document.getElementById('ad_step4_form_name');
-var counter = document.querySelector('.textarea-count-size span');
-
-nameField.addEventListener('keyup', function () {
-var count = nameField.value.length;
-console.log(count)
-counter.textContent = count + '/50';
-
-if (count > 50) {
-nameField.classList.add('textarea-name-error');
-} else {
-nameField.classList.remove('textarea-name-error');
-}
-});
-
-});
-	</script>
+	{{ encore_entry_script_tags('countTitle') }}
 {% endblock %}

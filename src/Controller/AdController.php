@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Form\BookingFormType;
+use App\Google\GoogleService;
 use App\Repository\AdRepository;
 use App\Service\EquipmentService;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +21,13 @@ class AdController extends AbstractController
 
         return $this->render('ad/index.html.twig', [
             'ads' => $ads,
+            'withFooter' => true,
         ]);
     }
 
     // Permet d'afficher une seule annonce
     #[Route('/ads/{slug}', name: 'ads_show', priority: -1)]
-    public function show($slug, AdRepository $adRepository, EquipmentService $equipmentService): Response
+    public function show($slug, AdRepository $adRepository, EquipmentService $equipmentService, GoogleService $googleService): Response
     {
         $booking = new Booking;
         $ad = $adRepository->findOneBy([
@@ -49,7 +51,7 @@ class AdController extends AbstractController
             'notAvailableDays' => $notAvailableDays,
             'equipmentsByCriteria' => $equipmentsByCriteria,
             'equipmentsAllByCriteria' => $equipmentsAllByCriteria,
-            'google_api_key' => 'AIzaSyCY6zB0itdFxJlLSpzgipkKTS1EdyHnCSk',
+            'google_api_key' => $googleService->getGoogleKey(),
         ]);
     }
 

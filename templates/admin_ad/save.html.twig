@@ -18,12 +18,14 @@
 						<div class="name-wrapper">
 							<div class="textarea-content">
 								<div class="textarea-wrapper">
-									{{ form_widget(form.description) }}
+									{{ form_widget(form.description, {'attr': {'class': 'description-textarea', 'rows': 12}}) }}
 								</div>
 							</div>
 							<div class="textarea-count">
 								<div class="textarea-count-size">
-									<span>0/1500</span>
+									<span>
+									<b class="description-count"></b>&nbsp;caractères restants
+									</span>
 								</div>
 							</div>
 							{{ form_errors(form.description) }}
@@ -39,7 +41,8 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script>
+	{{ encore_entry_script_tags('countDescription') }}
+	{# <script>
 document.addEventListener('DOMContentLoaded', function() {
     var nameField = document.getElementById('ad_step9_form_description');
     var counter = document.querySelector('.textarea-count-size span');
@@ -58,5 +61,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-	</script>
+	</script> #}
 {% endblock %}

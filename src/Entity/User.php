@@ -105,6 +105,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         return !$this->ads->isEmpty();
     }
 
+    public function getOldestAdYear(): ?int
+    {
+        $oldestAd = null;
+
+        foreach ($this->ads as $ad) {
+            if (null === $oldestAd || $ad->getCreatedAt() < $oldestAd->getCreatedAt()) {
+                $oldestAd = $ad;
+            }
+        }
+
+        return $oldestAd ? $oldestAd->getCreatedAt()->format('Y') : null;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
