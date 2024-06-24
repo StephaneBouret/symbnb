@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}commentaires
+{% endblock %}
+
+{% block body %}
+	<main>
+		<section>
+			<div class="c3dtyuj">
+				<div class="c1hmixjm">
+					<div class="t1va97vi">
+						<h1 tabindex="-1" class="hpipapi">Commentaires de votre part</h1>
+					</div>
+				</div>
+			</div>
+			<div class="t15d7dc6">
+				<div id="tabs">
+					<div class="position-relative">
+						<div class="t1a99pzb">
+							<ul class="nav nav-tabs tnlo7wt">
+								<li class="nav-item t1jiriwb">
+									<a class="nav-link tmtqv4g active" id="panel-tab-0" data-bs-toggle="tab" role="tab" data-bs-target="#panel--tabs--0" aria-controls="panel--tabs--0" aria-selected="true">Commentaires de votre part</a>
+								</li>
+								<li class="nav-item t1jiriwb">
+									<a class="nav-link tmtqv4g" id="panel-tab-1" data-bs-toggle="tab" data-bs-target="#panel--tabs--1" role="tab" aria-controls="panel--tabs--1" aria-selected="false" href="#panel--tabs--1">Commentaires à propos de vous</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="tab-content" id="commentsContent">
+						<div class="tab-pane fade show active" id="panel--tabs--0" role="tabpanel" aria-labelledby="tab--tabs--0" tabindex="0" tabindex="0">
+							<div class="p1qoc66u">
+								<section>
+									{% if hasPendingComments %}
+										<div class="p5ra4ve">
+											<div class="p14tlzgo">
+												<h2 tabindex="-1" class="hpipapi">Commentaires à rédiger</h2>
+											</div>
+											<div class="pcc033">
+												Vous avez des réservations passées sans commentaires. Cliquez
+												<a href="{{ path('booking_index') }}">ici</a>
+												pour les voir et laisser un commentaire.
+											</div>
+										</div>
+									{% else %}
+										<div class="p5ra4ve">
+											<div class="p14tlzgo">
+												<h2 tabindex="-1" class="hpipapi">Commentaires à rédiger</h2>
+											</div>
+											<div class="pcc033">Vous n'avez aucun commentaire à laisser pour le moment. On dirait qu'il est temps de repartir en voyage&nbsp;!</div>
+										</div>
+									{% endif %}
+								</section>
+							</div>
+							<div class="p1qoc66u">
+								<section>
+									<div class="p5ra4ve">
+										<div class="p14tlzgo">
+											<h2 tabindex="-1" class="hpipapi">Commentaires que vous avez laissés</h2>
+										</div>
+										<div class="pcc033"></div>
+									</div>
+									{% for comment in comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+										<div class="c1b7ov15">
+											<div class="rten09p">
+												<div class="d-flex">
+													<div class="lhg7v4y">
+														<a href="{{ path('host_show', { 'id': comment.booking.ad.author.id }) }}" class="lxodypn">
+															<div class="i1u3q0g">
+																<div class="qk19l90">
+																	{% set imageHost = comment.booking.ad.author.avatar %}
+																	{% if imageHost.imageName is defined and imageHost.imageName != null %}
+																		<img src="{{ vich_uploader_asset(imageHost, 'imageFile') }}" class="r1fe1kq">
+																	{% else %}
+																		<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="r1fe1kq"/>
+																	{% endif %}
+																</div>
+															</div>
+														</a>
+													</div>
+													<div class="m1ec1bsa">
+														<div class="twad414">
+															<span>
+																<a href="{{ path('host_show', { 'id': comment.booking.ad.author.id }) }}" class="lxodypn">{{ comment.booking.ad.author.firstname }}</a>
+																<span class="rgo1n8t">{{ comment.createdAt|format_datetime('long', 'none', locale='fr')}}</span>
+															</span>
+														</div>
+														<div class="c1fs64md">
+															<div>{{ comment.content | raw }}</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</section>
+							</div>
+						</div>
+						<div class="tab-pane fade" role="tabpanel" id="panel--tabs--1" aria-labelledby="tab--tabs--1">
+							<div class="p1qoc66u">
+								<section>
+									<div class="p5ra4ve">
+										<div class="p14tlzgo">
+											<h2 tabindex="-1" class="hpipapi">Commentaires des hôtes</h2>
+										</div>
+										<div class="pcc033"></div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+{% endblock %}

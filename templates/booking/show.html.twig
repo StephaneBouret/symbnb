@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Votre séjour chez {{ booking.ad.author.firstname }}</h1>
+	<h1>Votre séjour chez
+		{{ booking.ad.author.firstname }}</h1>
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="booking-sum d-flex align-items-start flex-column">
@@ -120,22 +121,87 @@
 					</div>
 				</section>
 			</div>
-			<div class="comment-information-box mt-3">
-				<section>
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="mr-12">
-							<div class="host-title">
-								Merci de laisser un commentaire
+			<div class="comment-information-box mt-3" id="comment">
+				{% if date() > date(booking.endDateAt) %}
+					{% set comment = booking.commentFromAuthor(app.user) %}
+					{% if comment is not null %}
+						<div class="zk8p7d">
+							<svg viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 48px; width: 48px; fill: rgb(227, 28, 95); stroke: currentcolor;">
+								<g>
+									<g stroke="none">
+										<path d="M34.515 40.473l-1.327-11.488 7.826-8.514-11.336-2.287L24 8.11l-5.678 10.075-11.337 2.287 2.068 2.25c3.965-1.814 7.78-1.221 11.447 1.779 3.667 3 5.027 6.809 4.08 11.426l9.935 4.546z" fill-opacity=".2"></path>
+										<path d="M23.12 1.524c.253-.35.547-.524.88-.524.333 0 .627.175.88.524l7.383 13.1L47.006 17.6c.663.165.994.38.994.645 0 .294-.33.833-.992 1.617l-9.637 10.481 1.727 14.941.083.878a.5.5 0 0 1-.694.507l-.688-.294-13.395-6.13c.32-.582.596-1.19.824-1.823l11.681 5.346-1.63-14.103 9.609-10.452-13.917-2.808L24 4.036l-6.971 12.369L3.11 19.213l3.294 3.582c-.582.343-1.135.73-1.654 1.157l-3.747-4.077c-.677-.842-1.014-1.389-1.01-1.641l.007-.05c0-.249.331-.444.993-.584l14.742-2.976 7.385-13.1z"></path>
+									</g>
+									<g fill="none" stroke-width="2">
+										<circle cx="13" cy="34" r="12"></circle>
+										<path d="M7 35L11 39 19 31"></path>
+									</g>
+								</g>
+							</svg>
+							<section class="t1bgtkjw">
+								<h2 class="hpipapi" style="font-size: 1.375rem;">Merci pour votre commentaire sur
+									{{ booking.ad.author.firstname }}</h2>
+							</section>
+							<p class="sxekmbs fst-italic">{{ comment.content }}</p>
+							<div class="d-flex align-items-center mb-3">
+								<strong>Note :
+								</strong>
+								<div class="d-flex ms-1">{% include "partials/_rating.html.twig" %}</div>
+							</div>
+							<a href="{{ path('comments_reviews')}}" class="lvs7hc5">Voir mes commentaires</a>
+						</div>
+					{% else %}
+						<section>
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="mr-12">
+									<div class="host-title">
+										Merci de laisser un commentaire
+									</div>
+								</div>
+							</div>
+							<div class="mt-32">
+								<div class="host-link d-flex flex-column">
+									{{ form_start(form) }}
+									<div class="c5r6yyi">
+										<div id="description-input-textarea-character-count" class="c1k9zihq">
+											<span class="c48a4lr" aria-hidden="true">
+												<b class="description-count"></b>&nbsp;caractères restants</span>
+										</div>
+									</div>
+									{{ form_widget(form.content) }}
+									<div class="star-rating mb-3 mt-3" style="cursor: pointer;">
+										<span>Notre sur 5 :</span>
+										{% for i in 1..5 %}
+											<i class="far fa-star" data-rating="{{ i }}"></i>
+										{% endfor %}
+									</div>
+									<button type="submit" class="dl673h">Laisser un commentaire</button>
+									{{ form_end(form) }}
+								</div>
+							</div>
+						</section>
+					{% endif %}
+				{% else %}
+					<div class="c1v2drrm">
+						<div class="i1gv5znu">
+							<div class="i1qi9qfl">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 32px; width: 32px; fill: currentcolor;">
+									<path d="M26 1a5 5 0 0 1 5 4.78v10.9a5 5 0 0 1-4.78 5H26a5 5 0 0 1-4.78 5h-4l-3.72 4.36-3.72-4.36H6a5 5 0 0 1-4.98-4.56L1 21.9 1 21.68V11a5 5 0 0 1 4.78-5H6a5 5 0 0 1 4.78-5H26zm-5 7H6a3 3 0 0 0-3 2.82v10.86a3 3 0 0 0 2.82 3h4.88l2.8 3.28 2.8-3.28H21a3 3 0 0 0 3-2.82V11a3 3 0 0 0-3-3zm-1 10v2H6v-2h14zm6-15H11a3 3 0 0 0-3 2.82V6h13a5 5 0 0 1 5 4.78v8.9a3 3 0 0 0 3-2.82V6a3 3 0 0 0-2.82-3H26zM15 13v2H6v-2h9z"></path>
+								</svg>
+							</div>
+							<div id="no-results-found-title" class="t1xrc6xb">
+								Vous ne pourrez pas noter cette annonce tant que votre voyage ne sera pas complet !
 							</div>
 						</div>
 					</div>
-					<div class="mt-32">
-						<div class="host-link d-flex flex-column">
-							Prévoir un textarea
-						</div>
-					</div>
-				</section>
+				{% endif %}
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('rating') }}
+	{{ encore_entry_script_tags('countDescription') }}
 {% endblock %}

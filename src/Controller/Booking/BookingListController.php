@@ -2,8 +2,12 @@
 
 namespace App\Controller\Booking;
 
+use App\Entity\Comment;
 use App\Entity\User;
+use App\Form\CommentFormType;
 use App\Repository\BookingRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -32,7 +36,7 @@ class BookingListController extends AbstractController
 
     #[Route('/booking/show/{id}', name: 'booking_show', requirements: ["id" => '\d+'])]
     #[IsGranted('ROLE_USER')]
-    public function show($id, BookingRepository $bookingRepository): Response
+    public function show(Request $request, $id, BookingRepository $bookingRepository, EntityManagerInterface $em): Response
     {
         $booking = $bookingRepository->findOneBy([
             'id' => $id
@@ -42,8 +46,23 @@ class BookingListController extends AbstractController
             throw $this->createNotFoundException("La réservation demandée n'existe pas");
         }
 
+        $comment = new Comment;
+        $form = $this->createForm(CommentFormType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setBooking($booking)
+                ->setAuthor($this->getUser());
+
+            $em->persist($comment);
+            $em->flush();
+            $this->addFlash('success', 'Votre commentaire a bien été pris en compte');
+            return $this->redirectToRoute('booking_show', ['id' => $booking->getId()], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('booking/show.html.twig', [
-            'booking' => $booking
+            'booking' => $booking,
+            'form' => $form
         ]);
     }
 }

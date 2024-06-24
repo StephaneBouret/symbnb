@@ -1,0 +1,156 @@
+{% set comments = [] %}
+{% for booking in ad.bookings %}
+    {% for comment in booking.comments %}
+        {% set comments = comments|merge([comment]) %}
+    {% endfor %}
+{% endfor %}
+<div class="rk4wssy">
+	{% if comments|length > 0 %}
+		<div class="s197t1q2">
+			<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: currentcolor;">
+				<path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path>
+			</svg>
+		</div>
+		<div class="r1lutz1s">{{ ad.avgRatings|number_format(2, '.', ',') }}</div>
+		<span aria-hidden="true">·</span>
+		<a href="#" data-bs-toggle="modal" data-bs-target="#commentsModal" class="l2ovpqwx">{{ comments|length }}
+			{{ comments|length == 1 ? 'commentaire' : 'commentaires' }}</a>
+	{% else %}
+		Nouveauté
+	{% endif %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="commentsModal" tabindex="-1" aria-labelledby="commentsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" style="padding-top: 0;">
+				<section>
+					<div class="_17itzz4">
+						<div class="_1ymlq18">
+							<div class="_18e6qfp">
+								<div>
+									<div class="_1hxgcsg" style="height: min(759px, 100%);">
+										<div class="_nf7upj">
+											<h1 class="hpipapi">
+												<div class="_1b0tbcn">
+													<div class="_f0hro">
+														<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 32px; width: 32px; fill: currentcolor;">
+															<path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path>
+														</svg>
+													</div>
+													<div aria-hidden="true">{{ ad.avgRatings|number_format(2, '.', ',') }}</div>
+												</div>
+											</h1>
+										</div>
+										<div class="rd0ps7t">
+											<section>
+												<h2 class="hpipapi">
+													<div class="t1cxoyq9">Évaluation globale</div>
+												</h2>
+											</section>
+											<div class="progress-ratings">
+												<div class="sb22yh96">
+													{% for i in 5..1 %}
+														{% set percentage = percentages[i]|default(0) %}
+														<div class="r19nw222">
+															<div class="r4e9rlv">{{ i }}</div>
+															<div class="progress o1i2s4be" role="progressbar" aria-label="Rating {{ i }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+																<div class="progress-bar i5cdxym" style="width: {{ percentage }}%"></div>
+															</div>
+														</div>
+													{% endfor %}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div class="_169pc37" style="border-bottom: 1px solid rgba(221, 221, 221, 0);">
+										<div>
+											<div class="_s9zd43">
+												<div class="_1s2bct1">{{ comments|length }}
+													{{ comments|length == 1 ? 'commentaire' : 'commentaires' }}
+												</div>
+												<div class="c123ys3y">
+													<button type="button" class="bag0r3l dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+														Les notes récentes
+													</button>
+													<ul class="dropdown-menu">
+														<li>
+															<a class="dropdown-item dropdown-comment" href="#" data-sort="recent">Les notes récentes</a>
+														</li>
+														<li>
+															<a class="dropdown-item dropdown-comment" href="#" data-sort="best">Les meilleures notes</a>
+														</li>
+														<li>
+															<a class="dropdown-item dropdown-comment" href="#" data-sort="worst">Les moins bonnes notes</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="_1pryxrn7 comments-list">
+										{% for comment in comments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+											<div class="r1are2x1 comment" data-rating="{{ comment.rating }}" data-date="{{ comment.createdAt|date('Y-m-d H:i:s') }}">
+												<div class="rq3izqp">
+													<section>
+														<div class="chnzxuf">
+															<div class="t9gtck5">
+																<h2 class="hpipapi">
+																	{{ comment.author.firstname }}
+																</h2>
+																<div class="s15w4qkt">x ans sur SymBNB</div>
+															</div>
+															<div class="_e7hn5">
+																<div class="_1c81x67">
+																	<div class="yfq0k3">
+																		{% if comment.author.avatar.imageName is defined and comment.author.avatar.imageName != null %}
+																			<img src="{{ vich_uploader_asset(comment.author.avatar, 'imageFile') }}" class="pfqszd">
+																		{% else %}
+																			<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="pfqszd"/>
+																		{% endif %}
+																	</div>
+																</div>
+															</div>
+														</div>
+													</section>
+													<div class="s78n3tv">
+														<div class="c5dn5hn">
+															<span class="r4gh24hb">
+																{% include "partials/_rating.html.twig" %}
+															</span>
+														</div>
+														<div class="d1joulhb">
+															<span aria-hidden="true">
+																·
+															</span>
+														</div>
+														{{ comment.createdAt|format_datetime('medium', 'none', locale='fr')}}
+													</div>
+													<div>
+														<div class="r1bctolv">
+															{{ comment.content }}
+														</div>
+													</div>
+												</div>
+											</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% block javascripts %}
+	{{ encore_entry_script_tags('sortComments') }}
+{% endblock %}

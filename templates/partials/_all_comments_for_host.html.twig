@@ -1,0 +1,145 @@
+<div class="host-ads-content">
+	<hr class="host-hr-content">
+	{% if allComments|length > 0 %}
+		<section>
+			<div class="host-ads-wrapper">
+				<div class="host-ads-title-controller">
+					<div class="host-ads-content-title">
+						<h2 class="p-0 m-0 fs-6">
+							<span class="host-ads-title">
+								Commentaires pour
+								{{ host.firstname }}
+							</span>
+						</h2>
+					</div>
+					{% if allComments|length > 3 %}
+						<div class="carousel-buttons">
+							<button id="prevButtonComment" class="carousel-button">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;">
+									<path fill="none" d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"></path>
+								</svg>
+							</button>
+							<button id="nextButtonComment" class="carousel-button">
+								<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;">
+									<path fill="none" d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"></path>
+								</svg>
+							</button>
+						</div>
+					{% endif %}
+				</div>
+				<div class="sbv3lsh">
+					<div class="host-ads-content-comment">
+						{% for comment in allComments|sort((a, b) => b.createdAt <=> a.createdAt)|slice(0, 10) %}
+							<div class="card card-comment">
+								<div class="card-body-comment">
+									{{ comment.content }}
+								</div>
+								<div class="card-footer-comment">
+									<div class="sc-comment">
+										{% if comment.author.avatar.imageName is defined and comment.author.avatar.imageName != null %}
+											<img src="{{ vich_uploader_asset(comment.author.avatar, 'imageFile') }}" class="sc-img-comment">
+										{% else %}
+											<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-comment"/>
+										{% endif %}
+									</div>
+									<div class="comment-user">
+										<div class="comment-user-firstname">{{ comment.author.firstname }}</div>
+										<div class="comment-user-createdAt">{{ comment.createdAt|format_datetime('medium', 'none', locale='fr')}}</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<button type="button" class="l9ohtqwx" data-bs-toggle="modal" data-bs-target="#listCommentsModal">
+						{% if allComments|length == 1 %}
+							Afficher le commentaire
+						{% else %}
+							Afficher les
+							{{ allComments|length }}
+							commentaires
+						{% endif %}
+					</button>
+				</div>
+			</div>
+		</section>
+	{% else %}
+		<div class="host-ads-content-title">
+			<h2 class="p-0 m-0 fs-6">
+				<span class="host-ads-title">
+					Aucun commentaire
+				</span>
+			</h2>
+		</div>
+	{% endif %}
+</div>
+
+<div class="modal fade" id="listCommentsModal" tabindex="-1" aria-labelledby="listCommentsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="b98pgng">
+					<section>
+						<div class="cf356r">
+							<div class="h1yzn31n">
+								<h2 class="hpipapi">
+									<span class="h11t3dal">
+										{{ allComments|length }}
+										{{ allComments|length == 1 ? 'commentaire' : 'commentaires' }}
+									</span>
+								</h2>
+							</div>
+						</div>
+						<div id="user-profile-review-tabs">
+							{% for comment in allComments|sort((a, b) => b.createdAt <=> a.createdAt) %}
+								<div class="cwt93ug comment-item {% if loop.index > 6 %}d-none{% endif %}">
+									<div class="l1bxbneg">
+										<div>
+											<div class="lm2p8t4">{{ comment.booking.ad.name }}</div>
+										</div>
+										<div class="ib8wav2">
+											<a href="{{ path('ads_show', {'slug': comment.booking.ad.slug}) }}" target="_blank" rel="noopener noreferrer" class="_1yo1zqx5">
+												<div class="d1l1iq8w">
+													{% set firstImageComment = comment.booking.ad.images.first() %}
+													{% if not firstImageComment is empty %}
+														<img src="{{ vich_uploader_asset(firstImageComment, 'imageFile') }}" class="i9if2t0" alt="{{ comment.booking.ad.name }}">
+													{% else %}
+														<img src="{{ asset('build/img/default-img.jpg') }}" class="i9if2t0" alt="Default Image">
+													{% endif %}
+												</div>
+											</a>
+										</div>
+									</div>
+									<div class="c10or9ri">
+										<div class="position-relative">
+											<div class="d8l7is4b">
+												{% if comment.author.avatar.imageName is defined and comment.author.avatar.imageName != null %}
+													<img src="{{ vich_uploader_asset(comment.author.avatar, 'imageFile') }}" class="itu9ddw">
+												{% else %}
+													<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="itu9ddw"/>
+												{% endif %}
+											</div>
+										</div>
+										<div class="rmolwv2">
+											<div class="t126ex63">{{ comment.author.firstname }}</div>
+											<div class="s17vloqa">{{ comment.createdAt|format_datetime('medium', 'none', locale='fr')}}</div>
+										</div>
+									</div>
+									<div class="c1w258vn">
+										<div class="c1um7q2x">{{ comment.content }}</div>
+									</div>
+								</div>
+								<hr class="d1u64sg5">
+							{% endfor %}
+							<div class="lqsm05">
+								<button type="button" id="loadMoreComments" class="l8kwzaks">Voir plus de commentaires</button>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -25,10 +25,12 @@
 				<h2 class="py-4 fs-4">
 					Voyages à venir
 				</h2>
-				<div class="d-flex justify-content-between align-items-center flex-wrap">
-					{% for b in futureBookings %}
-						{% include "partials/_list_past_and_future_booking.html.twig" %}
-					{% endfor %}
+				<div>
+					<ul class="frlw6fk">
+						{% for b in futureBookings|sort((a, b) => b.endDateAt <=> a.endDateAt) %}
+							{% include "partials/_list_past_and_future_booking.html.twig" %}
+						{% endfor %}
+					</ul>
 				</div>
 			</div>
 		{% endif %}
@@ -41,10 +43,12 @@
 				<h2 class="py-4 fs-4">
 					Voyages passés
 				</h2>
-				<div class="d-flex justify-content-between align-items-center flex-wrap">
-					{% for b in pastBookings %}
-						{% include "partials/_list_past_and_future_booking.html.twig" %}
-					{% endfor %}
+				<div>
+					<ul class="frlw6fk">
+						{% for b in pastBookings|sort((a, b) => b.endDateAt <=> a.endDateAt) %}
+							{% include "partials/_list_past_and_future_booking.html.twig" %}
+						{% endfor %}
+					</ul>
 				</div>
 			</div>
 		{% endif %}

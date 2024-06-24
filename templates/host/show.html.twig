@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+	{% set oldestAdYear = host.getOldestAdYear() %}
 	<section class="host">
 		<div class="host-container">
 			<div class="host-first-part">
@@ -30,18 +31,18 @@
 						</div>
 						<div class="right-card-avatar">
 							<div class="host-assesment">
-								<span class="host-assesment-figure">205</span>
+								<span class="host-assesment-figure">{{ totalComments }}</span>
 								<span class="host-assesment-text">évaluations</span>
 							</div>
 							<hr class="host-assement-hr">
 							<div class="host-assesment">
-								<span class="host-assesment-figure">4.86</span>
+								<span class="host-assesment-figure">{{ avgRating|number_format(2, '.', ',') }}</span>
 								<span class="host-assesment-text">en note globale</span>
 							</div>
 							<hr class="host-assement-hr">
 							<div class="host-assesment">
-								<span class="host-assesment-figure">3</span>
-								<span class="host-assesment-text">années d'expérience en tant qu'hôte</span>
+								<span class="host-assesment-figure">{{ oldestAdYear }}</span>
+								<span class="host-assesment-text">Hôte depuis ({{ oldestAdYear }})</span>
 							</div>
 						</div>
 					</div>
@@ -49,60 +50,8 @@
 			</div>
 			<div class="host-second-part">
 				<div class="host-informations-wrapper">
-					<div class="host-informations-content">
-						<div class="host-informations-title">
-							<h2 class="p-0 m-0 fs-6">
-								<span class="host-title-firstname">
-									Informations sur
-									{{ host.firstname }}
-								</span>
-							</h2>
-						</div>
-						<div class="host-description-wrapper">
-							<div class="host-description-content">
-								<span class="host-descr">
-									{{ host.description | raw | nl2br }}
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="host-ads-content">
-						<hr class="host-hr-content">
-						<section>
-							<div class="host-ads-wrapper">
-								<div class="host-ads-title-controller">
-									<div class="host-ads-content-title">
-										<h2 class="p-0 m-0 fs-6">
-											<span class="host-ads-title">
-												Commentaires pour
-												{{ host.firstname }}
-											</span>
-										</h2>
-									</div>
-								</div>
-								<div class="host-ads-content-comment">
-									<div class="card card-comment">
-										<div class="card-body-comment">
-											“...Bel appartement, à quelques pas de toutes les attractions, offre tout ce dont vous avez besoin et une belle vue depuis le balcon”
-										</div>
-										<div class="card-footer-comment">
-											<div class="sc-comment">
-												{% if app.user.avatar.imageName is defined and app.user.avatar.imageName != null %}
-													<img src="{{ vich_uploader_asset(app.user.avatar, 'imageFile') }}" class="sc-img-comment">
-												{% else %}
-													<img src="{{ gravatar('sbouret@discommentondit.fr') }}" class="sc-img-comment"/>
-												{% endif %}
-											</div>
-											<div class="comment-user">
-											<div class="comment-user-firstname">Charlotte</div>
-											<div class="comment-user-createdAt">mai 2024</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</section>
-					</div>
+					{% include "partials/_host_informations.html.twig" %}
+					{% include "partials/_all_comments_for_host.html.twig" %}
 					<div class="host-ads-content">
 						<hr class="host-hr-content">
 						<section>
@@ -145,16 +94,21 @@
 												</div>
 												<div class="card-content-ad">
 													<div class="content-ad-intro">
-														{{ ad.name }}
+														{{ ad.type }}
 													</div>
 													<div class="content-ad-description">
-														{{ ad.content|raw|nl2br|striptags }}
+														{{ ad.name }}
 													</div>
 													<span class="content-ad-rating">
+													{% set adRating = ad.avgRatings %}
 														<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 12px; width: 12px; fill: currentcolor;">
 															<path fill-rule="evenodd" d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z"></path>
 														</svg>
-														<span class="content-ad-final-rating">4.86</span>
+														{% if adRating > 0 %}
+															<span class="content-ad-final-rating">{{ ad.avgRatings|number_format(2, '.', ',') }}</span>
+														{% else %}
+															Nouveau
+														{% endif %}
 													</span>
 												</div>
 											</div>
@@ -202,4 +156,6 @@
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('carousel') }}
+	{{ encore_entry_script_tags('carouselComment') }}
+	{{ encore_entry_script_tags('loadMoreComments') }}
 {% endblock %}

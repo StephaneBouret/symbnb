@@ -3,6 +3,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const prevButton = document.getElementById("prevButton");
     const nextButton = document.getElementById("nextButton");
 
+    if (!prevButton || !nextButton) {
+        console.warn("Previous or next button not found in the DOM.");
+        return; // Stop further execution
+    }
+
     let currentIndex = 0;
     const adsToShow = 3;
     const maxAds = Math.min(ads.length, 10);

@@ -17,8 +17,20 @@ class HostController extends AbstractController
             throw $this->createNotFoundException("L'hôte demandé n'existe pas");
         }
 
+        $ads = $host->getAds();
+        if ($ads->isEmpty()) {
+            throw $this->createNotFoundException("Cet utilisateur n'a créé aucune annonce.");
+        }
+
+        $avgRating = $host->getAvgRatingForHost();
+        $allComments = $host->getAllComments();
+        $totalComments = count($allComments);
+
         return $this->render('host/show.html.twig', [
             'host' => $host,
+            'totalComments' => $totalComments,
+            'avgRating' => $avgRating,
+            'allComments' => $allComments
         ]);
     }
 }

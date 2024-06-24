@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AdRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
+use App\Repository\AdRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AdRepository::class)]
@@ -40,7 +41,7 @@ class Ad
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\Length(
-        max: 5000,
+        max: 1500,
         maxMessage: "La description ne peut pas dépasser {{ limit }} caractères."
     )]
     private ?string $content = null;
@@ -109,6 +110,29 @@ class Ad
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * Calcul de la moyenne des notes de tous les commentaires associés à cette annonce
+     *
+     * @return float
+     */
+    public function getAvgRatings(): float
+    {
+        $totalRatings = 0;
+        $totalComments = 0;
+
+        foreach ($this->bookings as $booking) {
+            $comments = $booking->getComments(); // Collection de Comment
+            foreach ($comments as $comment) {
+                if ($comment->getRating() !== null) {
+                    $totalRatings += $comment->getRating();
+                    $totalComments++;
+                }
+            }
+        }
+
+        return $totalComments > 0 ? $totalRatings / $totalComments : 0;
     }
 
     /**

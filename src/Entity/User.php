@@ -84,10 +84,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(targetEntity: Ad::class, mappedBy: 'author')]
     private Collection $ads;
 
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author', orphanRemoval: true)]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
         $this->ads = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function __toString()
@@ -423,6 +430,77 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
             // set the owning side to null (unless already changed)
             if ($ad->getAuthor() === $this) {
                 $ad->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Récupère tous les commentaires d'un Hôte
+     *
+     * @return array
+     */
+    public function getAllComments(): array
+    {
+        $allComments = [];
+
+        foreach ($this->ads as $ad) {
+            foreach ($ad->getBookings() as $booking) {
+                $allComments = array_merge($allComments, $booking->getComments()->toArray());
+            }
+        }
+
+        return $allComments;
+    }
+
+    /**
+     * Retourne la note globale de l'hôte
+     *
+     * @return void
+     */
+    public function getAvgRatingForHost()
+    {
+        $totalRating = 0;
+        $totalComments = 0;
+
+        foreach ($this->ads as $ad) {
+            foreach ($ad->getBookings() as $booking) {
+                foreach ($booking->getComments() as $comment) {
+                    $totalRating += $comment->getRating();
+                    $totalComments++;
+                }
+            }
+        }
+
+        if ($totalComments > 0) return $totalRating / $totalComments;
+        return 0;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 
