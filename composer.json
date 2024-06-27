@@ -13,6 +13,7 @@
         "doctrine/orm": "^3.1",
         "easycorp/easyadmin-bundle": "^4.10",
         "fakerphp/faker": "^1.23",
+        "knplabs/knp-paginator-bundle": "^6.4",
         "liip/imagine-bundle": "^2.12",
         "odolbeau/phone-number-bundle": "^4.0",
         "pyrrah/gravatar-bundle": "^1.4",

@@ -25,10 +25,10 @@
 									<tr>
 										<th scope="col">Statut</th>
 										<th scope="col">Arrivée le</th>
-										<th scope="col">Départ le</th>
+										<th scope="col">{{ knp_pagination_sortable(bookings, 'Départ le', 'b.endDateAt') }}</th>
 										<th scope="col">Réservé le</th>
 										<th scope="col">Annonce</th>
-										<th scope="col">Montant</th>
+										<th scope="col">{{ knp_pagination_sortable(bookings, 'Montant', 'b.amount') }}</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -90,6 +90,7 @@
 								</tbody>
 							</table>
 						</div>
+						{{ knp_pagination_render(bookings)}}
 					{% else %}
 						<div class="_64pbdv">
 							<div class="_1xh9y8t">

@@ -6,13 +6,15 @@ use App\Entity\User;
 use App\Entity\Booking;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Booking>
  */
 class BookingRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, protected PaginatorInterface $paginator)
     {
         parent::__construct($registry, Booking::class);
     }
@@ -98,6 +100,47 @@ class BookingRepository extends ServiceEntityRepository
             ->orderBy('b.endDateAt', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Pagine les réservation en fonction des différents contextes du Controller
+     *
+     * @param User $host
+     * @param string $context
+     * @param integer $page
+     * @param integer $limit
+     * @return PaginationInterface
+     */
+    public function paginateBookings(User $host, string $context, int $page, int $limit = 6): PaginationInterface
+    {
+        $queryBuilder = $this->createQueryBuilder('b')
+            ->join('b.ad', 'a')
+            ->where('a.author = :host')
+            ->setParameter('host', $host);
+
+        switch ($context) {
+            case 'completed':
+                $queryBuilder->andWhere('b.endDateAt < :now')
+                    ->setParameter('now', new \DateTime());
+                break;
+
+            case 'upcoming':
+                $queryBuilder->andWhere('b.startDateAt > :now')
+                    ->setParameter('now', new \DateTime());
+                break;
+
+            default: // all
+                // Pas de condition supplémentaire, on récupère toutes les réservations de l'hôte
+                break;
+        }
+
+        $queryBuilder->orderBy('b.endDateAt', 'DESC');
+
+        return $this->paginator->paginate(
+            $queryBuilder->getQuery(),
+            $page,
+            $limit
+        );
     }
 
     //    /**
