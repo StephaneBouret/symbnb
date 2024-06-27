@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\AdminAd;
+namespace App\Controller\Hosting;
 
 use App\Entity\Ad;
 use App\Repository\AdRepository;
@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AdminAdListing extends AbstractController
+class AdminAdListController extends AbstractController
 {
     #[Route('/hosting/listing', name: 'admin_ad_listing')]
     #[IsGranted('ROLE_USER', message: 'Vous devez vous connecter pour voir vos annonces')]
@@ -22,7 +22,7 @@ class AdminAdListing extends AbstractController
             ['author' => $user],
             ['createdAt' => 'DESC']
         );
-        
+
         if (!$ads) {
             throw $this->createNotFoundException("Vous n'avez pas d'annonces !");
         }
@@ -41,21 +41,21 @@ class AdminAdListing extends AbstractController
             $this->addFlash('warning', 'Impossible de supprimer une annonce ayant des réservations.');
             return $this->redirectToRoute('admin_ad_listing', [], Response::HTTP_SEE_OTHER);
         }
-    
+
         // Vérification du token CSRF
-        if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ad->getId(), $request->request->get('_token'))) {
             // Suppression des images associées avant de supprimer l'annonce
             foreach ($ad->getImages() as $image) {
                 $em->remove($image);
             }
             $em->flush();
-    
+
             // Suppression de l'annonce
             $adRepository->remove($ad, true);
-    
+
             $this->addFlash('success', 'L\'annonce a bien été supprimée !');
         }
-    
+
         return $this->redirectToRoute('admin_ad_listing', [], Response::HTTP_SEE_OTHER);
     }
 }

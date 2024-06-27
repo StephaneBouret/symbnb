@@ -8,8 +8,8 @@ use App\Form\AvatarFormType;
 use App\Form\UpdateUserFormType;
 use App\Form\ChangeEmailFormType;
 use App\Repository\UserRepository;
-use App\Repository\AvatarRepository;
 use App\Form\UpdatePasswordUserFormType;
+use App\Service\AvatarService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,32 +24,22 @@ class ProfileController extends AbstractController
 {
     #[Route('/profile/edit', name: 'profile_edit')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function edit(Request $request, EntityManagerInterface $em, ValidatorInterface $validator, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, AvatarRepository $avatarRepository): Response
+    public function edit(Request $request, EntityManagerInterface $em, ValidatorInterface $validator, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, AvatarService $avatarService): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
         // Gestion de la photo
         $avatar = $user->getAvatar();
-        if ($avatar === null) {
-            $avatar = new Avatar;
-            $avatarForm = $this->createForm(AvatarFormType::class, $avatar);
-            $avatarForm->handleRequest($request);
-            if ($avatarForm->isSubmitted() && $avatarForm->isValid()) {
-                $avatar->setUser($user);
-                $em->persist($avatar);
-                $em->flush();
-                $this->addFlash('success', 'Le photo a bien été prise en compte !');
-                return $this->redirectToRoute('profile_edit');
-            }
-        } else {
-            $avatarForm = $this->createForm(AvatarFormType::class, $avatar);
-            $avatarForm->handleRequest($request);
-            if ($avatarForm->isSubmitted() && $avatarForm->isValid()) {
-                $em->flush();
-                $this->addFlash('success', 'La photo a bien été modifiée !');
-                return $this->redirectToRoute('profile_edit');
-            }
+
+        // Formulaire pour éditer l'avatar existant ou en créer un nouveau si null ou imageName est null
+        $avatarForm = $this->createForm(AvatarFormType::class, $avatar ?: new Avatar());
+        $avatarForm->handleRequest($request);
+
+        if ($avatarService->handleAvatarForm($avatarForm, $user, $avatar)) {
+            $this->addFlash('success', 'La photo a bien été modifiée !');
+
+            return $this->redirectToRoute('profile_edit');
         }
 
         $form = $this->createForm(UpdateUserFormType::class, $user);
@@ -145,7 +135,7 @@ class ProfileController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $this->container->get('security.token_storage')->setToken(null);
             $userRepository->remove($user, true);
             $this->addFlash('success', 'Votre compte a bien été supprimé !');

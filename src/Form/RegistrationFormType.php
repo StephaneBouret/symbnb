@@ -3,12 +3,13 @@
 namespace App\Form;
 
 use App\Entity\User;
+use libphonenumber\PhoneNumberFormat;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -141,7 +142,9 @@ class RegistrationFormType extends AbstractType
                     'message' => 'Merci d\'indiquer votre ville',
                 ])
             ])
-            ->add('phone', TextType::class, [
+            ->add('phone', PhoneNumberType::class, [
+                'default_region' => 'FR',
+                'format' => PhoneNumberFormat::NATIONAL,
                 'label' => 'Votre téléphone :',
                 'label_attr' => [
                     'class' => 'lh-label fw-medium'
@@ -149,12 +152,6 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Merci de saisir votre téléphone'
                 ],
-                'constraints' => [
-                    new Regex([
-                        'pattern' => "/^(\+[0-9]{2}[.\-\s]?|00[.\-\s]?[0-9]{2}|0)([0-9]{1,3}[.\-\s]?(?:[0-9]{2}[.\-\s]?){4})$/",
-                        'message' => "Le numéro de téléphone '{{ value }}' n'est pas valide."
-                    ])
-                ]
             ])
         ;
     }

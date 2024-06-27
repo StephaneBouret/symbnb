@@ -27,6 +27,7 @@ Encore
     .addEntry('countDescription', './assets/js/countDescription.js')
     .addEntry('countHostDescription', './assets/js/countHostDescription.js')
     .addEntry('countTitle', './assets/js/countTitle.js')
+    .addEntry('deleteAccount', './assets/js/deleteAccount.js')
     .addEntry('flatpickr', './assets/js/flatpickr.min.js')
     .addEntry('formHandling', './assets/js/formHandling.js')
     .addEntry('increment', './assets/js/increment.js')
@@ -57,6 +58,11 @@ Encore
         //maxSize: 4 * 1024, // 4 kb - the default is 8kb
     })
 
+    .configureFontRule({
+        type: 'asset',
+        //maxSize: 4 * 1024
+    })
+
     .copyFiles({
         from: './assets/img',
         to: 'img/[path][name].[hash:8].[ext]'
@@ -65,6 +71,11 @@ Encore
     .copyFiles({
         from: './assets/media',
         to: 'media/[path][name].[hash:8].[ext]'
+    })
+
+    .copyFiles({
+        from: './assets/fonts',
+        to: 'fonts/[path][name].[hash:8].[ext]'
     })
 
     // will require an extra script tag for runtime.js

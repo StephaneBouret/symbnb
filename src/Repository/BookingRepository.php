@@ -45,6 +45,61 @@ class BookingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Trouve les réservations pour les annonces appartenant à l'hôte spécifié.
+     *
+     * @param User $host
+     * @return array
+     */
+    public function findByHost(User $host): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.ad', 'a')
+            ->where('a.author = :host')
+            ->setParameter('host', $host)
+            ->orderBy('b.endDateAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Récupère toutes les réservations passées appartenant à l'hôte spécifié
+     *
+     * @param User $host
+     * @return array
+     */
+    public function completedBookingsByHost(User $host): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.ad', 'a')
+            ->where('a.author = :host')
+            ->andWhere('b.endDateAt < :now')
+            ->setParameter('host', $host)
+            ->setParameter('now', new \DateTime())
+            ->orderBy('b.endDateAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Récupère toutes les réservations à venir appartenant à l'hôte spécifié
+     *
+     * @param User $host
+     * @return array
+     */
+    public function upcomingBookingsByHost(User $host): array
+    {
+        return $this->createQueryBuilder('b')
+            ->join('b.ad', 'a')
+            ->where('a.author = :host')
+            ->andWhere('b.startDateAt > :now')
+            ->setParameter('host', $host)
+            ->setParameter('now', new \DateTime())
+            ->orderBy('b.endDateAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Booking[] Returns an array of Booking objects
     //     */

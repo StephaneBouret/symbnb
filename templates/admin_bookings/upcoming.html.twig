@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex flex-column">
+		<section>
+			{% include 'partials/_nav_tabs.html.twig' %}
+			<div>
+				<section>
+					<header class="header-index-ads">
+						<div class="content-title-index-ads">
+							<div class="my-1">
+								<h1 class="title-index-ads">Réservations</h1>
+							</div>
+						</div>
+					</header>
+					{% include "partials/_nav_tabs_bookings.html.twig" %}
+					{% if bookings|length > 0 %}
+						<div class="table-responsive gbncutd">
+							<table class="table table-hover yn205im">
+								<caption>Vos réservations à venir</caption>
+								<thead>
+									<tr>
+										<th scope="col">Statut</th>
+										<th scope="col">Arrivée le</th>
+										<th scope="col">Départ le</th>
+										<th scope="col">Réservé le</th>
+										<th scope="col">Annonce</th>
+										<th scope="col">Montant</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for booking in bookings %}
+										<tr>
+											<td class="dy0alwj">
+												{% if booking.status is same as('PAID') %}
+													<span class="badge text-bg-success">Confirmé</span>
+												{% else %}
+													<span class="badge text-bg-warning">En attente</span>
+												{% endif %}
+											</td>
+											<td class="k2p5mep">
+												<div class="zzrhe1b">
+													<span>{{ booking.startDateAt|format_datetime('medium', 'none', locale='fr') }}</span>
+													<span class="ajpbnv2">{{ booking.duration }}
+														{{ booking.duration > 1 ? 'nuits' : 'nuit' }}</span>
+												</div>
+											</td>
+											<td class="k2p5mep">{{booking.endDateAt|format_datetime('medium', 'none', locale='fr')}}</td>
+											<td class="k2p5mep">{{booking.createdAt|format_datetime('medium', 'none', locale='fr')}}</td>
+											<td>
+												<a href="{{ path('ads_show', { 'slug': booking.ad.slug }) }}" class="b5wdgts">
+													{{booking.ad.name}}
+												</a>
+											</td>
+											<td class="dy0alwj">{{booking.amount | amount | number_format(2, '.', ',')}}
+												&euro;</td>
+											<td class="ff3rovu dy0alwj">
+												<div class="btn-group">
+													<button id="dropdownMenuDetails{{ loop.index }}" class="btn dropdown-toggle r0j3d4k" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+														Détails
+													</button>
+													<ul class="dropdown-menu dropdown-menu-lg-end py-0" aria-labelledby="dropdownMenuDetails{{ loop.index }}">
+														<li class="py-2 px-2">
+															<span class="dropdown-item eckfutb">Voyageur :
+																{{ booking.booker.firstname }}
+																{{ booking.booker.lastname }}</span>
+														</li>
+														<div class="space-between"></div>
+														<li class="py-2 px-2">
+															<a class="dropdown-item v6eme46" href="tel:{{ booking.booker.phone|phone_number_format(2) }}">
+																<i class="fa-solid fa-phone"></i>
+																:
+																{{ booking.booker.phone|phone_number_format(2) }}</a>
+														</li>
+														<li class="py-2 px-2">
+															<a class="dropdown-item v6eme46" href="#">Message</a>
+														</li>
+														<li class="py-2 px-2">
+															<a class="dropdown-item v6eme46" href="#">Email</a>
+														</li>
+													</ul>
+												</div>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					{% else %}
+						<div class="_64pbdv">
+							<div class="_1xh9y8t">
+								<div class="_yiapbm">
+									<div class="_rozf2j">Vous n'avez pas de réservations</div>
+                                    <a href="{{ path('admin_all_reservations') }}" class="z5avg0x">Voir toutes les réservations</a>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				</section>
+			</div>
+		</section>
+	</div>
+{% endblock %}

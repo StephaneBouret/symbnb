@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Imagine\Image\Box;
 use Imagine\Gd\Imagine;
+use Imagine\Image\Point;
+use Imagine\Image\Palette\RGB;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvatarRepository;
 use Doctrine\ORM\Mapping\PostUpdate;
@@ -50,7 +53,22 @@ class Avatar
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToOne(inversedBy: 'avatar', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    private bool $isDefaultAvatar = false;
+
+    public function __construct(?User $user = null)
+    {
+        $this->user = $user;
+        if ($user) {
+            $initial = strtoupper($user->getFirstname()[0]);
+            $defaultAvatarPath = sys_get_temp_dir() . '/' . uniqid() . '.png';
+            $this->createDefaultAvatar($initial, $defaultAvatarPath);
+            $this->imageName = basename($defaultAvatarPath);
+            $this->isDefaultAvatar = true;
+        }
+    }
 
     public function __toString()
     {
@@ -121,12 +139,51 @@ class Avatar
         $width = 500;
         $height = 500;
         $imagine = new Imagine;
-        $image = $imagine->open($this->imageFile);
+        $image = $imagine->open($this->imageFile->getRealPath());
         $size = $image->getSize();
         $image->resize($size->widen($width))
             ->resize($size->heighten($height));
         $realpath = $this->imageFile->getRealPath();
         $image->save($realpath);
+    }
+
+    public function createDefaultAvatar(string $initial, string $outputPath): void
+    {
+        $imagine = new Imagine();
+        $size = new Box(720, 720);
+        $palette = new RGB();
+        $backgroundColor = $palette->color('#232323', 100);
+
+        $image = $imagine->create($size, $backgroundColor);
+
+        // Chemin absolu vers le fichier de police
+        $fontPath = __DIR__ . '/../../assets/fonts/AirbnbCereal_W_Md.otf';
+
+        // Vérification si le fichier de police existe
+        if (!file_exists($fontPath)) {
+            throw new \RuntimeException("Le fichier de police n'a pas été trouvé à l'emplacement : $fontPath");
+        }
+
+        $fontSize = 300;
+        $fontColor = $palette->color('#FFFFFF', 100);
+
+        $font = $imagine->font($fontPath, $fontSize, $fontColor);
+
+        // Calcul des dimensions du texte pour le centrer
+        $textBox = $font->box($initial);
+        $x = ($size->getWidth() - $textBox->getWidth()) / 2;
+        $y = ($size->getHeight() - $textBox->getHeight()) / 2;
+
+        // Dessin du texte sur l'image
+        $image->draw()->text($initial, $font, new Point($x, $y));
+
+        // Enregistrement de l'image
+        $image->save($outputPath);
+    }
+
+    public function isDefaultAvatar(): bool
+    {
+        return $this->isDefaultAvatar;
     }
 
     // Méthodes de sérialisation pour PHP 7.4+ et compatibilité avec PHP 8

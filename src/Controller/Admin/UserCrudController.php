@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use App\Form\AvatarFormType;
 use Doctrine\ORM\QueryBuilder;
+use libphonenumber\PhoneNumberFormat;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -14,16 +15,21 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Misd\PhoneNumberBundle\Templating\Helper\PhoneNumberHelper;
 
 class UserCrudController extends AbstractCrudController
 {
+    public function __construct(protected PhoneNumberHelper $phoneNumberHelper)
+    {
+    }
+
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -38,7 +44,7 @@ class UserCrudController extends AbstractCrudController
             ->setPageTitle('edit', fn (User $user) => (string) $user->getFullname())
             ->setPageTitle('detail', fn (User $user) => (string) $user->getFullname())
             ->setEntityLabelInSingular('un utilisateur')
-            ->setDefaultSort(['lastname' => 'ASC'])
+            ->setDefaultSort(['id' => 'ASC'])
             ->setPaginatorPageSize(10);
     }
 
@@ -72,17 +78,30 @@ class UserCrudController extends AbstractCrudController
                 ->setFormTypeOptions(['attr' => ['placeholder' => 'Ville de l\'utilisateur']])
                 ->setColumns(6)
                 ->hideOnIndex(),
-            TelephoneField::new('phone', 'Téléphone')
-                ->setFormTypeOptions(['attr' => ['placeholder' => 'Téléphone de l\'utilisateur']])
-                ->setColumns(6),
+            TextField::new('phone', 'Téléphone')
+                ->setFormType(PhoneNumberType::class)
+                ->setFormTypeOptions([
+                    'default_region' => 'FR',
+                    'format' => PhoneNumberFormat::NATIONAL,
+                    'attr' => ['placeholder' => 'Téléphone de l\'utilisateur']
+                ])
+                ->setColumns(6)
+                ->onlyOnForms(),
+            TextField::new('phone', 'Téléphone')
+                ->formatValue(function ($value, $entity) {
+                    $value = $entity->getPhone();
+                    $formattedValue = $this->phoneNumberHelper->format($value, 2);
+                    return $formattedValue;
+                })
+                ->onlyOnIndex(),
             ImageField::new('avatar.imageName', 'Avatar')
                 ->setBasePath('images/avatars')
                 ->setUploadDir('public/images/avatars')
                 ->onlyOnIndex(),
             TextField::new('avatar', 'Avatar :')
-            ->setFormType(AvatarFormType::class)
-            -> setTranslationParameters([ 'form.label.delete' => 'Supprimer l\'image' ])
-            ->hideOnIndex(),
+                ->setFormType(AvatarFormType::class)
+                ->setTranslationParameters(['form.label.delete' => 'Supprimer l\'image'])
+                ->hideOnIndex(),
             FormField::addFieldset('Rôles de l\'utilisateur'),
             ChoiceField::new('roles')
                 ->setChoices(array_combine($roles, $roles))

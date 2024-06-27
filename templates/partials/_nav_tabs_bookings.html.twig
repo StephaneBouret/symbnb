@@ -1,0 +1,18 @@
+<div class="dprdl12">
+	<div class="position-relative">
+		<div class="t1a99pzb">
+			<div class="tnlo7wz" role="tablist">
+				<a class="nav-link t77y0jc {% if app.request.attributes.get('_route') == 'admin_all_reservations' %}active{% endif %}" href="{{ path('admin_all_reservations') }}">
+					<div class="_1y5a8u9">Tout</div>
+				</a>
+				<a class="nav-link t77y0jc {% if app.request.attributes.get('_route') == 'admin_completed_reservations' %}active{% endif %}" href="{{ path('admin_completed_reservations') }}">
+					<div class="_1y5a8u9">Terminées</div>
+				</a>
+				<a class="nav-link t77y0jc {% if app.request.attributes.get('_route') == 'admin_upcoming_reservations' %}active{% endif %}" href="{{ path('admin_upcoming_reservations') }}">
+					<div class="_1y5a8u9">À venir</div>
+				</a>
+			</div>
+		</div>
+		<div class="vi5ix8i"></div>
+	</div>
+</div>

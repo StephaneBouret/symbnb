@@ -125,7 +125,7 @@
 			</div>
 		</div>
 		<div class="modal fade" id="delete_account" tabindex="-1" aria-labelledby="delete_accountLabel" aria-hidden="true">
-			<div class="modal-dialog ">
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header modal-delete-header">
 						<div class="modal-title modal-delete-title" id="delete_accountLabel">
@@ -143,10 +143,10 @@
 							</div>
 						</div>
 						<div class="modal-footer modal-footer-delete">
-							<button data-bs-dismiss="modal" class="btn btn-md btn-secondary">
+							<button type="button" class="btn btn-md btn-secondary" data-bs-dismiss="modal">
 								<span>Conserver le compte</span>
 							</button>
-							<button class="btn btn-md btn-danger" id="deleteButton" disabled>
+							<button type="submit" class="btn btn-md btn-danger" id="deleteButton" disabled>
 								<span>Supprimer le compte</span>
 							</button>
 						</div>
@@ -155,4 +155,9 @@
 			</div>
 		</div>
 	</section>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('deleteAccount') }}
 {% endblock %}
