@@ -50,6 +50,9 @@
 								<a class="dropdown-item dropdown-user" href="{{path('profile_edit')}}">Paramètres</a>
 							</li>
 							<li class="py-2 px-2">
+								<a class="dropdown-item dropdown-user" href="{{path('guest_view_messages', {'id': app.user.id})}}">Messages</a>
+							</li>
+							<li class="py-2 px-2">
 								<a class="dropdown-item dropdown-user" href="{{path('booking_index')}}">Voyages</a>
 							</li>
 							<div class="space-between"></div>

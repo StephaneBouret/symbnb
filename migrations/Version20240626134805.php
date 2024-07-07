@@ -20,14 +20,14 @@ final class Version20240626134805 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE avatar CHANGE user_id user_id INT NOT NULL');
+        // $this->addSql('ALTER TABLE avatar CHANGE user_id user_id INT NOT NULL');
         $this->addSql('ALTER TABLE user CHANGE phone phone VARCHAR(35) NOT NULL COMMENT \'(DC2Type:phone_number)\'');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE avatar CHANGE user_id user_id INT DEFAULT NULL');
+        // $this->addSql('ALTER TABLE avatar CHANGE user_id user_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE user CHANGE phone phone VARCHAR(255) NOT NULL');
     }
 }

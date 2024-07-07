@@ -93,11 +93,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'host', orphanRemoval: true)]
+    private Collection $hostMessages;
+
+    /**
+     * @var Collection<int, Message>
+     */
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'guest', orphanRemoval: true)]
+    private Collection $guestMessages;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
         $this->ads = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->hostMessages = new ArrayCollection();
+        $this->guestMessages = new ArrayCollection();
     }
 
     public function __toString()
@@ -504,6 +518,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
             // set the owning side to null (unless already changed)
             if ($comment->getAuthor() === $this) {
                 $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getHostMessages(): Collection
+    {
+        return $this->hostMessages;
+    }
+
+    public function addHostMessage(Message $hostMessage): static
+    {
+        if (!$this->hostMessages->contains($hostMessage)) {
+            $this->hostMessages->add($hostMessage);
+            $hostMessage->setHost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHostMessage(Message $hostMessage): static
+    {
+        if ($this->hostMessages->removeElement($hostMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($hostMessage->getHost() === $this) {
+                $hostMessage->setHost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getGuestMessages(): Collection
+    {
+        return $this->guestMessages;
+    }
+
+    public function addGuestMessage(Message $guestMessage): static
+    {
+        if (!$this->guestMessages->contains($guestMessage)) {
+            $this->guestMessages->add($guestMessage);
+            $guestMessage->setGuest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGuestMessage(Message $guestMessage): static
+    {
+        if ($this->guestMessages->removeElement($guestMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($guestMessage->getGuest() === $this) {
+                $guestMessage->setGuest(null);
             }
         }
 

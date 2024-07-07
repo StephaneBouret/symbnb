@@ -6,13 +6,6 @@
 {% endblock %}
 
 {% block body %}
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">
-			<a href="{{ path('homepage') }}">Accueil</a>
-		</li>
-		<li class="breadcrumb-item active">{{ ad.name }}</li>
-	</ol>
-
 	<h1 class="zu8eiwr">{{ ad.name }}</h1>
 	<div class="row">
 		{% include "partials/_portfolio.html.twig" %}
@@ -36,7 +29,7 @@
 			</div>
 			{% include "partials/_show_comments_ad.html.twig" %}
 			{% include "partials/_host_cartridge.html.twig" %}
-			<p class="add-content">{{ ad.content | raw }}</p>
+			<p class="add-content">{{ ad.content | raw | nl2br }}</p>
 			<div class="equipment-container">
 				<hr class="equipment-hr-content">
 				<div class="equipment-wrapper">
@@ -96,6 +89,7 @@
 		</div>
 	</div>
 	{% include "partials/_map_show.html.twig" %}
+	{% include "partials/_host_to_contact.html.twig" %}
 	<!-- Modal -->
 	<div class="modal fade" id="portfolioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-xl">
@@ -110,7 +104,6 @@
 		</div>
 	</div>
 {% endblock %}
-
 
 {% block javascripts %}
 	{{ parent() }}

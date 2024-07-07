@@ -34,6 +34,24 @@ class AdRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * On récupère les IDs des annonces appartenant à l'utilisateur (pour le gestion des messages)
+     *
+     * @param integer $id
+     * @return array
+     */
+    public function findAdIdsByUser(int $id): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.id')
+            ->where('a.author = :id')
+            ->setParameter('id', $id);
+
+        $result = $qb->getQuery()->getArrayResult();
+
+        return array_column($result, 'id');
+    }
+
     //    /**
     //     * @return Ad[] Returns an array of Ad objects
     //     */

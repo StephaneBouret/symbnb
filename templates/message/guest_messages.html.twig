@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+	<style>
+		body {
+			overflow-y: hidden;
+		}
+	</style>
+	<div class="d-flex flex-column">
+		<section>
+			<div class="p23bzxi">
+				<div class="c1az9ht2">
+					<div class="_sn0hea">
+						{% include "partials/_list_conversations_panel_guest.html.twig" %}
+						{% include "partials/_conversation_panel_guest.html.twig" %}
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('resizeOnClick') }}
+{% endblock %}

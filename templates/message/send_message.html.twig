@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez
+	{{ host.firstname }}
+{% endblock %}
+
+{% block body %}
+	<div class="u6lbpn0">
+		<div class="qu0jko6">
+			<a href="{{ path('ads_show', {'slug': ad.slug}) }}#about_your_host" class="_1pv6nv4">
+				<div class="c1hs0xn0">
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 24px; width: 24px; stroke: currentcolor; stroke-width: 2.66667; overflow: visible;">
+						<path fill="none" d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"></path>
+					</svg>
+					<span class="a8jt5op">Retour</span>
+				</div>
+			</a>
+		</div>
+		<div class="_10qud2i">
+			<div class="_16e70jgn">
+				<div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div style="padding-top: 8px; padding-bottom: 32px;">
+								<section>
+									<div class="c1kd35z4">
+										<div>
+											<div class="t1d2nv5w">
+												<h2 tabindex="-1" class="hpipapi">Contactez
+													{{ host.firstname }}</h2>
+											</div>
+											<div class="s1lbrf15">L'hôte répond généralement dans l'heure</div>
+										</div>
+										<div class="a1qk6ilr">
+											<div class="_6ep1c8" aria-hidden="true">
+												<div class="_660xb3">
+													<div class="_2uqy8li">
+														<div class="iay23ym">
+															<img src="{{ vich_uploader_asset(ad.author.avatar, 'imageFile') }}" class="i9if2t0" alt="{{ host.firstname }}">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div class="_npr0qi"></div>
+							<div style="padding-top: 32px; padding-bottom: 32px;">
+								<section>
+									<div class="tu9uqg8">
+										<h2 tabindex="-1" class="hpipapi">La plupart des voyageurs posent des questions concernant&nbsp;:</h2>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div style="padding-bottom: 24px;">
+								<div>
+									<h3 tabindex="-1" class="hpipapi">
+										<div style="font-weight: var(--linaria-theme_typography-weight-medium600);">Se rendre sur place</div>
+									</h3>
+									<ul class="ldezowx">
+										<li>L'arrivée dans ce logement commence à 15:00 et le depart à&nbsp;11:00.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div style="padding-bottom: 24px;">
+								<div>
+									<h3 tabindex="-1" class="hpipapi">
+										<div style="font-weight: var(--linaria-theme_typography-weight-medium600);">Détails de la maison et règlement intérieur</div>
+									</h3>
+									<ul class="ldezowx">
+										<li>Non fumeur. Pas de fête ni de&nbsp;soirée.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div style="padding-bottom: 24px;">
+								<div>
+									<h3 tabindex="-1" class="hpipapi">
+										<div style="font-weight: var(--linaria-theme_typography-weight-medium600);">Prix et disponibilité</div>
+									</h3>
+									<ul class="ldezowx">
+										<li>Bénéficiez d'une réduction de 10&nbsp;% pour les séjours supérieurs à une semaine ou de 25&nbsp;% pour les séjours supérieurs à un mois.</li>
+										<li>Remboursement intégral jusqu'à 30&nbsp;jours avant l'arrivée, tous frais compris</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div class="_npr0qi"></div>
+							<div style="padding-top: 32px; padding-bottom: 24px;">
+								<section>
+									<div class="tu9uqg8">
+										<h2 tabindex="-1" class="hpipapi">Vous avez encore des questions&nbsp;? Envoyez un message à l'hôte</h2>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							{{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
+							<div style="padding-bottom: 24px;">
+                                {{ form_errors(form.content) }}
+								<div class="_11tf951">
+                                {% set placeholder = 'Bonjour ' ~ host.firstname ~ ' ! Je serai de passage à ...' %}
+									{{ form_widget(form.content, {'attr': {'placeholder': placeholder}}) }}
+								</div>
+							</div>
+							<div style="padding-bottom: 32px;">
+								<button type="submit" id="submit-comment" class="_1u3zndn">Envoyer le message</button>
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

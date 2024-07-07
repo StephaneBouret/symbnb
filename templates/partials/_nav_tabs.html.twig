@@ -8,6 +8,9 @@
 				<a class="nav-link _2u19nx {% if app.request.attributes.get('_route') starts with 'admin_' and app.request.attributes.get('_route') ends with '_reservations' %}active{% endif %}" href="{{ path('admin_all_reservations') }}">
 					<div class="_1y4kl69q">Réservations</div>
 				</a>
+				<a class="nav-link _2u19nx {% if app.request.attributes.get('_route') == 'host_view_messages' %}active{% endif %}" href="{{ path('host_view_messages', {'id': app.user.id}) }}">
+					<div class="_1y4kl69q">Messages</div>
+				</a>
 			</div>
 		</div>
 	</div>

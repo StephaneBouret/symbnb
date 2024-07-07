@@ -3,11 +3,13 @@
 {% block title %}Réservations
 {% endblock %}
 
+{% set noContainer = true %}
+
 {% block body %}
 	<div class="d-flex flex-column">
 		<section>
 			{% include 'partials/_nav_tabs.html.twig' %}
-			<div>
+			<div class="_1u2ubxs">
 				<section>
 					<header class="header-index-ads">
 						<div class="content-title-index-ads">
@@ -78,7 +80,11 @@
 																{{ booking.booker.phone|phone_number_format(2) }}</a>
 														</li>
 														<li class="py-2 px-2">
-															<a class="dropdown-item v6eme46" href="#">Message</a>
+															{% if date() < date(booking.endDateAt) %}
+																<a class="dropdown-item v6eme46" href="{{ path('host_send_message', {'id': booking.id}) }}">Message</a>
+															{% else %}
+																<span class="dropdown-item disabled dr1gkl4">Message expiré</span>
+															{% endif %}
 														</li>
 														<li class="py-2 px-2">
 															<a class="dropdown-item v6eme46" href="#">Email</a>

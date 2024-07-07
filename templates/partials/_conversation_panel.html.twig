@@ -1,0 +1,175 @@
+<section id="thread_panel" aria-label="Panneau de la conversation" tabindex="-1" data-testid="orbital-panel-thread" aria-hidden="false" class="_114ptpw7">
+	<div class="_d9sqn6f">
+		<div class="p19oyag">
+			{% if selectedAdMessages is not empty %}
+				<div
+					class="po458s3">
+					{# Utiliser le premier message pour déterminer l'affichage de l'image #}
+					{% set firstMessage = selectedAdMessages|first %}
+					<div>
+						<div class="t17b67kk t1xp0zmn">
+							<div class="lbzxe2l"></div>
+							<div aria-label="Détails du fil de discussion" class="bbkw4bl c1rxa9od a1ngm199">
+								<div class="c1mbx34q">
+									<div class="fbfrdsp">
+										<div class="c1mn8rp9">
+											<div class="irffqjb" style="z-index: 0;">
+												<div class="o1msfocq">
+													<div class="i1l1y67h">
+														<div class="c1nxksiy">
+															<div
+																class="d1l1iq7w bmwtyu7" style="--dls-liteimage-background-size: cover;">
+																{# Afficher l'image en fonction de l'envoyeur du premier message #}
+																{% if firstMessage.guest.id == selectedUserId %}
+																	<img src="{{ vich_uploader_asset(firstMessage.guest.avatar, 'imageFile') }}" alt="{{ firstMessage.guest.firstname }}" class="i9if2t0 i1w7kqn8 i1de1kle">
+																{% else %}
+																	<img src="{{ vich_uploader_asset(firstMessage.host.avatar, 'imageFile') }}" alt="{{ firstMessage.host.firstname }}" class="i9if2t0 i1w7kqn8 i1de1kle">
+																{% endif %}
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="njgd0hs">
+										<section>
+											<h1 tabindex="-1" class="hpipapi">
+												<div
+													class="t1fcf8xt" aria-hidden="true">
+													{# Afficher le prénom en fonction de l'envoyeur du premier message #}
+													{% if firstMessage.guest.id == selectedUserId %}
+														<span class="oj9ozqm">{{ firstMessage.guest.firstname }}</span>
+													{% else %}
+														<span class="oj9ozqm">{{ firstMessage.host.firstname }}</span>
+													{% endif %}
+												</div>
+												<span class="a8jt5op">
+													{% if firstMessage.guest.id == selectedUserId %}
+														{{ firstMessage.guest.firstname }}
+													{% else %}
+														{{ firstMessage.host.firstname }}
+													{% endif %}
+												</span>
+											</h1>
+										</section>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="cyg3o60">
+						<div class="t1l9hlim">
+							<div class="i1ynmyjr">
+								<div class="i1lufp5f">
+									<div
+										style="padding-bottom: 0px;">
+										{# Affichage des messages dans la boucle #}
+										{% for message in selectedAdMessages %}
+											{% if message.host.id == hostId %}
+												<div class="t1xp0zmn">
+													<div class="fwqd6yv h1d28d1l" tabindex="-1" role="group">
+														<h3 class="tdeb53e">{{ message.createdAt|format_datetime('medium', 'none', locale='fr') }}</h3>
+													</div>
+													<div class="fwqd6yv h1d28d1l" tabindex="-1" role="group">
+														<div>
+															<div>
+																<div class="b18eksr3">
+																	<div class="sfqsfgw" style="--sfqsfgw-0: 4px; --sfqsfgw-1: 24px; --sfqsfgw-2: 0; --sfqsfgw-3: 0;">
+																		<div class="tt5yn5i sq6doj8">
+																			<div class="a10sj9fv"></div>
+																			<div class="m1ul85cc rdov9k4">
+																				<div>
+																					<span aria-hidden="true" class="d1tdfucy s16tduqy">{{ message.createdAt|format_datetime('none', 'short', locale='fr') }}</span>
+																				</div>
+																			</div>
+																			<div class="s6lj5e3">
+																				<div class="m1wu0wyi">
+																					<div class="rszy1aw c1qlpmb4">
+																						<div class="cnjk578">
+																							<div class="ceh92y6">
+																								<div class="t1w2lxhj sazdzw lrpqt7g">
+																									<div>
+																										{{ message.content }}
+																									</div>
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											{% else %}
+												<div class="t1xp0zmn">
+													<div class="fwqd6yv h1d28d1l" tabindex="-1" role="group">
+														<h3 class="tdeb53e">{{ message.createdAt|format_datetime('medium', 'none', locale='fr') }}</h3>
+													</div>
+													<div class="fwqd6yv h1d28d1l" tabindex="-1" role="group">
+														<div>
+															<div>
+																<div class="b18eksr3">
+																	<div class="sfqsfgw" style="--sfqsfgw-0: 4px; --sfqsfgw-1: 24px; --sfqsfgw-2: 0; --sfqsfgw-3: 0;">
+																		<div class="tt5yn5i">
+																			<div class="m1ul85cc">
+																				<div>
+																					<span class="s1ls8gx6">
+																						<span class="u185lte4">{{ message.guest.firstname}}</span>
+																					</span>
+																					<span aria-hidden="true" class="d1tdfucy">{{ message.createdAt|format_datetime('none', 'short', locale='fr') }}</span>
+																				</div>
+																			</div>
+																			<div class="m1wu0wyi">
+																				<div class="rszy1aw" data-name="message-content-wrapper">
+																					<div class="cnjk578">
+																						<div class="ceh92y6">
+																							<div class="t1w2lxhj _6adqpa">
+																								<div>{{ message.content }}</div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											{% endif %}
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							{# Form #}
+							<div class="i1o7vrwv">
+								<div class="m1anr62f">
+									<div class="mnrnx3x">
+										<div class="w-100">
+											{{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
+											{{ form_errors(form.content) }}
+											<div class="_11tf951">
+												{{ form_widget(form.content, {'attr': {'placeholder': 'Saisissez votre réponse', 'style': 'height:auto'}}) }}
+											</div>
+											<div style="padding-top: 14px;">
+												<button type="submit" id="submit-comment" class="_1u3zndn">Répondre</button>
+											</div>
+											{{ form_end(form) }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</section>

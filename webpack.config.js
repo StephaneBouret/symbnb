@@ -43,8 +43,10 @@ Encore
     .addEntry('pictures', './assets/js/pictures.js')
     .addEntry('picturesEdit', './assets/js/picturesEdit.js')
     .addEntry('rating', './assets/js/rating.js')
+    .addEntry('resizeOnClick', './assets/js/resizeOnClick.js')
     .addEntry('showMap', './assets/js/showMap.js')
     .addEntry('sortComments', './assets/js/sortComments.js')
+    .addEntry('urlReplace', './assets/js/urlReplace.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

@@ -1,0 +1,115 @@
+<section id="inbox_panel" aria-label="Panneau de la liste des conversations" role="navigation" tabindex="-1" aria-hidden="false" class="_j4ddova">
+	<div class="_10whcuyf">
+		<div class="p19oyag">
+			<div class="d-grid">
+				<div class="enk25hy">
+					<div class="s1trs5fk">
+						<div class="r16yo165 tznucho">
+							<header class="azm6c1z">
+								<div class="c1kmlm5k">
+									<div class="cro26a5">
+										<div class="c11ngh1r">
+											<div class="t16d5wjl">
+												<div class="t67opqi">
+													<h1 class="torx4rr">Messages</h1>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</header>
+							<div class="c1pewfdv">
+								<div class="c3ssj5p">
+									<div class="calg6ke">
+										{% if messagesByAdAndUser is not empty %}
+											{% for adId, users in messagesByAdAndUser %}
+												{% for userId, message in users %}
+													<div class="r1pjfgy">
+														<div class="r21kbme">
+															<a class="pg07rzn {% if selectedAdId == adId and selectedUserId == userId %}active{% endif %}" href="{{ path('host_view_messages', { 'id': host.id }) }}?adId={{ adId }}&userId={{ userId }}">
+																<div class="c1mqn162">
+																	<div class="al4bzkz">
+																		<div class="crroobx">
+																			<div class="l1a4byyg">
+																				<div class="o1msfocq">
+																					<div class="i1l1y67h">
+																						<div class="c1nxksiy">
+																							<div class="ifwa7km bmwtyu7">
+																								<div class="aoru8m9 i9cqrtb">
+																									<img src="{{ vich_uploader_asset(message.ad.images.first, 'imageFile') }}" alt="{{ message.ad.name }}" class="i9if2t0">
+																								</div>
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="u9p0u5m o1gqkdvs">
+																				<div class="o1msfocq">
+																					<div class="i1l1y67h">
+																						<div class="c1nxksiy">
+																							<div class="d1l1iq7w bmwtyu7">
+																								<img src="{{ vich_uploader_asset(message.guest.avatar, 'imageFile') }}" alt="{{ message.guest.firstname }}" class="i9if2t0">
+																							</div>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="i1x2tdqp">
+																		<div class="fhnz9dc b1bv82mx">
+																			<div class="t13ystq0">
+																				<div class="t1fcf8xt">
+																					<span class="oj9ozqm">{{ message.guest.firstname }}</span>
+																				</div>
+																				<span class="a8jt5op">{{ message.guest.firstname }}</span>
+																			</div>
+																			<div class="t66yo6r">{{ message.createdAt|format_datetime('short', 'none', locale='fr') }}</div>
+																		</div>
+																		<div class="fhnz9dc biie5k3">
+																			<div class="sx0gwsg">
+																				<div class="g12s46lm t1fcf8xt" aria-hidden="true">
+																					<span class="oj9ozqm">{{ message.content }}</span>
+																				</div>
+																				<span class="a8jt5op">Aperçu du message&nbsp;:
+																					{{ message.content }}</span>
+																			</div>
+																		</div>
+																		<div class="f1x8cpk5">
+																			<div class="svzxc3n">
+																				<div class="g12s46lm t1fcf8xt" aria-hidden="true">
+																					<span class="oj9ozqm">{{ message.ad.name }}</span>
+																				</div>
+																				<span class="a8jt5op">Le statut de réservation est Terminé pour le séjour du 24–26 avr.</span>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</a>
+														</div>
+													</div>
+												{% endfor %}
+											{% endfor %}
+										{% else %}
+											<div class="c1v2drrm _1osqo2v">
+												<div class="i1gv5znu">
+													<div class="i1qi9qfl">
+														<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 32px; width: 32px; fill: currentcolor;">
+															<path d="M26 1a5 5 0 0 1 5 4.78v10.9a5 5 0 0 1-4.78 5H26a5 5 0 0 1-4.78 5h-4l-3.72 4.36-3.72-4.36H6a5 5 0 0 1-4.98-4.56L1 21.9 1 21.68V11a5 5 0 0 1 4.78-5H6a5 5 0 0 1 4.78-5H26zm-5 7H6a3 3 0 0 0-3 2.82v10.86a3 3 0 0 0 2.82 3h4.88l2.8 3.28 2.8-3.28H21a3 3 0 0 0 3-2.82V11a3 3 0 0 0-3-3zm-1 10v2H6v-2h14zm6-15H11a3 3 0 0 0-3 2.82V6h13a5 5 0 0 1 5 4.78v8.9a3 3 0 0 0 3-2.82V6a3 3 0 0 0-2.82-3H26zM15 13v2H6v-2h9z"></path>
+														</svg>
+													</div>
+													<div class="t1xrc6xb _ylhvw7">Vous n'avez aucun message</div>
+													<div class="sayfavy">Lorsque vous recevez un nouveau message, il apparaîtra ici.</div>
+												</div>
+											</div>
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

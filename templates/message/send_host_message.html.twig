@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez
+	{{ booking.booker.firstname }}
+{% endblock %}
+
+{% block body %}
+	<div class="u6lbpn0">
+		<div class="qu0jko6">
+			<a href="{{ referer ?? path('default_route') }}" class="_1pv6nv4">
+				<div class="c1hs0xn0">
+					<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 24px; width: 24px; stroke: currentcolor; stroke-width: 2.66667; overflow: visible;">
+						<path fill="none" d="M20 28 8.7 16.7a1 1 0 0 1 0-1.4L20 4"></path>
+					</svg>
+					<span class="a8jt5op">Retour</span>
+				</div>
+			</a>
+		</div>
+		<div class="_10qud2i">
+			<div class="_16e70jgn">
+				<div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							<div style="padding-top: 8px; padding-bottom: 32px;">
+								<section>
+									<div class="c1kd35z4">
+										<div>
+											<div class="t1d2nv5w">
+												<h2 tabindex="-1" class="hpipapi">Contactez
+													{{ booking.booker.firstname }}</h2>
+											</div>
+										</div>
+										<div class="a1qk6ilr">
+											<div class="_6ep1c8" aria-hidden="true">
+												<div class="_660xb3">
+													<div class="_2uqy8li">
+														<div class="iay23ym">
+															<img src="{{ vich_uploader_asset(booking.booker.avatar, 'imageFile') }}" class="i9if2t0" alt="{{ booking.booker.firstname }}">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+					<div class="c1yo0219">
+						<div style="--gp-section-max-width: 1120px;">
+							{{ form_start(form, {'attr': {'data-turbo': 'false'}}) }}
+							<div style="padding-bottom: 24px;">
+                                {{ form_errors(form.content) }}
+								<div class="_11tf951">
+                                {% set placeholder = 'Bonjour ' ~ booking.booker.firstname ~ ' ! Merci d\'avoir réservé ...' %}
+									{{ form_widget(form.content, {'attr': {'placeholder': placeholder}}) }}
+								</div>
+							</div>
+							<div style="padding-bottom: 32px;">
+								<button type="submit" id="submit-comment" class="_1u3zndn">Envoyer le message</button>
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

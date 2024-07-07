@@ -1,0 +1,93 @@
+<div class="plmw1e5" id="about_your_host">
+	<div class="_npr0qi"></div>
+	<div class="fpcu8iz">
+		<section>
+			<div class="tsqg7oj">
+				<h2 class="hpipapi">Faites connaissance avec votre hôte</h2>
+			</div>
+			<div class="cmuek5n">
+				<div class="t1tgqpm8">
+					<div class="crb0q34">
+						<div class="cj1ia5j">
+							<div class="gs4sk8t">
+								<div class="hzemva0">
+									<button type="button" class="button-modal-host position-relative">
+										<div class="avatar-pic-wrapper">
+											<img src="{{ vich_uploader_asset(ad.author.avatar, 'imageFile') }}" class="img-avatar-host">
+										</div>
+										<div class="bp4g9ft">
+											<div class="v1b7fl12">
+												<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-label="Hôte vérifié" role="img" focusable="false" style="display: block; height: 16px; width: 16px; fill: var(--linaria-theme_palette-white);">
+													<path d="m16 .8.56.37C20.4 3.73 24.2 5 28 5h1v12.5C29 25.57 23.21 31 16 31S3 25.57 3 17.5V5h1c3.8 0 7.6-1.27 11.45-3.83L16 .8zm7 9.08-9.5 9.5-4.5-4.5L6.88 17l6.62 6.62L25.12 12 23 9.88z"></path>
+												</svg>
+											</div>
+										</div>
+									</button>
+									<div class="left-card-host-firstname">
+										<h2 class="p-0 m-0 fs-6">
+											<span class="title-card-host-firstname">
+												{{ ad.author.firstname }}
+											</span>
+										</h2>
+										<span class="s2nv573">
+											<span>Hôte</span>
+										</span>
+									</div>
+								</div>
+								<div class="right-card-avatar">
+									<div class="host-assesment">
+										<span class="host-assesment-figure">{{ ad.author.allComments|length}}</span>
+										<span class="host-assesment-text">évaluations</span>
+									</div>
+									<hr class="host-assement-hr">
+									<div class="host-assesment">
+										<span class="host-assesment-figure">{{ ad.author.avgRatingForHost|number_format(2, '.', ',') }}</span>
+										<span class="host-assesment-text">en note globale</span>
+									</div>
+									<hr class="host-assement-hr">
+									<div class="host-assesment">
+										<span class="host-assesment-figure">{{ ad.author.oldestAdYear }}</span>
+										<span class="host-assesment-text">Hôte depuis
+											{{ ad.author.oldestAdYear }}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="h1gwm1nh">
+								<div class="ha85od7">
+									<div class="hzxl2d1">
+										<div>
+											<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 24px; width: 24px; fill: currentcolor;">
+												<path d="m5.7 1.3 3 3-.66.72a12 12 0 0 0 16.95 16.94l.72-.67 3 3-1.42 1.42-1.67-1.68A13.94 13.94 0 0 1 18 26.96V29h3v2h-8v-2h3v-2.04a13.95 13.95 0 0 1-8.92-4.08 14 14 0 0 1-1.11-18.5L4.29 2.71zm18.18 4.44.21.21.21.22a10 10 0 1 1-.64-.63zm-9.34 11.13-2.45 2.45a8 8 0 0 0 8.04 1.05 16.7 16.7 0 0 1-5.59-3.5zm4.91-4.91-3.5 3.5c2.85 2.54 6.08 3.82 6.7 3.2.63-.61-.66-3.85-3.2-6.7zm-9.81-2.1-.08.19a8 8 0 0 0 1.12 7.86l2.45-2.45a16.68 16.68 0 0 1-3.5-5.6zM23.32 8.1l-2.45 2.44a16.73 16.73 0 0 1 3.5 5.6 8 8 0 0 0-1.05-8.05zm-11.98-.76c-.62.62.66 3.86 3.2 6.7l3.5-3.5c-2.85-2.54-6.07-3.82-6.7-3.2zm2.54-1.7c1.75.59 3.75 1.83 5.58 3.49l2.44-2.45a8.03 8.03 0 0 0-8.02-1.04z"></path>
+											</svg>
+										</div>
+										<div class="hfsd2k0">Je vis à&nbsp;:
+											{{ ad.author.city }}
+										</div>
+									</div>
+								</div>
+							</div>
+							<a href="{{ path('host_show', { 'id': ad.author.id }) }}" class="_1he2i46">
+								<span class="c1k1xv2h">
+									<span>
+										<span aria-hidden="true">En savoir plus</span>
+									</span>
+									<span class="t14l2xf1">
+										<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;">
+											<path fill="none" d="m12 4 11.3 11.3a1 1 0 0 1 0 1.4L12 28"></path>
+										</svg>
+									</span>
+								</span>
+							</a>
+						</div>
+					</div>
+					<div class="crb0q34">
+						<div>
+							<a rel="nofollow" href="{{ path('message_send', { 'id': ad.id }) }}" class="_1k8pnbi">Envoyer un message à l'hôte</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
