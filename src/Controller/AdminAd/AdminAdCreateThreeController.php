@@ -6,6 +6,7 @@ use App\Entity\Ad;
 use App\Form\AdFormType\AdStep7FormType;
 use App\Form\AdFormType\AdStep8FormType;
 use App\Form\AdFormType\AdStep9FormType;
+use App\Repository\CancellationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,7 +101,7 @@ class AdminAdCreateThreeController extends AbstractController
 
     #[Route('/become-a-host/save/{id}', name: 'admin_ad_save')]
     #[IsGranted('ROLE_USER', message: 'Vous devez être connecté pour accéder à cette page')]
-    public function saveAd(Request $request, int $id): Response
+    public function saveAd(Request $request, int $id, CancellationRepository $cancellationRepository): Response
     {
         $ad = $this->em->getRepository(Ad::class)->find($id);
 
@@ -118,6 +119,11 @@ class AdminAdCreateThreeController extends AbstractController
             $this->em->flush();
 
             $ad->setAuthor($user);
+
+            $defaultCancellationPolicy = $cancellationRepository->findOneBy(['name' => 'Flexibles']);
+            if ($defaultCancellationPolicy) {
+                $ad->setCancellation($defaultCancellationPolicy);
+            }
             $this->em->persist($ad);
             $this->em->flush();
 

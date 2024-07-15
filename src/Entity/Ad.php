@@ -105,6 +105,10 @@ class Ad
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'ad', orphanRemoval: true)]
     private Collection $messages;
 
+    #[ORM\ManyToOne(inversedBy: 'ad')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Cancellation $cancellation = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -510,6 +514,18 @@ class Ad
                 $message->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCancellation(): ?Cancellation
+    {
+        return $this->cancellation;
+    }
+
+    public function setCancellation(?Cancellation $cancellation): static
+    {
+        $this->cancellation = $cancellation;
 
         return $this;
     }

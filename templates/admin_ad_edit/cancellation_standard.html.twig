@@ -1,0 +1,89 @@
+{# templates/admin_ad_edit/cancellation_standard.html.twig #}
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Modification de votre annonce
+{% endblock %}
+
+{% set noContainer = true %}
+
+{% block body %}
+    <style>
+        body {
+            overflow-y: hidden;
+        }
+    </style>
+    <main class="edit-ad-container" data-turbo="false">
+        <div class="c41xn921">
+            <div class="c5xn96q">
+                <div class="p1f15n0u">
+                    <section class="mizemqj">
+                        <turbo-frame id="edit-cancellation-standard-frame" target="_top" class="w-100">
+                            <section class="shvv2c6" style="overflow: auto; min-height: 846px;">
+                                {{ form_start(form, {'attr': {'class': 'w-100', 'id': 'formDetailEq'}}) }}
+                                <header class="h19hy11d">
+                                    <div class="t4eeunmp">
+                                        <div class="d-flex">
+                                            <a aria-label="Retour" href="{{ path('admin_edit_cancellation', { 'id': ad.id }) }}" class="l1ovpqvx btpqu22 c19haa82">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 3; overflow: visible;">
+                                                    <g fill="none">
+                                                        <path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path>
+                                                    </g>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                        <div class="a1rxfr6h"></div>
+                                    </div>
+                                    <div class="s1iexw2m spdjp63">
+                                        <div class="t19juhhy">
+                                            <section>
+                                                <h2 class="hpipapi">
+                                                    <span class="h1ost3dt">Choisissez vos conditions standard</span>
+                                                </h2>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="s3bjrbq">
+                                    <p class="s1wqthx3">Pour comprendre l'intégralité des politiques, accédez au
+                                        <button type="button" class="b1em6tdn c4a4i6c">Centre d'aide</button>.</p>
+                                    <div class="c1ll52h" role="group">
+                                        {% for child in form.cancellation %}
+                                            <div class="cs80f52">
+                                                <label class="cy3gbmk c1sbmdkz chsz4xj {{ child.vars.checked ? 'cty1afa' : '' }}">
+                                                    <span class="m173rexa">
+                                                        {{ form_widget(child) }}
+                                                        <div class="c1t7i0vt">
+                                                            <span class="ttts78v">{{ child.vars.label|split(' - ')[0] }}&nbsp;</span>
+                                                            <span class="sci9ktc">{{ child.vars.label|split(' - ')[1] }}</span>
+                                                        </div>
+                                                    </span>
+                                                    <span class="tqysm2s">
+                                                        <div class="rh20is1 {{ child.vars.checked ? 'r1khecnq' : '' }}"></div>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <footer class="f16co0fo">
+                                    <div class="f1xxj3db fix7wf0">
+                                        <div class="b13k8sy1">
+                                            <button type="submit" class="c1ih3c6">Enregistrer</button>
+                                        </div>
+                                    </div>
+                                </footer>
+                            </section>
+                            {{ form_end(form) }}
+                        </turbo-frame>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+	{{ encore_entry_script_tags('cancellation') }}
+{% endblock %}

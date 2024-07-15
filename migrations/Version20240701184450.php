@@ -24,7 +24,6 @@ final class Version20240701184450 extends AbstractMigration
         $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307F4F34D596 FOREIGN KEY (ad_id) REFERENCES ad (id)');
         $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307F1FB8D185 FOREIGN KEY (host_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307F9A4AA658 FOREIGN KEY (guest_id) REFERENCES user (id)');
-        // $this->addSql('ALTER TABLE avatar CHANGE user_id user_id INT NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -34,6 +33,5 @@ final class Version20240701184450 extends AbstractMigration
         $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307F1FB8D185');
         $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307F9A4AA658');
         $this->addSql('DROP TABLE message');
-        // $this->addSql('ALTER TABLE avatar CHANGE user_id user_id INT DEFAULT NULL');
     }
 }

@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('addEquipment', './assets/js/addEquipment.js')
+    .addEntry('cancellation', './assets/js/cancellation_form.js')
     .addEntry('carousel', './assets/js/carousel.js')
     .addEntry('carouselComment', './assets/js/carouselComment.js')
     .addEntry('countDescription', './assets/js/countDescription.js')

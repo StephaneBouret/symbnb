@@ -255,6 +255,27 @@
 							</div>
 						</div>
 					</div>
+					<div class="nav-tab-ad-container">
+						<a href="{{ path('admin_edit_cancellation_mobile', {'id': ad.id}) }}" class="btn btn-to-modal-edit" id="edit-cancellation-link-mobile">
+							<i class="fas fa-edit"></i>
+							Modifier
+						</a>
+						<div class="nav-tab-ad-wrapper">
+							<span class="nav-tab-ad-title">
+								Conditions d'annulation
+							</span>
+							<a href="{{ path('admin_edit_cancellation', {'id': ad.id}) }}" class="l1ovpqvx" data-turbo="false" data-target="#edit-cancellation-button"></a>
+							<div class="s8yz371">
+								<turbo-frame id="add-cancellation-frame" target="_top">
+									{% if ad.cancellation is null %}
+										Flexibles
+									{% else %}
+										{{ ad.cancellation.name }}
+									{% endif %}
+								</turbo-frame>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

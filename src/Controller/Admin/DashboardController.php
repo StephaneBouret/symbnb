@@ -6,6 +6,7 @@ use App\Entity\Ad;
 use App\Entity\User;
 use App\Entity\Images;
 use App\Entity\Booking;
+use App\Entity\Cancellation;
 use App\Entity\Criteria;
 use App\Entity\Equipment;
 use App\Entity\Type;
@@ -45,6 +46,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Critères-Equipement', 'fa-solid fa-mug-saucer', Criteria::class);
         yield MenuItem::linkToCrud('Equipements', 'fa-solid fa-screwdriver-wrench', Equipment::class);
         yield MenuItem::linkToCrud('Type de bien', 'fa-solid fa-building', Type::class);
+        yield MenuItem::linkToCrud('Politique d\'annulation', 'fa-solid fa-ban', Cancellation::class);
         yield MenuItem::linkToRoute('Retour au site', 'fas fa-home', 'homepage');
     }
 }

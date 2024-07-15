@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Ad;
+use App\Entity\Cancellation;
 use App\Entity\Type;
 use App\Entity\User;
 use App\Form\AdImageFormType;
@@ -128,6 +129,11 @@ class AdCrudController extends AbstractCrudController
             TextField::new('city', 'Ville de l\'annonce')->hideOnIndex(),
             CountryField::new('country', 'Pays de l\'annonce')->hideOnIndex(),
             TextEditorField::new('content', 'Contenu de l\'annonce')->hideOnIndex(),
+            AssociationField::new('cancellation', 'Politique d\'annulation')
+            ->setQueryBuilder(
+                fn (QueryBuilder $queryBuilder) => $queryBuilder->getEntityManager()->getRepository(Cancellation::class)->createQueryBuilder('c')->orderBy('c.name')
+            )
+            ->autocomplete(),
         ];
     }
 
